@@ -17,7 +17,11 @@ export class Main extends Component {
           };
 
         const {currentUser} = this.props;
-       
+        if(currentUser==undefined){
+            return(
+                <View></View>
+            )
+        }
         return (
             <View style={{ flex: 1, justifyContent: 'center' }}>
                 <Text>{currentUser.name} User is logged in</Text>
