@@ -1,10 +1,22 @@
 import React, { Component } from 'react'
 import { Text, View, Button } from 'react-native';
 import firebase from 'firebase'
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import FeedScreen from '../Feed'
+import ProfileScreen from '../Profile'
+
+
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { fetchUser } from '../../../redux/actions/index'
+
+
+const Tab = createMaterialBottomTabNavigator();
+const EmptyScreen = () => {
+    return(null)
+}
 
 export class Main extends Component {
     componentDidMount() {
@@ -12,24 +24,47 @@ export class Main extends Component {
     }
     render() {
 
-        const onLogout = () => {
-            firebase.auth().signOut();
-          };
+    const onLogout = () => {
+        firebase.auth().signOut();
+    };
 
-        const {currentUser} = this.props;
-        if(currentUser==undefined){
-            return(
-                <View></View>
-            )
-        }
         return (
-            <View style={{ flex: 1, justifyContent: 'center' }}>
-                <Text>{currentUser.name} User is logged in</Text>
-                <Button
-                    title="Log out"
-                    onPress={() => onLogout()}
+            <Tab.Navigator initialRouteName="Feed" labeled={false}>
+                <Tab.Screen 
+                name="Feed"
+                 
+                component={FeedScreen}
+                options ={{
+                    tabBarIcon:({color, size}) =>(
+                        <Icon name="planet-outline" size={16} color={color} size={26} />
+                    )
+                }}
                 />
-            </View>
+                <Tab.Screen 
+                listeners={({navigation})=> ({
+                    tabPress: event =>{
+                        event.preventDefault()
+                        navigation.navigate("Add")
+                    }
+                })}
+                name="AddContainer" 
+                component={EmptyScreen}
+                options ={{
+                    tabBarIcon:({color, size}) =>(
+                        <Icon name="add-circle-outline" size={16} color={color} size={26} />
+                    )
+                }}
+                />
+                <Tab.Screen 
+                name="Profile" 
+                component={ProfileScreen}
+                options ={{
+                    tabBarIcon:({color, size}) =>(
+                        <Icon name="person-circle-outline" size={16} color={color} size={26} />
+                    )
+                }}
+                />
+          </Tab.Navigator>
         )
     }
 }
