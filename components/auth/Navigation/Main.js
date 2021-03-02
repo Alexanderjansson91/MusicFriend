@@ -10,7 +10,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { fetchUser } from '../../../redux/actions/index'
+import { fetchUser, fetchUserPosts } from '../../../redux/actions/index'
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -21,12 +21,9 @@ const EmptyScreen = () => {
 export class Main extends Component {
     componentDidMount() {
         this.props.fetchUser();
+        this.props.fetchUserPosts();
     }
     render() {
-
-    const onLogout = () => {
-        firebase.auth().signOut();
-    };
 
         return (
             <Tab.Navigator initialRouteName="Feed" labeled={false}>
@@ -72,6 +69,6 @@ const mapStateToProps = (store) => ({
     currentUser: store.userState.currentUser
 })
 
-const mapDispatchProps = (dispatch) => bindActionCreators({ fetchUser }, dispatch);
+const mapDispatchProps = (dispatch) => bindActionCreators({ fetchUser, fetchUserPosts }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchProps)(Main);

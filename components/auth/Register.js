@@ -6,8 +6,7 @@ import firebase from 'firebase'
 export class Register extends Component {
 
     constructor(props) {
-        super(props)
-
+        super(props)  
         this.state = {
             email : '',
             password: '',
@@ -17,7 +16,7 @@ export class Register extends Component {
         this.onSignUp = this.onSignUp.bind(this)
     }
 
-    onSignUp(){
+    onSignUp({ navigation: { goBack } }){
         const {email, password, name} = this.state;
         firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((result) => {
@@ -28,6 +27,7 @@ export class Register extends Component {
                 email
             })
             console.log(result);
+        
         })
         .catch((error) => {
             console.log(error);
