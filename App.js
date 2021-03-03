@@ -5,11 +5,13 @@ import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import LandingScreen from './components/auth/Landing'
-import RegisterScreen from './components/auth/Register'
-import LoginScreen from './components/auth/Login'
+import LandingScreen from './screens/Landing'
+
+import RegisterScreen from './screens/Register'
+import LoginScreen from './screens/Login'
 import MainScreen, { Main } from './components/auth/Navigation/Main'
-import AddScreen from './components/auth/Add'
+
+import AddScreen from './screens/Add'
 
 
 
