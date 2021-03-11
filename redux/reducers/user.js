@@ -3,12 +3,15 @@ import {
     USER_STATE_CHANGE,
     USER_POSTS_STATE_CHANGE,
     CLEAR_DATA,
+    USER_FOLLOWING_STATE_CHANGE
   } from '../constants';
   
   //Constructor
   const initialState = {
     currentUser: null,
     posts: [],
+    following: [],
+
   };
   
   //Updates the states that gets from the action
@@ -23,6 +26,11 @@ import {
         return {
           ...state,
           posts: action.posts,
+        };
+        case USER_FOLLOWING_STATE_CHANGE:
+        return {
+          ...state,
+          following: action.following,
         };
       case CLEAR_DATA:
         return {

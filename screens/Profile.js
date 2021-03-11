@@ -7,6 +7,7 @@ require('firebase/firestore');
 function Profile(props) {
     const [userPost, setUserPost] = useState([]);
     const [user, setUser] = useState(null);
+    const [following, setFollowing] = useState(false)
 
     useEffect(() => {
         const { currentUser, posts } = props;
@@ -42,12 +43,36 @@ function Profile(props) {
                 setUserPost(posts);            })
         }
 
-    }, [props.route.params.uid] )
+        if(props.following.indexOf(props.route.params.uid) > -1) {
+            setFollowing(true);
+        }else{
+            setFollowing(false);
+        }
+
+    }, [props.route.params.uid, props.following] )
 
     
     const onLogout = () => {
         firebase.auth().signOut();
     };
+
+    const onFollow = () => {
+        firebase.firestore()
+            .collection("following")
+            .doc(firebase.auth().currentUser.uid)
+            .collection("userFollowing")
+            .doc(props.route.params.uid)
+            .set({})
+    }
+    const onUnfollow = () => {
+        firebase.firestore()
+            .collection("following")
+            .doc(firebase.auth().currentUser.uid)
+            .collection("userFollowing")
+            .doc(props.route.params.uid)
+            .delete()
+    }
+
 
     if(user === null ){
         return <View />
@@ -61,6 +86,24 @@ function Profile(props) {
                     onPress={() => onLogout()}
                 />
                 <Text>{user.name}</Text>
+                {props.route.params.uid !== firebase.auth().currentUser.uid ? (
+                    <View>
+                    {following ? (
+                        <Button
+                        title="Following"
+                        onPress={() => onUnfollow()}
+                        />
+                    ) :
+                    (
+                        <Button
+                        title="Follow"
+                        onPress={() => onFollow()}
+                        />
+                    )}
+                    </View>     
+                ) : null} 
+
+
         </View>
     )
 }
@@ -68,6 +111,8 @@ function Profile(props) {
 //Access the store states from redux
 const mapStateToProps = (store) => ({
     currentUser: store.userState.currentUser,
+    following: store.userState.following,
+
   });
   
   export default connect(mapStateToProps, null)(Profile);
