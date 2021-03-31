@@ -5,7 +5,7 @@ import firebase from 'firebase'
 require('firebase/firestore')
 import { connect } from 'react-redux'
 
-function Feed(props) {
+function ChatFriends(props) {
 
     const [posts, setPosts] = useState([]);
     //Hook for clean up
@@ -38,7 +38,6 @@ function Feed(props) {
                     renderItem={({ item }) => (
                         <View
                             style={styles.containerImage}>
-                            <Text style={styles.container}>{item.caption}</Text>
                             <Text style={styles.container}>{item.user.name}</Text>
                         </View>
                     )}
@@ -74,4 +73,4 @@ const mapStateToProps = (store) => ({
     users: store.usersState.users,
     userLoaded: store.usersState.userLoaded,
 })
-export default connect(mapStateToProps, null)(Feed);
+export default connect(mapStateToProps, null)(ChatFriends);

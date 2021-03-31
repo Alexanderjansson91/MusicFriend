@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {View, Text, Button} from 'react-native'
+import {View, Text, Button, FlatList} from 'react-native'
 import { connect } from 'react-redux';
 import firebase from 'firebase'
 require('firebase/firestore');
@@ -7,10 +7,11 @@ require('firebase/firestore');
 function Profile(props) {
     const [userPost, setUserPost] = useState([]);
     const [user, setUser] = useState(null);
+    
     const [following, setFollowing] = useState(false)
+    const { currentUser, posts } = props;
 
     useEffect(() => {
-        const { currentUser, posts } = props;
 
         if (props.route.params.uid === firebase.auth().currentUser.uid){
             setUser(currentUser)
@@ -102,7 +103,19 @@ function Profile(props) {
                     )}
                     </View>     
                 ) : null} 
+<                   FlatList
+                    numColumns={1}
+                    horizontal={false}
+                    data={posts}
+                    renderItem={({ item }) => (
+                        <View
+                            style={styles.containerImage}>
+                            <Text style={styles.container}>{item.caption}</Text>
+                        </View>
 
+                    )}
+
+                />
 
         </View>
     )

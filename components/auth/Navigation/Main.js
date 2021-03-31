@@ -5,6 +5,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import FeedScreen from '../../../screens/Feed'
 import ProfileScreen from '../../../screens/Profile'
 import SearchScreen from '../../../screens/Search'
+import ChatFriendsScreen from '../../../screens/ChatFriends'
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { connect } from 'react-redux'
@@ -22,6 +23,7 @@ export class Main extends Component {
         this.props.fetchUser();
         this.props.fetchUserPosts();
         this.props.fetchUserFollowing();
+        
 
     }
     render() {
@@ -61,6 +63,15 @@ export class Main extends Component {
                     )
                 }}
                 />
+                 <Tab.Screen 
+                name="Message"
+                component={ChatFriendsScreen} navigation={this.props.navigation}
+                options ={{
+                    tabBarIcon:({color, size}) =>(
+                        <Icon name="chatbubble-outline" size={16} color={color} size={26} />
+                    )
+                }}
+                />
                 <Tab.Screen 
                 name="Profile" 
                 component={ProfileScreen}
@@ -84,6 +95,6 @@ const mapStateToProps = (store) => ({
     currentUser: store.userState.currentUser
 })
 
-const mapDispatchProps = (dispatch) => bindActionCreators({ fetchUser, fetchUserPosts, fetchUserFollowing }, dispatch);
+const mapDispatchProps = (dispatch) => bindActionCreators({ fetchUser, fetchUserPosts, fetchUserFollowing  }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchProps)(Main);

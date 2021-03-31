@@ -11,7 +11,6 @@ import {
     currentUser: null,
     posts: [],
     following: [],
-
   };
   
   //Updates the states that gets from the action
