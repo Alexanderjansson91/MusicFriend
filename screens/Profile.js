@@ -81,11 +81,7 @@ function Profile(props) {
     return (
         <View>
             <Text>Profile</Text>
-            <Button
-                    style={{marginTop:30}}
-                    title="Log out"
-                    onPress={() => onLogout()}
-                />
+
                 <Text>{user.name}</Text>
                 {props.route.params.uid !== firebase.auth().currentUser.uid ? (
                     <View>
@@ -102,7 +98,11 @@ function Profile(props) {
                         />
                     )}
                     </View>     
-                ) : null} 
+                ) :             <Button
+                style={{marginTop:30}}
+                title="Log out"
+                onPress={() => onLogout()}
+            />} 
 <                   FlatList
                     numColumns={1}
                     horizontal={false}
