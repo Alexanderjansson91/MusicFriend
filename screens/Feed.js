@@ -11,7 +11,7 @@ function Feed(props) {
     //Hook for clean up
     useEffect(() => {
         let posts = [];
-        if(props.userLoaded == props.following.length){
+        if(props.userFollowingLoaded == props.following.length){
             for(let  i = 0; i <props.following.length; i++){
                 const user = props.users.find(el => el.uid === props.following[i]);
                 if(user != undefined){
@@ -25,7 +25,7 @@ function Feed(props) {
             setPosts(posts);
             console.log(posts);
         }
-    }, [props.userLoaded]);
+    }, [props.userFollowingLoaded]);
 
 
     return (
@@ -40,6 +40,12 @@ function Feed(props) {
                             style={styles.containerImage}>
                             <Text style={styles.container}>{item.caption}</Text>
                             <Text style={styles.container}>{item.user.name}</Text>
+                            <Text 
+                            
+                            onPress={()=> props.navigation.navigate('Comment',
+                            {postId: item.id, uid: item.user.uid})
+                            }>
+                            Viewcomments</Text>
                         </View>
                     )}
                 />
@@ -72,6 +78,6 @@ const mapStateToProps = (store) => ({
     currentUser: store.userState.currentUser,
     following: store.userState.following,
     users: store.usersState.users,
-    userLoaded: store.usersState.userLoaded,
+    userFollowingLoaded: store.usersState.userFollowingLoaded,
 })
 export default connect(mapStateToProps, null)(Feed);

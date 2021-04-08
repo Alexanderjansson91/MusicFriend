@@ -6,6 +6,7 @@ import * as firebase from 'firebase';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LandingScreen from './screens/Landing'
+import CommentScreen from './screens/Comment'
 
 import RegisterScreen from './screens/Register'
 import LoginScreen from './screens/Login'
@@ -92,6 +93,8 @@ export class App extends Component {
             options={{headerShown: false}}
             />
             <Stack.Screen name ="Add" component={AddScreen}
+            />
+            <Stack.Screen name ="Comment" component={CommentScreen}
             />
           </Stack.Navigator>
           </NavigationContainer>
