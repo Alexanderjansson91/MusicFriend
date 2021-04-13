@@ -2,14 +2,76 @@ import React, { useState, useEffect } from 'react'
 import {View, Text, Button, FlatList} from 'react-native'
 import { connect } from 'react-redux';
 import firebase from 'firebase'
+import * as DocumentPicker from 'expo-document-picker';
+import { Audio } from 'expo-av';
 require('firebase/firestore');
 
 function Profile(props) {
     const [userPost, setUserPost] = useState([]);
     const [user, setUser] = useState(null);
+    const [sound, setSound] = React.useState();
     
     const [following, setFollowing] = useState(false)
     const { currentUser, posts } = props;
+
+
+    async function onChooseAudioPress()  {
+        let result = await DocumentPicker.getDocumentAsync(Audio)
+
+
+        //let result = await ImagePicker.launchImageLibraryAsync();
+    
+        if (!result.cancelled) {
+          uploadImage(result.uri, "audio")
+            .then(() => {
+              Alert.alert("Success");
+            })
+            .catch((error) => {
+              Alert.alert(error);
+            });
+        }
+      }
+    
+       async function uploadImage (uri, audioName){
+        const response = await fetch(uri);
+        const blob = await response.blob();
+    
+        var ref = firebase.storage().ref().child("audio/" + audioName);
+        return ref.put(blob);
+      }
+
+
+
+
+
+    async function playSound() {
+        console.log('Loading Sound');
+        const { sound } = await Audio.Sound.createAsync(
+           require('../assets/iphone.wav')
+        );
+        setSound(sound);
+    
+        console.log('Playing Sound');
+        await sound.playAsync(); }
+    
+      React.useEffect(() => {
+        return sound
+          ? () => {
+              console.log('Unloading Sound');
+              sound.unloadAsync(); }
+          : undefined;
+      }, [sound]);
+
+
+      async function stopPlaying() {
+        await sound.pauseAsync(); }
+      React.useEffect(() => {
+        return sound
+          ? () => {
+              console.log('Unloading Sound');
+              sound.unloadAsync(); }
+          : undefined;
+      }, [sound]);
 
     useEffect(() => {
 
@@ -116,7 +178,9 @@ function Profile(props) {
                     )}
 
                 />
-
+        <Button title="Play" onPress={playSound} />
+        <Button title="Stop" onPress={stopPlaying} />
+        <Button title="Ny låt" onPress={onChooseAudioPress} />
         </View>
     )
 }
