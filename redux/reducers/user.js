@@ -3,7 +3,8 @@ import {
     USER_STATE_CHANGE,
     USER_POSTS_STATE_CHANGE,
     CLEAR_DATA,
-    USERS_FOLLOWING_STATE_CHANGE
+    USERS_FOLLOWING_STATE_CHANGE,
+    USERS_SONGS_STATE_CHANGE,
   } from '../constants';
   
   //Constructor
@@ -26,6 +27,11 @@ import {
         return {
           ...state,
           posts: action.posts,
+        };
+        case USERS_SONGS_STATE_CHANGE:
+        return {
+          ...state,
+          songs: action.posts,
         };
         case USERS_FOLLOWING_STATE_CHANGE:
         return {

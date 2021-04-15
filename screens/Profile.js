@@ -7,22 +7,27 @@ import { Audio } from 'expo-av';
 require('firebase/firestore');
 
 function Profile(props) {
-    const [userPost, setUserPost] = useState([]);
+    const [userSongs, setUserSongs] = useState([]);
     const [user, setUser] = useState(null);
     const [sound, setSound] = React.useState();
     
     const [following, setFollowing] = useState(false)
-    const { currentUser, posts } = props;
+    const { currentUser, songs } = props;
 
 
     async function onChooseAudioPress()  {
         let result = await DocumentPicker.getDocumentAsync(Audio)
-
-
-        //let result = await ImagePicker.launchImageLibraryAsync();
     
         if (!result.cancelled) {
-          uploadImage(result.uri, "audio")
+        firebase.firestore()
+        .collection('users')
+        .doc(firebase.auth().currentUser.uid)
+        .collection("usersSong")
+        .add({
+          result,
+          creation: firebase.firestore.FieldValue.serverTimestamp()
+      })
+          uploadImage(result.uri)
             .then(() => {
               Alert.alert("Success");
             })
@@ -39,10 +44,6 @@ function Profile(props) {
         var ref = firebase.storage().ref().child("audio/" + audioName);
         return ref.put(blob);
       }
-
-
-
-
 
     async function playSound() {
         console.log('Loading Sound');
@@ -77,7 +78,7 @@ function Profile(props) {
 
         if (props.route.params.uid === firebase.auth().currentUser.uid){
             setUser(currentUser)
-            setUserPost(posts)
+            setUserSongs(songs)
         }else{
             firebase.firestore()
             .collection("users")
@@ -91,19 +92,6 @@ function Profile(props) {
                     console.log('does not exist')
                 }
             })
-            firebase.firestore()
-            .collection("posts")
-            .doc(props.route.params.uid)
-            .collection("userPosts")
-            .orderBy("creation", "asc")
-            .get()
-            .then((snapshot) => {
-                let posts = snapshot.docs.map(doc => {
-                    const data = doc.data();
-                    const id = doc.id;
-                    return { id, ...data }
-                })
-                setUserPost(posts);            })
         }
 
         if(props.following.indexOf(props.route.params.uid) > -1) {
@@ -165,22 +153,23 @@ function Profile(props) {
                 title="Log out"
                 onPress={() => onLogout()}
             />} 
-<                   FlatList
-                    numColumns={1}
+        <Button title="Play" onPress={playSound} />
+        <Button title="Stop" onPress={stopPlaying} />
+        <Button title="Ny låt" onPress={onChooseAudioPress} />
+        <FlatList
+                    numColumns={3}
                     horizontal={false}
-                    data={posts}
+                    data={userSongs}
                     renderItem={({ item }) => (
-                        <View
-                            style={styles.containerImage}>
-                            <Text style={styles.container}>{item.caption}</Text>
+                        <View>
+                            
+
+                        <Text>{item.result.name}</Text>
                         </View>
 
                     )}
 
                 />
-        <Button title="Play" onPress={playSound} />
-        <Button title="Stop" onPress={stopPlaying} />
-        <Button title="Ny låt" onPress={onChooseAudioPress} />
         </View>
     )
 }
@@ -189,6 +178,7 @@ function Profile(props) {
 const mapStateToProps = (store) => ({
     currentUser: store.userState.currentUser,
     following: store.userState.following,
+    songs: store.userState.songs,
 
   });
   

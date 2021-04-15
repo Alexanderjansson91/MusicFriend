@@ -16,7 +16,7 @@ export class Register extends Component {
         this.onSignUp = this.onSignUp.bind(this)
     }
 
-    onSignUp({ navigation: { goBack } }){
+    onSignUp(){
         const {email, password, name} = this.state;
         firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((result) => {
