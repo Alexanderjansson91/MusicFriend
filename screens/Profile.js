@@ -1,54 +1,30 @@
+
+
 import React, { useState, useEffect } from 'react'
-import {View, Text, Button, FlatList} from 'react-native'
+import {View, Text, Button, FlatList, Image} from 'react-native'
 import { connect } from 'react-redux';
 import firebase from 'firebase'
 import * as DocumentPicker from 'expo-document-picker';
 import { Audio } from 'expo-av';
+//import MusicPlayerButton from '../components/MediaPlayer'
 require('firebase/firestore');
 
 function Profile(props) {
     const [userSongs, setUserSongs] = useState([]);
     const [user, setUser] = useState(null);
     const [sound, setSound] = React.useState();
-    
     const [following, setFollowing] = useState(false)
     const { currentUser, songs } = props;
 
 
-    async function onChooseAudioPress()  {
-        let result = await DocumentPicker.getDocumentAsync(Audio)
-    
-        if (!result.cancelled) {
-        firebase.firestore()
-        .collection('users')
-        .doc(firebase.auth().currentUser.uid)
-        .collection("usersSong")
-        .add({
-          result,
-          creation: firebase.firestore.FieldValue.serverTimestamp()
-      })
-          uploadImage(result.uri)
-            .then(() => {
-              Alert.alert("Success");
-            })
-            .catch((error) => {
-              Alert.alert(error);
-            });
-        }
-      }
-    
-       async function uploadImage (uri, audioName){
-        const response = await fetch(uri);
-        const blob = await response.blob();
-    
-        var ref = firebase.storage().ref().child("audio/" + audioName);
-        return ref.put(blob);
-      }
-
     async function playSound() {
-        console.log('Loading Sound');
+        const source = { uri: userSongs.downloadURL }
+        console.log(source);
         const { sound } = await Audio.Sound.createAsync(
-           require('../assets/iphone.wav')
+            //{uri: 'https://firebasestorage.googleapis.com/v0/b/musicfriendsapp.appspot.com/o/post%2FxqGTuOboXMN0yLv4L0ICBgNqBJv1%2F0.thduvq3hsic?alt=media&token=1a22f80a-3352-4caf-9106-21e1426699a6'}
+            source,
+            { shouldPlay: true }
+
         );
         setSound(sound);
     
@@ -124,6 +100,7 @@ function Profile(props) {
             .delete()
     }
 
+    
 
     if(user === null ){
         return <View />
@@ -155,16 +132,14 @@ function Profile(props) {
             />} 
         <Button title="Play" onPress={playSound} />
         <Button title="Stop" onPress={stopPlaying} />
-        <Button title="Ny låt" onPress={onChooseAudioPress} />
+        <Button title="Ny låt nästa" onPress={() => props.navigation.navigate('NewSong')} />  
         <FlatList
                     numColumns={3}
                     horizontal={false}
                     data={userSongs}
                     renderItem={({ item }) => (
-                        <View>
-                            
-
-                        <Text>{item.result.name}</Text>
+                        <View> 
+                               <Text>{item.downloadURL}</Text>
                         </View>
 
                     )}
@@ -179,7 +154,9 @@ const mapStateToProps = (store) => ({
     currentUser: store.userState.currentUser,
     following: store.userState.following,
     songs: store.userState.songs,
-
   });
   
   export default connect(mapStateToProps, null)(Profile);
+
+
+

@@ -5,6 +5,8 @@ import {
     CLEAR_DATA,
     USERS_FOLLOWING_STATE_CHANGE,
     USERS_SONGS_STATE_CHANGE,
+    USER_ALLPOSTS_STATE_CHANGE,
+
   } from '../constants';
   
   //Constructor
@@ -12,6 +14,8 @@ import {
     currentUser: null,
     posts: [],
     following: [],
+    allPosts: [],
+    songs: [],
   };
   
   //Updates the states that gets from the action
@@ -28,6 +32,12 @@ import {
           ...state,
           posts: action.posts,
         };
+        case USER_ALLPOSTS_STATE_CHANGE:
+        return {
+          ...state,
+          allPosts: action.allPosts,
+        };
+        
         case USERS_SONGS_STATE_CHANGE:
         return {
           ...state,

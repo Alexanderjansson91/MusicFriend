@@ -11,9 +11,9 @@ export default function Add(props) {
 
     const savePostData = () => {
         firebase.firestore()
-            .collection('posts')
-            .doc(firebase.auth().currentUser.uid)
-            .collection("userPosts")
+        .collection('posts')
+        .doc(firebase.auth().currentUser.uid)
+        .collection("userPosts")
             .add({
                 caption,
                 creation: firebase.firestore.FieldValue.serverTimestamp()
@@ -27,7 +27,6 @@ export default function Add(props) {
                 placeholder="Write a Caption . . ."
                 onChangeText={(caption) => setCaption(caption)}
             />
-
             <Button title="Save" onPress={() => savePostData()} />
         </View>
     )

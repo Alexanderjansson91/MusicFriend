@@ -8,6 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LandingScreen from './screens/Landing'
 import CommentScreen from './screens/Comment'
 
+import AddNewSongScreen from './screens/AddSong'
 import RegisterScreen from './screens/Register'
 import LoginScreen from './screens/Login'
 import MainScreen, { Main } from './components/auth/Navigation/Main'
@@ -22,7 +23,7 @@ import rootReducer from './redux/reducers'
 import thunk from 'redux-thunk'
 const store = createStore(rootReducer, applyMiddleware(thunk)) 
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
 
 if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
@@ -34,9 +35,6 @@ if (firebase.apps.length === 0) {
   };
 
 const Stack = createStackNavigator()
-
-
-
 
 export class App extends Component {
   constructor(props) {
@@ -95,6 +93,8 @@ export class App extends Component {
             <Stack.Screen name ="Add" component={AddScreen}
             />
             <Stack.Screen name ="Comment" component={CommentScreen}
+            />
+            <Stack.Screen name ="NewSong" component={AddNewSongScreen}
             />
           </Stack.Navigator>
           </NavigationContainer>

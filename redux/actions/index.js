@@ -1,5 +1,5 @@
-import firebase from 'firebase'
-import { USER_POSTS_STATE_CHANGE, USER_STATE_CHANGE, CLEAR_DATA, USERS_FOLLOWING_STATE_CHANGE, USERS_DATA_STATE_CHANGE, USERS_POSTS_STATE_CHANGE, USERS_SONGS_STATE_CHANGE,  } from '../constants/index'
+import firebase, { firestore } from 'firebase'
+import { USER_POSTS_STATE_CHANGE, USER_STATE_CHANGE, CLEAR_DATA, USERS_FOLLOWING_STATE_CHANGE, USERS_DATA_STATE_CHANGE, USERS_POSTS_STATE_CHANGE, USERS_SONGS_STATE_CHANGE, USER_ALLPOSTS_STATE_CHANGE } from '../constants/index'
 require('firebase/firestore')
 
 //Delete all user redux data
@@ -64,8 +64,6 @@ export function fetchUserFollowing() {
     })
 }
 
-
-
 export function fetchUsersData(uid, getPosts) {
     return ((dispatch, getState) => {
         const found = getState().usersState.users.some(el => el.uid === uid);
@@ -104,16 +102,15 @@ export function fetchFollowingUsersPosts(uid) {
 
                 const uid = snapshot.query.EP.path.segments[1];
                 const user = getState().usersState.users.find(el => el.uid === uid);
-                console.log({snapshot, uid});
+                
 
                 let posts = snapshot.docs.map(doc => {
                     const data = doc.data();
                     const id = doc.id;
                     return { id, ...data, user }
                 })
-                console.log(posts);
+                
                 dispatch({ type: USERS_POSTS_STATE_CHANGE, posts, uid })
-                console.log(getState());
             })
     })
 }
@@ -128,11 +125,59 @@ export function fetchUserSongs() {
             .get()
             .then((snapshot) => {
                 let posts = snapshot.docs.map(doc => {
+                    
                     const data = doc.data();
                     const id = doc.id;
                     return { id, ...data }
                 })
                 dispatch({ type: USERS_SONGS_STATE_CHANGE, posts })
+
             })
+         
     })
 }
+
+/*
+export function fetchAllUserPosts() {
+    return ((dispatch) => {
+        firebase.firestore()
+        .collection("posts")
+        .get()
+            .then((snapshot) => {
+                let allPosts = snapshot.docs.map(doc => {
+                    const data = doc.data();
+                    const id = doc.id;
+                    return { id, ...data }
+                })
+                dispatch({ type: USER_ALLPOSTS_STATE_CHANGE , allPosts })
+            })
+    })
+}*/
+
+
+
+/*
+export function fetchAllUserPosts(uid, getPosts) {
+    return ((dispatch, getState) => {
+        const found = getState().userState.user.some(el => el.uid === uid);
+        if (!found) {
+            firebase.firestore()
+            .collection("posts")
+            .doc(uid)
+            .collection("userPosts")
+            .get()
+            .then((snapshot) => {
+                let posts = snapshot.docs.map(doc => {
+                    
+                    const data = doc.data();
+                    const id = doc.id;
+                    return { id, ...data }
+                })
+                dispatch({ type: USER_ALLPOSTS_STATE_CHANGE, posts })
+
+            })
+
+            }
+    })
+}
+*/

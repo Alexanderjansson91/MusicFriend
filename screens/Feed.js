@@ -8,7 +8,9 @@ import { connect } from 'react-redux'
 function Feed(props) {
 
     const [posts, setPosts] = useState([]);
+    const [allPosts, setAllPosts] = useState([]);
     //Hook for clean up
+    
     useEffect(() => {
         let posts = [];
         if(props.userFollowingLoaded == props.following.length){
@@ -23,10 +25,9 @@ function Feed(props) {
             })
 
             setPosts(posts);
-            console.log(posts);
+            
         }
     }, [props.userFollowingLoaded]);
-
 
     return (
         <View style={styles.container}>
@@ -41,17 +42,14 @@ function Feed(props) {
                             <Text style={styles.container}>{item.caption}</Text>
                             <Text style={styles.container}>{item.user.name}</Text>
                             <Text 
-                            
                             onPress={()=> props.navigation.navigate('Comment',
                             {postId: item.id, uid: item.user.uid})
-                            }>
-                            Viewcomments</Text>
+                            }>Viewcomments</Text>
                         </View>
                     )}
                 />
             </View>
         </View>
-
     )
 }
 
@@ -79,5 +77,6 @@ const mapStateToProps = (store) => ({
     following: store.userState.following,
     users: store.usersState.users,
     userFollowingLoaded: store.usersState.userFollowingLoaded,
+    allPosts: store.userState.allPosts,
 })
 export default connect(mapStateToProps, null)(Feed);
