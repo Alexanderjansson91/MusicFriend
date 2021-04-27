@@ -12,8 +12,8 @@ import AddNewSongScreen from './screens/AddSong'
 import RegisterScreen from './screens/Register'
 import LoginScreen from './screens/Login'
 import MainScreen, { Main } from './components/auth/Navigation/Main'
-
 import AddScreen from './screens/Add'
+import SettingsScreen from  './screens/Settings'
 
 
 
@@ -24,15 +24,9 @@ import thunk from 'redux-thunk'
 const store = createStore(rootReducer, applyMiddleware(thunk)) 
 
 
-
 if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
 }
-
-  //Log out currentuser
-  const onLogout = () => {
-    firebase.auth().signOut();
-  };
 
 const Stack = createStackNavigator()
 
@@ -96,6 +90,10 @@ export class App extends Component {
             />
             <Stack.Screen name ="NewSong" component={AddNewSongScreen}
             />
+            <Stack.Screen name ="Settings" component={SettingsScreen}
+            
+            />
+
           </Stack.Navigator>
           </NavigationContainer>
      </Provider>

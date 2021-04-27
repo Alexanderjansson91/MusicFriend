@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import MatetrialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import Icon from 'react-native-vector-icons/Ionicons';
 
 //Header View
 const Header = (props) => {
@@ -12,9 +12,9 @@ const Header = (props) => {
         <Text style={logoContainer}>{props.headerText}</Text>
         <TouchableOpacity style={styles.profilContainer} onPress={props.click}>
           <View>
-            <MatetrialCommunityIcons
+            <Icon
               name={props.icon}
-              style={styles.iconStyles}
+              size={16} color="#ffffff" size={26} 
             />
           </View>
         </TouchableOpacity>

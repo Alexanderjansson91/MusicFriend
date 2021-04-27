@@ -1,9 +1,17 @@
 
 
 import React, { useState, useEffect } from 'react'
-import {View, Text, Button, FlatList, Image} from 'react-native'
+import {View, Text, Button, FlatList, Image, StyleSheet} from 'react-native'
 import { connect } from 'react-redux';
 import firebase from 'firebase'
+import Icon from 'react-native-vector-icons/Ionicons';
+
+
+//Style components imports
+import HeaderView from '../components/views/Header';
+import MainView from '../components/views/CurvedView';
+
+
 import * as DocumentPicker from 'expo-document-picker';
 import { Audio } from 'expo-av';
 //import MusicPlayerButton from '../components/MediaPlayer'
@@ -106,9 +114,15 @@ function Profile(props) {
         return <View />
     }
     return (
-        <View>
+        <View style={styles.container}>
+            <HeaderView 
+            headerText="Music Buddy"
+            icon="cog-outline"
+            click={() => props.navigation.navigate('Settings')}
+            />
+            <MainView></MainView>
             <Text>Profile</Text>
-
+            
                 <Text>{user.name}</Text>
                 {props.route.params.uid !== firebase.auth().currentUser.uid ? (
                     <View>
@@ -159,4 +173,11 @@ const mapStateToProps = (store) => ({
   export default connect(mapStateToProps, null)(Profile);
 
 
-
+//Style for the view
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: '#ffffff',
+        height: '100%',
+        width: '100%',
+    },
+  });

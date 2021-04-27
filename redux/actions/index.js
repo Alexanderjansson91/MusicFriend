@@ -41,6 +41,7 @@ export function fetchUserPosts() {
                     return { id, ...data }
                 })
                 dispatch({ type: USER_POSTS_STATE_CHANGE, posts })
+            
             })
     })
 }
@@ -57,9 +58,7 @@ export function fetchUserFollowing() {
                     return id
                 })
                 dispatch({ type: USERS_FOLLOWING_STATE_CHANGE, following });
-                for(let i = 0; i < following.length; i++){
-                    dispatch(fetchUsersData(following[i], true));
-                }
+
             })
     })
 }
@@ -76,7 +75,6 @@ export function fetchUsersData(uid, getPosts) {
                     if (snapshot.exists) {
                         let user = snapshot.data();
                         user.uid = snapshot.id;
-
                         dispatch({ type: USERS_DATA_STATE_CHANGE, user });
                     }
                     else {
@@ -108,8 +106,9 @@ export function fetchFollowingUsersPosts(uid) {
                     const data = doc.data();
                     const id = doc.id;
                     return { id, ...data, user }
+                    
                 })
-                
+                //console.log(posts);
                 dispatch({ type: USERS_POSTS_STATE_CHANGE, posts, uid })
             })
     })
@@ -136,6 +135,26 @@ export function fetchUserSongs() {
          
     })
 }
+
+
+
+export function fetchAllUsers() {
+    return ((dispatch) => {
+        firebase.firestore()
+        .collection("users")
+        .onSnapshot((snapshot) => {
+            let allPosts = snapshot.docs.map(doc => {
+                const id = doc.id;
+                return id
+            })
+            dispatch({ type: USER_ALLPOSTS_STATE_CHANGE , allPosts })
+            for(let i = 0; i < allPosts.length; i++){
+                dispatch(fetchUsersData(allPosts[i], true));
+            }
+        })
+    })
+}
+
 
 /*
 export function fetchAllUserPosts() {

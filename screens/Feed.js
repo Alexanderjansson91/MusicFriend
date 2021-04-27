@@ -8,14 +8,16 @@ import { connect } from 'react-redux'
 function Feed(props) {
 
     const [posts, setPosts] = useState([]);
-    const [allPosts, setAllPosts] = useState([]);
-    //Hook for clean up
     
+    //const { usersPosts, songs } = props;
+    //Hook for clean up
+    console.log(posts);
     useEffect(() => {
         let posts = [];
-        if(props.userFollowingLoaded == props.following.length){
-            for(let  i = 0; i <props.following.length; i++){
-                const user = props.users.find(el => el.uid === props.following[i]);
+        console.log(posts);
+        if(props.userFollowingLoaded == props.allPosts.length){
+            for(let  i = 0; i <props.allPosts.length; i++){
+                const user = props.users.find(el => el.uid === props.allPosts[i]);
                 if(user != undefined){
                     posts = [...posts, ...user.posts]
                 }
@@ -25,10 +27,9 @@ function Feed(props) {
             })
 
             setPosts(posts);
-            
         }
     }, [props.userFollowingLoaded]);
-
+    
     return (
         <View style={styles.container}>
             <View style={styles.containerGallery}>
