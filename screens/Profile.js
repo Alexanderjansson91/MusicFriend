@@ -153,7 +153,7 @@ function Profile(props) {
                     data={userSongs}
                     renderItem={({ item }) => (
                         <View> 
-                               <Text>{item.downloadURL}</Text>
+                               <Text>{item.caption}</Text>
                         </View>
 
                     )}

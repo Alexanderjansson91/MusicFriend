@@ -1,5 +1,6 @@
+
 import React, { useState } from 'react'
-import { View, TextInput, Image, Button } from 'react-native'
+import { View,Text, TextInput, Image, Button } from 'react-native'
 
 import firebase from 'firebase'
 import { NavigationContainer } from '@react-navigation/native'
@@ -7,7 +8,7 @@ require("firebase/firestore")
 import * as DocumentPicker from 'expo-document-picker';
 import { Audio } from 'expo-av';
 
-export default function AddSong() {
+export default function AddSong(props) {
     const [caption, setCaption] = useState("")
     const [sound, setSound] = React.useState();
 
@@ -21,9 +22,9 @@ export default function AddSong() {
       }
     }
 
-    const uploadImage = async () => {
+    const uploadSound = async () => {
         const uri = sound
-        const childPath = `post/${firebase.auth().currentUser.uid}/${Math.random().toString(36)}`;
+        const childPath = `audio/${firebase.auth().currentUser.uid}/${Math.random().toString(36)}`;
         console.log(childPath)
 
         const response = await fetch(uri);
@@ -64,21 +65,19 @@ export default function AddSong() {
                 caption,
                 likesCount: 0,
                 creation: firebase.firestore.FieldValue.serverTimestamp()
-            }).then((function () {
-                props.navigation.popToTop()
-            }))
+            })
     }
 
     return (
         <View style={{ flex: 1, justifyContent: 'center' }}>
-        <TextInput
+              <TextInput
                 placeholder="Write a Caption . . ."
-                onChangeText={(caption) =>  setCaption(caption)}
+                onChangeText={(caption) => setCaption(caption)}
             />
             <Button title="Ny låt" onPress={pickSound} />
-            <Button title="Save" onPress={() => { sound }, uploadImage()} />
+            <Button title="Save" onPress={() => uploadSound()} />
+         
         </View>
     )
 
 }
-
