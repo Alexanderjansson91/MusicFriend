@@ -123,13 +123,13 @@ export function fetchUserSongs() {
             .orderBy("creation", "asc")
             .get()
             .then((snapshot) => {
-                let posts = snapshot.docs.map(doc => {
+                let userSongPosts = snapshot.docs.map(doc => {
                     
                     const data = doc.data();
                     const id = doc.id;
                     return { id, ...data }
                 })
-                dispatch({ type: USERS_SONGS_STATE_CHANGE, posts })
+                dispatch({ type: USERS_SONGS_STATE_CHANGE, userSongPosts })
 
             })
          

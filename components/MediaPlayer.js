@@ -1,9 +1,9 @@
+
 import React, { useState } from 'react';
 import MatetrialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Audio } from 'expo-av';
+import { connect } from 'react-redux';
 
-import firebase from 'firebase';
-require('firebase/firestore')
 //import all the components we are going to use
 import {
   SafeAreaView,
@@ -12,41 +12,28 @@ import {
   StyleSheet,
   ActivityIndicator,
   TouchableOpacity,
-  FlatList,
 } from 'react-native';
 
 const MediaPlayer = (props) => {
+
   const [loading, setLoading] = useState(false);
   const [sound, setSound] = React.useState();
-  const [posts, setPosts] = useState([])
+  const [userSongPosts, setSongs] = useState([]);
+  const { currentUser, songs } = props;
+
 
   async function playSound() {
-
-    firebase.firestore()
-    .collection("users")
-    .doc(firebase.auth().currentUser.uid)
-    .collection("usersSong")
-    .orderBy("creation", "asc")
-    .get()
-    .then((snapshot) => {
-        let posts = snapshot.docs.map(doc => {
-            const data = doc.data();
-            const id = doc.id;
-            return { id, ...data }
-        })
-       setPosts(posts)
-
-    })
-    console.log('Here is the Sound' + posts.downloadURL);
-    console.log('Loading Sound');
+       
     const { sound } = await Audio.Sound.createAsync(
-    //{uri: 'https://firebasestorage.googleapis.com/v0/b/musicfriendsapp.appspot.com/o/post%2FxqGTuOboXMN0yLv4L0ICBgNqBJv1%2F0.thduvq3hsic?alt=media&token=1a22f80a-3352-4caf-9106-21e1426699a6'}
-    {uri: posts.downloadURL}
-    
+    //{uri: 'https://firebasestorage.googleapis.com/v0/b/musicfriendsapp.appspot.com/o/audio%2FxqGTuOboXMN0yLv4L0ICBgNqBJv1%2F0.xwf4pkmbhhi?alt=media&token=6185742d-e269-432c-9c67-b0789e42fb29'},
+    {uri: props.songURL}
     );
-    setSound(sound);
+    
+    setSound(songs);
+    setSongs(userSongPosts)
     console.log('Playing Sound');
     await sound.playAsync(); }
+
 
   React.useEffect(() => {
     return sound
@@ -73,45 +60,47 @@ const MediaPlayer = (props) => {
       setLoading(false);
     }, 3000);
   };
-
   return (
     <SafeAreaView style={styles.safeArea}>
-
-<View>
-
-      
-                        <View style={styles.container}>
-                        {loading ? (
-                          <ActivityIndicator
-                            //visibility of Overlay Loading Spinner
-                            visible={loading}
-                            //Text with the Spinner
-                            textContent={'Loading...'}
-                            //Text style of the Spinner Text
-                            textStyle={styles.spinnerTextStyle}
-                          />
-                        ) : (
-                          <TouchableOpacity
-                            style={styles.profilContainer}
-                            onPress= {() =>{startLoading(); playSound(posts.downloadURL); }}>
-                            <View style={styles.buttonView}>
-                              <Text style={styles.textButton}>{props.playSongButton}</Text>
-                              <MatetrialCommunityIcons
-                                style={styles.iconStyles}
-                                name={props.icon}
-                              />
-                            </View>
-                          </TouchableOpacity>
-                        )}
-                      </View>
-
-                    
-
-           
-</View>
+      <View style={styles.container}>
+        {loading ? (
+          <ActivityIndicator
+            //visibility of Overlay Loading Spinner
+            visible={loading}
+            //Text with the Spinner
+            textContent={'Loading...'}
+            //Text style of the Spinner Text
+            textStyle={styles.spinnerTextStyle}
+          />
+        ) : (
+          <TouchableOpacity
+            style={styles.profilContainer}
+            onPress= {() =>{startLoading(); stopPlaying(); playSound(); props.playMusicClick}}>
+            <View style={styles.buttonView}>
+              <Text style={styles.textButton}>{props.submitText}</Text>
+              
+              <MatetrialCommunityIcons
+                style={styles.iconStyles}
+                name={props.icon}
+              />
+            </View>
+          </TouchableOpacity>
+        )}
+      </View>
     </SafeAreaView>
   );
 };
+
+
+//Access the store states from redux
+const mapStateToProps = (store) => ({
+  currentUser: store.userState.currentUser,
+  songs: store.userState.songs,
+});
+
+export default connect(mapStateToProps, null)(MediaPlayer);
+
+
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -152,4 +141,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MediaPlayer

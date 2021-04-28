@@ -41,7 +41,7 @@ import {
         case USERS_SONGS_STATE_CHANGE:
         return {
           ...state,
-          songs: action.posts,
+          songs: action.userSongPosts,
         };
         case USERS_FOLLOWING_STATE_CHANGE:
         return {

@@ -10,6 +10,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 //Style components imports
 import HeaderView from '../components/views/Header';
 import MainView from '../components/views/CurvedView';
+import PlaySongButton from '../components/MediaPlayer';
+
 
 
 import * as DocumentPicker from 'expo-document-picker';
@@ -20,44 +22,11 @@ require('firebase/firestore');
 function Profile(props) {
     const [userSongs, setUserSongs] = useState([]);
     const [user, setUser] = useState(null);
-    const [sound, setSound] = React.useState();
     const [following, setFollowing] = useState(false)
     const { currentUser, songs } = props;
 
-
-    async function playSound() {
-        const source = { uri: userSongs.downloadURL }
-        console.log(source);
-        const { sound } = await Audio.Sound.createAsync(
-            //{uri: 'https://firebasestorage.googleapis.com/v0/b/musicfriendsapp.appspot.com/o/post%2FxqGTuOboXMN0yLv4L0ICBgNqBJv1%2F0.thduvq3hsic?alt=media&token=1a22f80a-3352-4caf-9106-21e1426699a6'}
-            source,
-            { shouldPlay: true }
-
-        );
-        setSound(sound);
+       
     
-        console.log('Playing Sound');
-        await sound.playAsync(); }
-    
-      React.useEffect(() => {
-        return sound
-          ? () => {
-              console.log('Unloading Sound');
-              sound.unloadAsync(); }
-          : undefined;
-      }, [sound]);
-
-
-      async function stopPlaying() {
-        await sound.pauseAsync(); }
-      React.useEffect(() => {
-        return sound
-          ? () => {
-              console.log('Unloading Sound');
-              sound.unloadAsync(); }
-          : undefined;
-      }, [sound]);
-
     useEffect(() => {
 
         if (props.route.params.uid === firebase.auth().currentUser.uid){
@@ -108,8 +77,6 @@ function Profile(props) {
             .delete()
     }
 
-    
-
     if(user === null ){
         return <View />
     }
@@ -144,20 +111,20 @@ function Profile(props) {
                 title="Log out"
                 onPress={() => onLogout()}
             />} 
-        <Button title="Play" onPress={playSound} />
-        <Button title="Stop" onPress={stopPlaying} />
+
         <Button title="Ny låt nästa" onPress={() => props.navigation.navigate('NewSong')} />  
         <FlatList
-                    numColumns={3}
+                    numColumns={1}
                     horizontal={false}
                     data={userSongs}
                     renderItem={({ item }) => (
                         <View> 
-                               <Text>{item.caption}</Text>
+                               <PlaySongButton 
+                               submitText={item.caption}
+                               songURL={item.downloadURL}
+                               />
                         </View>
-
                     )}
-
                 />
         </View>
     )
@@ -181,3 +148,4 @@ const styles = StyleSheet.create({
         width: '100%',
     },
   });
+
