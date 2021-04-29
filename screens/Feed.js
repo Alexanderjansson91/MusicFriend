@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, Text, Image, FlatList, Button } from 'react-native'
+import { StyleSheet, View, Text, Image, FlatList, TouchableOpacity } from 'react-native'
 
 import firebase from 'firebase'
 require('firebase/firestore')
@@ -41,7 +41,11 @@ function Feed(props) {
                         <View
                             style={styles.containerImage}>
                             <Text style={styles.container}>{item.caption}</Text>
-                            <Text style={styles.container}>{item.user.name}</Text>
+                            <TouchableOpacity
+                            onPress={() => props.navigation.navigate("Profile", {uid: item.user.uid})}
+                            >   
+                            <Text>{item.user.name}</Text>
+                            </TouchableOpacity>
                             <Text 
                             onPress={()=> props.navigation.navigate('Comment',
                             {postId: item.id, uid: item.user.uid})

@@ -11,7 +11,7 @@ export class Register extends Component {
             email : '',
             password: '',
             name: '',
-
+            image: 'default',
         }
         this.onSignUp = this.onSignUp.bind(this)
     }

@@ -5,6 +5,7 @@ import {View, Text, Button, FlatList, Image, StyleSheet} from 'react-native'
 import { connect } from 'react-redux';
 import firebase from 'firebase'
 import Icon from 'react-native-vector-icons/Ionicons';
+import CachedImage from '../components/CachedImage'
 
 
 //Style components imports
@@ -39,13 +40,28 @@ function Profile(props) {
             .get()
             .then((snapshot) => {
                 if (snapshot.exists) {
-                    setUser(snapshot.data());
+                    setUser({ uid: props.route.params.uid, ...snapshot.data() });
                 }
                 else {
                     console.log('does not exist')
                 }
             })
+            firebase.firestore()
+            .collection("users")
+            .doc(props.route.params.uid)
+            .collection("usersSong")
+            .orderBy("creation", "desc")
+            .get()
+            .then((snapshot) => {
+                let usersongs = snapshot.docs.map(doc => {
+                    const data = doc.data();
+                    const id = doc.id;
+                    return { id, ...data }
+                })
+                setUserSongs(usersongs)
+            })
         }
+        
 
         if(props.following.indexOf(props.route.params.uid) > -1) {
             setFollowing(true);
@@ -90,6 +106,22 @@ function Profile(props) {
             <MainView></MainView>
             <Text>Profile</Text>
             
+
+            {user.image == 'default' ?
+                        (
+                         <Icon name="search-outline" size={16} color={color} size={26} />
+                        )
+                        :
+                        (
+                            <Image
+                            style={styles.ImageStyle}
+                                source={{
+                                    uri: user.image
+                                }}
+                            />
+                        )
+                    }
+
                 <Text>{user.name}</Text>
                 {props.route.params.uid !== firebase.auth().currentUser.uid ? (
                     <View>
@@ -113,6 +145,8 @@ function Profile(props) {
             />} 
 
         <Button title="Ny låt nästa" onPress={() => props.navigation.navigate('NewSong')} />  
+
+        
         <FlatList
                     numColumns={1}
                     horizontal={false}
@@ -126,6 +160,8 @@ function Profile(props) {
                         </View>
                     )}
                 />
+
+
         </View>
     )
 }
@@ -146,6 +182,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
         height: '100%',
         width: '100%',
+    },
+    ImageStyle: {
+        backgroundColor: '#ffffff',
+        height: '20%',
+        width: '20%',
     },
   });
 

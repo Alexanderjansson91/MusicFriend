@@ -18,6 +18,7 @@ const MediaPlayer = (props) => {
 
   const [loading, setLoading] = useState(false);
   const [sound, setSound] = React.useState();
+  const [user, setUser] = useState(null);
   const [userSongPosts, setSongs] = useState([]);
   const { currentUser, songs } = props;
 
