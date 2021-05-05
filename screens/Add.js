@@ -1,33 +1,70 @@
 import React, { useState } from 'react'
-import { View, TextInput, Image, Button } from 'react-native'
+import { View, TextInput, Image, Button, Text } from 'react-native'
 
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import firebase from 'firebase'
 import { NavigationContainer } from '@react-navigation/native'
 require("firebase/firestore")
+import Cities from '../components/data/LocationsData'
+import { Picker } from '@react-native-picker/picker';
 
 export default function Add(props) {
-    const [caption, setCaption] = useState("")
+  const [caption, setCaption] = useState("")
+  const [city, setCity] = useState("")
+  const [dateUpload, setDateUpload] = useState("")
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
 
-    const savePostData = () => {
-        firebase.firestore()
-        .collection('posts')
-        .doc(firebase.auth().currentUser.uid)
-        .collection("userPosts")
-            .add({
-                caption,
-                creation: firebase.firestore.FieldValue.serverTimestamp()
-            }).then((function () {
-                props.navigation.popToTop()
-            }))
-    }
-    return (
-        <View style={{ flex: 1 }}>
-            <TextInput
-                placeholder="Write a Caption . . ."
-                onChangeText={(caption) => setCaption(caption)}
-            />
-            <Button title="Save" onPress={() => savePostData()} />
-        </View>
-    )
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+    console.warn("A date has been picked: ", date);
+    setDateUpload(date)
+    hideDatePicker();
+  };
+
+  const savePostData = () => {
+    firebase.firestore()
+      .collection('posts')
+      .doc(firebase.auth().currentUser.uid)
+      .collection("userPosts")
+      .add({
+        caption,
+        dateUpload,
+        city,
+        creation: firebase.firestore.FieldValue.serverTimestamp()
+      }).then((function () {
+        props.navigation.popToTop()
+      }))
+  }
+  return (
+    <View style={{ flex: 1 }}>
+      <TextInput
+        placeholder="Write a Caption . . ."
+        onChangeText={(caption) => setCaption(caption)}
+      />
+      <Button title="Show Date Picker" onPress={showDatePicker} />
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode="date"
+        onConfirm={handleConfirm}
+        onCancel={hideDatePicker}
+      />
+      <Picker
+        mode="dropdown"
+        selectedValue={city}
+        onValueChange={(city) => setCity(city)}>
+        {Cities.map((item, index) => {
+          return (<Picker.Item label={item.title} value={item.title} key={index} />)
+        })}
+      </Picker>
+      <Text>{city}</Text>
+      <Button title="Save" onPress={() => savePostData()} />
+    </View>
+  )
 }

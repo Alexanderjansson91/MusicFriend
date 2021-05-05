@@ -21,39 +21,52 @@ const MediaPlayer = (props) => {
   const [user, setUser] = useState(null);
   const [userSongPosts, setSongs] = useState([]);
   const { currentUser, songs } = props;
+  const [isPlaying, setIsPlaying] = useState(false);
 
+  const [Status, SetStatus] = React.useState(false);
 
   async function playSound() {
-       
+    setIsPlaying(true);
     const { sound } = await Audio.Sound.createAsync(
-    //{uri: 'https://firebasestorage.googleapis.com/v0/b/musicfriendsapp.appspot.com/o/audio%2FxqGTuOboXMN0yLv4L0ICBgNqBJv1%2F0.xwf4pkmbhhi?alt=media&token=6185742d-e269-432c-9c67-b0789e42fb29'},
-    {uri: props.songURL}
+      //{uri: 'https://firebasestorage.googleapis.com/v0/b/musicfriendsapp.appspot.com/o/audio%2FxqGTuOboXMN0yLv4L0ICBgNqBJv1%2F0.xwf4pkmbhhi?alt=media&token=6185742d-e269-432c-9c67-b0789e42fb29'},
+      { uri: props.songURL }
     );
-    
+
     setSound(songs);
     setSongs(userSongPosts)
     console.log('Playing Sound');
-    await sound.playAsync(); }
+    
+    await sound.playAsync();
+    
+  }
 
 
   React.useEffect(() => {
     return sound
       ? () => {
-          console.log('Unloading Sound');
-          sound.unloadAsync(); }
+        console.log('Unloading Sound');
+        sound.unloadAsync();
+      }
+      : undefined;
+  }, [sound]);
+
+
+  React.useEffect(() => {
+    return sound
+      ? () => {
+        console.log('Unloading Sound');
+        sound.unloadAsync();
+      }
       : undefined;
   }, [sound]);
 
 
   async function stopPlaying() {
-    await sound.pauseAsync(); }
-  React.useEffect(() => {
-    return sound
-      ? () => {
-          console.log('Unloading Sound');
-          sound.unloadAsync(); }
-      : undefined;
-  }, [sound]);
+    setIsPlaying(false);
+    await sound.pauseAsync();
+  }
+
+
 
   const startLoading = () => {
     setLoading(true);
@@ -76,17 +89,32 @@ const MediaPlayer = (props) => {
         ) : (
           <TouchableOpacity
             style={styles.profilContainer}
-            onPress= {() =>{startLoading(); stopPlaying(); playSound(); props.playMusicClick}}>
+            onPress={() => { playSound(), props.playMusicClick }}>
+            <Text>{isPlaying ? 'Pause' : 'Play'}</Text>
             <View style={styles.buttonView}>
               <Text style={styles.textButton}>{props.submitText}</Text>
-              
+
               <MatetrialCommunityIcons
                 style={styles.iconStyles}
                 name={props.icon}
               />
             </View>
           </TouchableOpacity>
+          
         )}
+                  <TouchableOpacity
+            style={styles.profilContainer}
+            onPress={() =>  stopPlaying()}>
+            <Text>{isPlaying ? 'Pause' : 'Play'}</Text>
+            <View style={styles.buttonView}>
+              <Text style={styles.textButton}>{props.pauseText}</Text>
+
+              <MatetrialCommunityIcons
+                style={styles.iconStyles}
+                name={props.icon}
+              />
+            </View>
+          </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -125,7 +153,7 @@ const styles = StyleSheet.create({
   },
   buttonView: {
     flex: 1,
-    flexDirection: 'row', 
+    flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'center',
     justifyContent: 'center',

@@ -1,13 +1,50 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, Text, Image, FlatList, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Text, Image, FlatList, TouchableOpacity, TextInput } from 'react-native'
+import MainView from '../components/views/CurvedView';
+import HeaderView from '../components/views/Header';
 
+import { SearchBar } from 'react-native-elements';
 import firebase from 'firebase'
 require('firebase/firestore')
 import { connect } from 'react-redux'
 
+import Cities from '../components/data/LocationsData'
+
+
+
 function Feed(props) {
 
     const [posts, setPosts] = useState([]);
+    const [search, setSearch] = useState('');
+    const [filteredDataSource, setFilteredDataSource] = useState([]);
+    const [masterDataSource, setMasterDataSource] = useState([]);
+
+
+    const searchFilterFunction = (text) => {
+        // Check if searched text is not blank
+        if (text) {
+          // Inserted text is not blank
+          // Filter the masterDataSource
+          // Update FilteredDataSource
+          const newData = masterDataSource.filter(function (item) {
+            const itemData = item.caption
+              ? item.caption.toUpperCase()
+              : ''.toUpperCase();
+            const textData = text.toUpperCase();
+            return itemData.indexOf(textData) > -1;
+          });
+          setFilteredDataSource(newData);
+          setSearch(text);
+        } else {
+          // Inserted text is blank
+          // Update FilteredDataSource with masterDataSource
+          setFilteredDataSource(masterDataSource);
+          setSearch(text);
+          
+        }
+      };
+
+
     
     //const { usersPosts, songs } = props;
     //Hook for clean up
@@ -15,7 +52,7 @@ function Feed(props) {
     useEffect(() => {
         let posts = [];
         console.log(posts);
-        if(props.userFollowingLoaded == props.allPosts.length){
+        if(props.usersPostLoaded == props.allPosts.length){
             for(let  i = 0; i <props.allPosts.length; i++){
                 const user = props.users.find(el => el.uid === props.allPosts[i]);
                 if(user != undefined){
@@ -27,20 +64,42 @@ function Feed(props) {
             })
 
             setPosts(posts);
+            setFilteredDataSource(posts);
+            setMasterDataSource(posts);
+         
         }
-    }, [props.userFollowingLoaded]);
+    }, [props.usersPostLoaded]);
     
+
+
+
     return (
         <View style={styles.container}>
             <View style={styles.containerGallery}>
+            <HeaderView 
+            headerText="Music Buddy"
+            icon="cog-outline"
+            click={() => props.navigation.navigate('Settings')}
+            />
+        <MainView></MainView>
+            <SearchBar
+            style={styles.containerInfo}
+          round
+          searchIcon={{ size: 24 }}
+          onChangeText={(text) => searchFilterFunction(text)}
+          onClear={(text) => searchFilterFunction('')}
+          placeholder="Sök stad"
+          value={search}
+        />
                 <FlatList
                     numColumns={1}
                     horizontal={false}
-                    data={posts}
+                    data={filteredDataSource}
                     renderItem={({ item }) => (
                         <View
                             style={styles.containerImage}>
                             <Text style={styles.container}>{item.caption}</Text>
+                            <Text style={styles.container}>{item.city}</Text>
                             <TouchableOpacity
                             onPress={() => props.navigation.navigate("Profile", {uid: item.user.uid})}
                             >   
@@ -63,7 +122,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     containerInfo: {
-        margin: 20
+        margin: 10
     },
     containerGallery: {
         flex: 1
@@ -81,7 +140,7 @@ const mapStateToProps = (store) => ({
     currentUser: store.userState.currentUser,
     following: store.userState.following,
     users: store.usersState.users,
-    userFollowingLoaded: store.usersState.userFollowingLoaded,
+    usersPostLoaded: store.usersState.usersPostLoaded,
     allPosts: store.userState.allPosts,
 })
 export default connect(mapStateToProps, null)(Feed);

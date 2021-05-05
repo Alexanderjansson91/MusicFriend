@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import {View, Text, TextInput, FlatList, TouchableOpacity, InteractionManager} from 'react-native'
+import {View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet} from 'react-native'
+import SearchField from '../components/textFields/SearchField'
+import SearchResultButton from '../components/buttons/SearchResultButton'
 
 import firebase from 'firebase';
 require('firebase/firestore');
@@ -21,20 +23,29 @@ export default function Search(props) {
             })
     }
     return (
-        <View>
-            <TextInput placeholder="type" style={{marginTop:50, backgroundColor:'grey'}} onChangeText={(search)=> fetchUsers(search)} />
+        <View style={styles.viewContainer}>
+            <SearchField 
+            placeHolder= "Sök användare"
+            onChange={(search)=> fetchUsers(search)}
+            />
             <FlatList 
             numColumns={1}
             horizontal={false}
             data={users}
             renderItem={({item})=> (
-                <TouchableOpacity
-                onPress={() => props.navigation.navigate("Profile", {uid:item.id})}
-                >
-                <Text>{item.name}</Text>
-                </TouchableOpacity>
+                <SearchResultButton 
+                click={() => props.navigation.navigate("Profile", {uid:item.id})}
+                textButton={item.name}
+                />
         )}
             />
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    viewContainer: {
+      backgroundColor: '#ffffff',
+      height:"100%",
+    },
+  });

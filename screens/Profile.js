@@ -1,12 +1,12 @@
 
 
 import React, { useState, useEffect } from 'react'
-import {View, Text, Button, FlatList, Image, StyleSheet} from 'react-native'
+import { View, Text, Button, FlatList, Image, StyleSheet, Modal } from 'react-native'
 import { connect } from 'react-redux';
 import firebase from 'firebase'
 import Icon from 'react-native-vector-icons/Ionicons';
 import CachedImage from '../components/CachedImage'
-
+import FriendsModal from '../components/Modals/Friends'
 
 //Style components imports
 import HeaderView from '../components/views/Header';
@@ -24,54 +24,53 @@ function Profile(props) {
     const [userSongs, setUserSongs] = useState([]);
     const [user, setUser] = useState(null);
     const [following, setFollowing] = useState(false)
-    const { currentUser, songs } = props;
+    const {currentUser, songs } = props;
+    const [modalOpen, setModalOpen] = useState(false);
 
-       
-    
+
     useEffect(() => {
 
-        if (props.route.params.uid === firebase.auth().currentUser.uid){
+        if (props.route.params.uid === firebase.auth().currentUser.uid) {
             setUser(currentUser)
             setUserSongs(songs)
-        }else{
+        } else {
             firebase.firestore()
-            .collection("users")
-            .doc(props.route.params.uid)
-            .get()
-            .then((snapshot) => {
-                if (snapshot.exists) {
-                    setUser({ uid: props.route.params.uid, ...snapshot.data() });
-                }
-                else {
-                    console.log('does not exist')
-                }
-            })
-            firebase.firestore()
-            .collection("users")
-            .doc(props.route.params.uid)
-            .collection("usersSong")
-            .orderBy("creation", "desc")
-            .get()
-            .then((snapshot) => {
-                let usersongs = snapshot.docs.map(doc => {
-                    const data = doc.data();
-                    const id = doc.id;
-                    return { id, ...data }
+                .collection("users")
+                .doc(props.route.params.uid)
+                .get()
+                .then((snapshot) => {
+                    if (snapshot.exists) {
+                        setUser({ uid: props.route.params.uid, ...snapshot.data() });
+                    }
+                    else {
+                        console.log('does not exist')
+                    }
                 })
-                setUserSongs(usersongs)
-            })
+            firebase.firestore()
+                .collection("users")
+                .doc(props.route.params.uid)
+                .collection("usersSong")
+                .orderBy("creation", "desc")
+                .get()
+                .then((snapshot) => {
+                    let usersongs = snapshot.docs.map(doc => {
+                        const data = doc.data();
+                        const id = doc.id;
+                        return { id, ...data }
+                    })
+                    setUserSongs(usersongs)
+                })
         }
-        
 
-        if(props.following.indexOf(props.route.params.uid) > -1) {
+
+        if (props.following.indexOf(props.route.params.uid) > -1) {
             setFollowing(true);
-        }else{
+        } else {
             setFollowing(false);
         }
 
-    }, [props.route.params.uid, props.following] )
+    }, [props.route.params.uid, props.following])
 
-    
     const onLogout = () => {
         firebase.auth().signOut();
     };
@@ -84,6 +83,7 @@ function Profile(props) {
             .doc(props.route.params.uid)
             .set({})
     }
+
     const onUnfollow = () => {
         firebase.firestore()
             .collection("following")
@@ -93,73 +93,86 @@ function Profile(props) {
             .delete()
     }
 
-    if(user === null ){
+    if (user === null) {
         return <View />
     }
     return (
         <View style={styles.container}>
-            <HeaderView 
-            headerText="Music Buddy"
-            icon="cog-outline"
-            click={() => props.navigation.navigate('Settings')}
+            <HeaderView
+                headerText="Music Buddy"
+                icon="cog-outline"
+                click={() => props.navigation.navigate('Settings')}
             />
             <MainView></MainView>
             <Text>Profile</Text>
-            
+            <Button
+                title="Mina vänner"
+                onPress={() => setModalOpen(true)} 
+            />
+        <Modal visible={modalOpen} animationType="slide">
+        <FriendsModal
+          closeFriends="Stäng"
+          onClose={() => setModalOpen(false)}
+          
+        />
+      </Modal>
+
 
             {user.image == 'default' ?
-                        (
-                         <Icon name="search-outline" size={16} color={color} size={26} />
-                        )
-                        :
-                        (
-                            <Image
-                            style={styles.ImageStyle}
-                                source={{
-                                    uri: user.image
-                                }}
-                            />
-                        )
-                    }
+                (
+                    <Icon name="search-outline" size={16} color={color} size={26} />
+                )
+                :
+                (
+                    <Image
+                        style={styles.ImageStyle}
+                        source={{
+                            uri: user.image
+                        }}
+                    />
+                )
+            }
 
-                <Text>{user.name}</Text>
-                {props.route.params.uid !== firebase.auth().currentUser.uid ? (
-                    <View>
+            <Text>{user.name}</Text>
+            {props.route.params.uid !== firebase.auth().currentUser.uid ? (
+                <View>
                     {following ? (
                         <Button
-                        title="Following"
-                        onPress={() => onUnfollow()}
+                            title="Following"
+                            onPress={() => onUnfollow()}
                         />
                     ) :
-                    (
-                        <Button
-                        title="Follow"
-                        onPress={() => onFollow()}
-                        />
-                    )}
-                    </View>     
-                ) :             <Button
-                style={{marginTop:30}}
+                        (
+                            <Button
+                                title="Follow"
+                                onPress={() => onFollow()}
+                            />
+                        )}
+                </View>
+            ) : <Button
+                style={{ marginTop: 30 }}
                 title="Log out"
                 onPress={() => onLogout()}
-            />} 
+            />}
 
-        <Button title="Ny låt nästa" onPress={() => props.navigation.navigate('NewSong')} />  
+            <Button title="Ny låt nästa" onPress={() => props.navigation.navigate('NewSong')} />
 
-        
-        <FlatList
-                    numColumns={1}
-                    horizontal={false}
-                    data={userSongs}
-                    renderItem={({ item }) => (
-                        <View> 
-                               <PlaySongButton 
-                               submitText={item.caption}
-                               songURL={item.downloadURL}
-                               />
-                        </View>
-                    )}
-                />
+
+            <FlatList
+                numColumns={1}
+                horizontal={false}
+                data={userSongs}
+                renderItem={({ item }) => (
+                    <View>
+                        <PlaySongButton
+                            submitText={item.caption}
+                            songURL={item.downloadURL}
+                            pauseText="stanna"
+                        />
+                     
+                    </View>
+                )}
+            />
 
 
         </View>
@@ -171,9 +184,9 @@ const mapStateToProps = (store) => ({
     currentUser: store.userState.currentUser,
     following: store.userState.following,
     songs: store.userState.songs,
-  });
-  
-  export default connect(mapStateToProps, null)(Profile);
+});
+
+export default connect(mapStateToProps, null)(Profile);
 
 
 //Style for the view
@@ -188,5 +201,5 @@ const styles = StyleSheet.create({
         height: '20%',
         width: '20%',
     },
-  });
+});
 

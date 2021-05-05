@@ -58,7 +58,6 @@ export function fetchUserFollowing() {
                     return id
                 })
                 dispatch({ type: USERS_FOLLOWING_STATE_CHANGE, following });
-
             })
     })
 }

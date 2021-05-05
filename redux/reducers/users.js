@@ -4,12 +4,13 @@ import {
     USERS_POSTS_STATE_CHANGE,
     CLEAR_DATA,
 
+
   } from '../constants';
   
   //Constructor
   const initialState = {
     users: [],
-    userFollowingLoaded: 0,
+    usersPostLoaded: 0,
   };
 
   //Updates the states that gets from the action
@@ -23,10 +24,11 @@ import {
       case USERS_POSTS_STATE_CHANGE:
         return {
           ...state,
-          userFollowingLoaded: state.userFollowingLoaded + 1,
+          usersPostLoaded: state.usersPostLoaded + 1,
           users: state.users.map(user => user.uid === action.uid ? 
            {...user, posts: action.posts} : user)
         };
+
         case CLEAR_DATA:
           return initialState
       default:
