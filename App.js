@@ -15,8 +15,6 @@ import MainScreen, { Main } from './components/auth/Navigation/Main'
 import AddScreen from './screens/Add'
 import SettingsScreen from  './screens/Settings'
 
-
-
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import rootReducer from './redux/reducers'

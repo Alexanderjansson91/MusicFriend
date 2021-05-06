@@ -1,5 +1,5 @@
 import firebase, { firestore } from 'firebase'
-import { USER_POSTS_STATE_CHANGE, USER_STATE_CHANGE, CLEAR_DATA, USERS_FOLLOWING_STATE_CHANGE, USERS_DATA_STATE_CHANGE, USERS_POSTS_STATE_CHANGE, USERS_SONGS_STATE_CHANGE, USER_ALLPOSTS_STATE_CHANGE } from '../constants/index'
+import { USER_POSTS_STATE_CHANGE, USER_STATE_CHANGE, CLEAR_DATA, USERS_FOLLOWING_STATE_CHANGE, USERS_DATA_STATE_CHANGE, USERS_POSTS_STATE_CHANGE, USERS_SONGS_STATE_CHANGE, USER_ALLPOSTS_STATE_CHANGE, USER_ALLUSERS_STATE_CHANGE } from '../constants/index'
 require('firebase/firestore')
 
 //Delete all user redux data
@@ -150,9 +150,27 @@ export function fetchAllUsers() {
             for(let i = 0; i < allPosts.length; i++){
                 dispatch(fetchUsersData(allPosts[i], true));
             }
+       
         })
     })
 }
+
+export function fetchUsers() {
+    return ((dispatch) => {
+        firebase.firestore()
+        .collection("users")
+        .onSnapshot((snapshot) => {
+            let allUsers = snapshot.docs.map(doc => {
+                const data = doc.data();
+                const id = doc.id;
+                return { id, ...data }
+            });
+            dispatch({ type: USER_ALLUSERS_STATE_CHANGE , allUsers })
+        })
+    })
+}
+
+
 
 
 /*

@@ -9,7 +9,10 @@ const SearchField = (props) => {
       <TextInput
         placeholder={props.placeHolder}
         onChangeText={props.onChange}
+        onClear={props.Clear}
         style={textInput}
+        value={props.searchValue}
+
       />
     </View>
   );
@@ -23,7 +26,7 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderBottomWidth: 1,
     borderColor: '#10DDE5',
-    width: 400,
+    width: 390,
     textAlign: 'center',
     alignSelf: 'center',
     marginTop: 50,

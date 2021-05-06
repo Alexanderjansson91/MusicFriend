@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, Text, Image, FlatList, TouchableOpacity, TextInput } from 'react-native'
+import { StyleSheet, View, Text, Image, FlatList, TouchableOpacity, TextInput, RefreshControl } from 'react-native'
 import MainView from '../components/views/CurvedView';
 import HeaderView from '../components/views/Header';
+
 
 import { SearchBar } from 'react-native-elements';
 import firebase from 'firebase'
@@ -18,6 +19,9 @@ function Feed(props) {
     const [search, setSearch] = useState('');
     const [filteredDataSource, setFilteredDataSource] = useState([]);
     const [masterDataSource, setMasterDataSource] = useState([]);
+
+    const [refreshing, setRefreshing] = React.useState(false);
+
 
 
     const searchFilterFunction = (text) => {
@@ -48,10 +52,8 @@ function Feed(props) {
     
     //const { usersPosts, songs } = props;
     //Hook for clean up
-    console.log(posts);
     useEffect(() => {
         let posts = [];
-        console.log(posts);
         if(props.usersPostLoaded == props.allPosts.length){
             for(let  i = 0; i <props.allPosts.length; i++){
                 const user = props.users.find(el => el.uid === props.allPosts[i]);
@@ -70,6 +72,16 @@ function Feed(props) {
         }
     }, [props.usersPostLoaded]);
     
+
+    const wait = (timeout) => {
+        return new Promise(resolve => setTimeout(resolve, timeout));
+      }
+      
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setPosts(posts)
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
 
 
 
@@ -92,6 +104,12 @@ function Feed(props) {
           value={search}
         />
                 <FlatList
+                refreshControl={
+                    <RefreshControl
+                      refreshing={refreshing}
+                      onRefresh={onRefresh}
+                    />
+                  }
                     numColumns={1}
                     horizontal={false}
                     data={filteredDataSource}
@@ -109,6 +127,7 @@ function Feed(props) {
                             onPress={()=> props.navigation.navigate('Comment',
                             {postId: item.id, uid: item.user.uid})
                             }>Viewcomments</Text>
+                             
                         </View>
                     )}
                 />

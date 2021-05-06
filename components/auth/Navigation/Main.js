@@ -9,7 +9,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { fetchUser, fetchUserPosts, fetchUserFollowing, clearData, fetchUserSongs,fetchAllUsers  } from '../../../redux/actions/index'
+import { fetchUser, fetchUserPosts, fetchUserFollowing, clearData, fetchUserSongs,fetchAllUsers, fetchUsers  } from '../../../redux/actions/index'
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -25,6 +25,7 @@ export class Main extends Component {
         this.props.clearData();
         this.props.fetchUserSongs();
         this.props.fetchAllUsers();
+        this.props.fetchUsers();
         // this.props.fetchAllUserPosts();
     }
     render() {
@@ -96,6 +97,6 @@ const mapStateToProps = (store) => ({
     currentUser: store.userState.currentUser
 })
 
-const mapDispatchProps = (dispatch) => bindActionCreators({ fetchUser, fetchUserPosts, fetchUserFollowing, clearData, fetchUserSongs,fetchAllUsers}, dispatch);
+const mapDispatchProps = (dispatch) => bindActionCreators({ fetchUser, fetchUserPosts, fetchUserFollowing, clearData, fetchUserSongs, fetchAllUsers, fetchUsers }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchProps)(Main);

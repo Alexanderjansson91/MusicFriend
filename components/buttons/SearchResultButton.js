@@ -21,24 +21,27 @@ const NewUserButton = (props) => {
 const styles = StyleSheet.create({
   viewContainer: {
     flex: 1,
+    padding:30,
   },
   buttonContainer: {
     height: 5,
-    width: 300,
-    padding:10,
+    width: 100,
     borderBottomEndRadius:10,
     borderTopStartRadius:10,
-    marginTop:20,
-    marginBottom:20,
+    marginTop:10,
+    marginBottom:10,
     backgroundColor:'#ffffff',
     flexDirection: 'row',
-
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
   buttonView: {
-    marginLeft:0,
+   
     width: 100,
     margin: -10,
-    
+    alignItems: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center',
   },
   textButton: {
     color: '#000000',

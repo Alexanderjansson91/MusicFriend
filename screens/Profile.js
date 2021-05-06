@@ -5,14 +5,14 @@ import { View, Text, Button, FlatList, Image, StyleSheet, Modal } from 'react-na
 import { connect } from 'react-redux';
 import firebase from 'firebase'
 import Icon from 'react-native-vector-icons/Ionicons';
-import CachedImage from '../components/CachedImage'
 import FriendsModal from '../components/Modals/Friends'
+import CachedImage from 'react-native-expo-cached-image';
 
 //Style components imports
 import HeaderView from '../components/views/Header';
 import MainView from '../components/views/CurvedView';
 import PlaySongButton from '../components/MediaPlayer';
-
+import * as FileSystem from 'expo-file-system'
 
 
 import * as DocumentPicker from 'expo-document-picker';
@@ -26,6 +26,8 @@ function Profile(props) {
     const [following, setFollowing] = useState(false)
     const {currentUser, songs } = props;
     const [modalOpen, setModalOpen] = useState(false);
+
+
 
 
     useEffect(() => {
@@ -124,14 +126,16 @@ function Profile(props) {
                 )
                 :
                 (
-                    <Image
+                    <CachedImage
                         style={styles.ImageStyle}
                         source={{
-                            uri: user.image
+                            uri: user.image,
                         }}
                     />
                 )
             }
+
+
 
             <Text>{user.name}</Text>
             {props.route.params.uid !== firebase.auth().currentUser.uid ? (

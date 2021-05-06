@@ -6,6 +6,7 @@ import {
     USERS_FOLLOWING_STATE_CHANGE,
     USERS_SONGS_STATE_CHANGE,
     USER_ALLPOSTS_STATE_CHANGE,
+    USER_ALLUSERS_STATE_CHANGE,
 
   } from '../constants';
   
@@ -15,6 +16,7 @@ import {
     posts: [],
     following: [],
     allPosts: [],
+    allUsers:[],
     songs: [],
   };
   
@@ -47,6 +49,11 @@ import {
         return {
           ...state,
           following: action.following,
+        };
+        case USER_ALLUSERS_STATE_CHANGE:
+        return {
+          ...state,
+          allUsers: action.allUsers,
         };
         case CLEAR_DATA:
           return initialState
