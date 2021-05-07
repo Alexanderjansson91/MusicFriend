@@ -21,17 +21,13 @@ function Feed(props) {
     const [search, setSearch] = useState('');
     const [filteredDataSource, setFilteredDataSource] = useState([]);
     const [masterDataSource, setMasterDataSource] = useState([]);
-    
+
     const [refreshing, setRefreshing] = React.useState(false);
     const [expanded, setExpanded] = React.useState(false);
 
 
     const searchFilterFunction = (text) => {
-        // Check if searched text is not blank
         if (text) {
-            // Inserted text is not blank
-            // Filter the masterDataSource
-            // Update FilteredDataSource
             const newData = masterDataSource.filter(function (item) {
                 const itemData = item.caption
                     ? item.caption.toUpperCase()
@@ -42,15 +38,12 @@ function Feed(props) {
             setFilteredDataSource(newData);
             setSearch(text);
         } else {
-            // Inserted text is blank
-            // Update FilteredDataSource with masterDataSource
+
             setFilteredDataSource(masterDataSource);
             setSearch(text);
 
         }
     };
-
-
 
     //const { usersPosts, songs } = props;
     //Hook for clean up
@@ -84,7 +77,6 @@ function Feed(props) {
         props.reload()
         wait(2000).then(() => setRefreshing(false));
     }, []);
- 
 
     return (
         <View style={styles.container}>
@@ -104,7 +96,7 @@ function Feed(props) {
                     placeholder="Sök stad"
                     value={search}
                 />
-                <FlatList  
+                <FlatList
                     refreshControl={
                         <RefreshControl
                             refreshing={refreshing}
@@ -159,7 +151,7 @@ const styles = StyleSheet.create({
     }
 })
 
-const mapDispatchProps = (dispatch) => bindActionCreators({ reload,  }, dispatch)
+const mapDispatchProps = (dispatch) => bindActionCreators({ reload, }, dispatch)
 
 const mapStateToProps = (store) => ({
     currentUser: store.userState.currentUser,
@@ -168,4 +160,4 @@ const mapStateToProps = (store) => ({
     usersPostLoaded: store.usersState.usersPostLoaded,
     allPosts: store.userState.allPosts,
 })
-export default connect(mapStateToProps,mapDispatchProps, null)(Feed);
+export default connect(mapStateToProps, mapDispatchProps, null)(Feed);

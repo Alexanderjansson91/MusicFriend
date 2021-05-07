@@ -24,7 +24,7 @@ function Profile(props) {
     const [userSongs, setUserSongs] = useState([]);
     const [user, setUser] = useState(null);
     const [following, setFollowing] = useState(false)
-    const {currentUser, songs } = props;
+    const { currentUser, songs } = props;
     const [modalOpen, setModalOpen] = useState(false);
 
 
@@ -94,7 +94,6 @@ function Profile(props) {
             .doc(props.route.params.uid)
             .delete()
     }
-
     if (user === null) {
         return <View />
     }
@@ -107,10 +106,8 @@ function Profile(props) {
             />
             <MainView></MainView>
             <Text>Profile</Text>
-            <Button onPress={() => Linking.openURL('mailto:' + user.email) }
-      title="Meddelande" />
-
-
+            <Button onPress={() => Linking.openURL('mailto:' + user.email)}
+                title="Meddelande" />
             {user.image == 'default' ?
                 (
                     <Icon name="search-outline" size={16} color={color} size={26} />
@@ -125,9 +122,6 @@ function Profile(props) {
                     />
                 )
             }
-
-
-
             <Text>{user.name}</Text>
             {props.route.params.uid !== firebase.auth().currentUser.uid ? (
                 <View>
@@ -149,10 +143,7 @@ function Profile(props) {
                 title="Log out"
                 onPress={() => onLogout()}
             />}
-
             <Button title="Ny låt nästa" onPress={() => props.navigation.navigate('NewSong')} />
-
-
             <FlatList
                 numColumns={1}
                 horizontal={false}
@@ -164,16 +155,12 @@ function Profile(props) {
                             songURL={item.downloadURL}
                             pauseText="Stanna"
                         />
-                     
                     </View>
                 )}
             />
-
-
         </View>
     )
 }
-
 //Access the store states from redux
 const mapStateToProps = (store) => ({
     currentUser: store.userState.currentUser,
