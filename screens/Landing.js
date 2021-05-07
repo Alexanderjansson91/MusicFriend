@@ -1,33 +1,124 @@
-import React from 'react'
-import { StyleSheet, View } from 'react-native';
+import React, { Component } from 'react'
+import { StyleSheet, View, Button, TextInput, Text } from 'react-native';
 import HeaderView from '../components/views/Header';
 import MainView from '../components/views/CurvedView';
 import LoginButton from '../components/buttons/LoginButton';
-import CreateUserButton from '../components/buttons/NewUserButton';
+import { Collapse, CollapseHeader, CollapseBody, AccordionList } from 'accordion-collapse-react-native';
+import LoginTextField from '../components/textFields/LoginTextField'
+import LostPasswordTextField from '../components/textFields/PasswordTextField'
+import LostPasswordButton from '../components/buttons/SendNewPasswordButton'
 
 
-export default function Landing({ navigation }) {
-    return (
-        <View style={styles.container}>
-           <HeaderView headerText="Music Buddy"/>
-           <MainView></MainView>
-           <LoginButton 
-           textButton="Logga in"
-           click={() => navigation.navigate("Login")}
-           />
-            <CreateUserButton 
-           textButton="Skapa ny användare"
-           click={() => navigation.navigate("Register")}
-           />
-        </View>
-    )
+import PassWordTextField from '../components/textFields/PasswordTextField'
+import firebase from 'firebase'
+import CreateNewUserCard from '../components/cards/NewUserCard';
+
+export class Landing extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            email: '',
+            password: '',
+        }
+
+        this.onSignUp = this.onSignUp.bind(this)
+    }
+
+    
+
+    onSignUp() {
+        
+        const { email, password } = this.state;
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then((result) => {
+                console.log(result)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    forgotPassword() {
+        const { email } = this.state;
+        firebase.auth().sendPasswordResetEmail(email)
+            .then((result) => {
+                console.log(result)
+                Alert.alert('Please check your email.')
+
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    render() {
+        const {navigate} =this.props.navigation;
+        return (
+            <View style={styles.viewContainer}>
+                <HeaderView headerText="Music Friends"/>
+                <MainView />
+                <LoginTextField
+                    placeHolder="email"
+                    onChange={(email) => this.setState({ email })}
+                />
+                <PassWordTextField
+                    placeHolder="password"
+                    secureTextEntry={true}
+                    onChange={(password) => this.setState({ password })}
+                />
+
+                <LoginButton
+                    click={() => this.onSignUp()}
+                    textButton="Logga in"
+                />
+    
+                <View >
+                    <Collapse >
+                        <CollapseHeader >
+                            <View style={styles.collapseContainer}>
+                                <Text>Glömt lösenord?</Text>
+                            </View>
+                        </CollapseHeader>
+                        <CollapseBody >
+                            <Collapse >
+                                <CollapseHeader>
+                                    <LostPasswordTextField
+                                        placeHolder="email"
+                                        onChange={(email) => this.setState({ email })}
+                                    />
+                                    <LostPasswordButton
+
+                                        click={() => this.forgotPassword()}
+                                        textButton="Skicka lösenord"
+                                    />
+                                </CollapseHeader>
+                            </Collapse>
+                        </CollapseBody>
+                    </Collapse>
+                    <CreateNewUserCard
+          readMoreText="Vill du bli medlem?"
+          textInfo="Registera dig"
+          click={() => this.props.navigation.navigate("Register")}
+          />
+                </View>
+            </View>
+        )
+    }
 }
-//Style for the view
+
+export default Landing
+
+//Styles for my header
 const styles = StyleSheet.create({
-    container: {
+    viewContainer: {
         backgroundColor: '#ffffff',
-        height: '100%',
-        width: '100%',
+        height:'100%'
     },
-  });
-  
+    collapseContainer:{
+        width:600,
+        alignItems: 'center',
+        alignSelf: 'center',
+        justifyContent: 'center',
+    },
+});

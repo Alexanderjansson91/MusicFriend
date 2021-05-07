@@ -14,6 +14,36 @@ export default function Add(props) {
   const [dateUpload, setDateUpload] = useState("")
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
+
+  var arrayOfPeople = [
+    {name: "Rick", age: 30, place: 2},
+    {name: "Alan", age: 25, place: 1},
+    {name: "Joe", age: 40, place: 4},
+    {name: "Dave", age: 35, place: 3}
+];
+
+function bubbleSort(a, par)
+{
+    var swapped;
+    do {
+        swapped = false;
+        for (var i = 0; i < a.length - 1; i++) {
+            if (a[i][par] < a[i + 1][par]) {
+                var temp = a[i];
+                a[i] = a[i + 1];
+                a[i + 1] = temp;
+                swapped = true;
+            }
+        }
+    } while (swapped);
+    for (i = 0; i < Cities.length; i++) {
+      console.log(Cities[i]);
+   }
+}
+
+bubbleSort(Cities, 'inhabitant');
+
+
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };

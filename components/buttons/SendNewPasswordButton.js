@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 //My read more button
-const LoginButton = (props) => {
+const SendNewPasswordButton = (props) => {
   const { viewContainer, parent } = styles;
   return (
     <View style={viewContainer}>
@@ -20,17 +20,13 @@ const LoginButton = (props) => {
 //Styles for my header
 const styles = StyleSheet.create({
   viewContainer: {
-    marginTop:50,
     marginBottom:40,
+
   },
   buttonContainer: {
     height: 30,
     width: 300,
     padding:30,
-    borderWidth:1,
-    borderRadius:20,
-    backgroundColor:'#000000',
-    borderColor:'#000000',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -40,14 +36,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     justifyContent: 'center',
-    width: 80,
+    width: 300,
     margin: -10,
   },
   textButton: {
-    color: '#10DDE5',
+    color: '#000000',
     fontWeight: '500',
     fontSize: 18,
   },
 });
 
-export default LoginButton;
+export default SendNewPasswordButton;

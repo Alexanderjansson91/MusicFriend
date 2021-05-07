@@ -7,6 +7,7 @@ import ProfileScreen from '../../../screens/Profile'
 import SearchScreen from '../../../screens/Search'
 import Icon from 'react-native-vector-icons/Ionicons';
 
+
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { fetchUser, fetchUserPosts, fetchUserFollowing, clearData, fetchUserSongs,fetchAllUsers, fetchUsers  } from '../../../redux/actions/index'
@@ -46,7 +47,7 @@ export class Main extends Component {
                 component={SearchScreen} navigation={this.props.navigation}
                 options ={{
                     tabBarIcon:({color, size}) =>(
-                        <Icon name="search-outline" size={16} color={color} size={26} />
+                        <Icon name="people-outline" size={16} color={color} size={26} />
                     )
                 }}
                 />

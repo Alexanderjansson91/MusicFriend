@@ -1,7 +1,6 @@
 import firebase, { firestore } from 'firebase'
 import { USER_POSTS_STATE_CHANGE, USER_STATE_CHANGE, CLEAR_DATA, USERS_FOLLOWING_STATE_CHANGE, USERS_DATA_STATE_CHANGE, USERS_POSTS_STATE_CHANGE, USERS_SONGS_STATE_CHANGE, USER_ALLPOSTS_STATE_CHANGE, USER_ALLUSERS_STATE_CHANGE } from '../constants/index'
 require('firebase/firestore')
-
 //Delete all user redux data
 export function clearData() {
     return ((dispatch) => {
@@ -167,6 +166,18 @@ export function fetchUsers() {
             });
             dispatch({ type: USER_ALLUSERS_STATE_CHANGE , allUsers })
         })
+    })
+}
+
+
+
+export function reload() {
+    return ((dispatch) => {
+        dispatch(clearData())
+        dispatch(fetchUsersData())
+        dispatch(fetchUser())
+        dispatch(fetchUserPosts())
+        dispatch(fetchFollowingUsersPosts())
     })
 }
 

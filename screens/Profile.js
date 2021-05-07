@@ -1,7 +1,7 @@
 
 
 import React, { useState, useEffect } from 'react'
-import { View, Text, Button, FlatList, Image, StyleSheet, Modal } from 'react-native'
+import { View, Text, Button, FlatList, Image, StyleSheet, Modal, Linking } from 'react-native'
 import { connect } from 'react-redux';
 import firebase from 'firebase'
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -107,17 +107,8 @@ function Profile(props) {
             />
             <MainView></MainView>
             <Text>Profile</Text>
-            <Button
-                title="Mina vänner"
-                onPress={() => setModalOpen(true)} 
-            />
-        <Modal visible={modalOpen} animationType="slide">
-        <FriendsModal
-          closeFriends="Stäng"
-          onClose={() => setModalOpen(false)}
-          
-        />
-      </Modal>
+            <Button onPress={() => Linking.openURL('mailto:' + user.email) }
+      title="Meddelande" />
 
 
             {user.image == 'default' ?
@@ -169,9 +160,9 @@ function Profile(props) {
                 renderItem={({ item }) => (
                     <View>
                         <PlaySongButton
-                            submitText={item.caption}
+                            playText={"Spela" + item.caption}
                             songURL={item.downloadURL}
-                            pauseText="stanna"
+                            pauseText="Stanna"
                         />
                      
                     </View>

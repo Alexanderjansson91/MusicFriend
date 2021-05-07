@@ -10,6 +10,7 @@ import {
   Text,
   View,
   StyleSheet,
+  Button,
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
@@ -17,54 +18,64 @@ import {
 const MediaPlayer = (props) => {
 
   const [loading, setLoading] = useState(false);
-  const [sound, setSound] = React.useState();
   const [user, setUser] = useState(null);
   const [userSongPosts, setSongs] = useState([]);
   const { currentUser, songs } = props;
   const [isPlaying, setIsPlaying] = useState(false);
 
+  const sound = React.useRef(new Audio.Sound());
   const [Status, SetStatus] = React.useState(false);
-
-  async function playSound() {
-    setIsPlaying(true);
-    const { sound } = await Audio.Sound.createAsync(
-      //{uri: 'https://firebasestorage.googleapis.com/v0/b/musicfriendsapp.appspot.com/o/audio%2FxqGTuOboXMN0yLv4L0ICBgNqBJv1%2F0.xwf4pkmbhhi?alt=media&token=6185742d-e269-432c-9c67-b0789e42fb29'},
-      { uri: props.songURL }
-    );
-
-    setSound(songs);
-    setSongs(userSongPosts)
-    console.log('Playing Sound');
-    
-    await sound.playAsync();
-    
-  }
-
-
+  
   React.useEffect(() => {
-    return sound
-      ? () => {
-        console.log('Unloading Sound');
-        sound.unloadAsync();
+    
+    return () => sound.current.unloadAsync();
+  }, []);
+  
+  const LoadAudio = async () => {
+    const checkLoading = await sound.current.getStatusAsync();
+    try {
+      const result = await sound.current.loadAsync({ uri: props.songURL }, {}, true);
+      // Here Song is the uri of the Audio file
+      if (result.isLoaded === false) {
+        console.log('Error in Loading Audio');
+      } else {
+        PlayAudio();
       }
-      : undefined;
-  }, [sound]);
-
-
-  React.useEffect(() => {
-    return sound
-      ? () => {
-        console.log('Unloading Sound');
-        sound.unloadAsync();
+    } catch (error) {
+      console.log('Error in Loading Audio');
+    }
+  };
+  
+  
+    const PlayAudio = async () => {
+      try {
+        const result = await sound.current.getStatusAsync();
+        if (result.isLoaded) {
+          if (result.isPlaying === false) {
+            sound.current.playAsync();
+            SetStatus(true);
+          }
+        } else {
+          LoadAudio();
+        }
+      } catch (error) {
+        SetStatus(false);
       }
-      : undefined;
-  }, [sound]);
-
-
-  async function stopPlaying() {
-    setIsPlaying(false);
-    await sound.pauseAsync();
-  }
+    };
+  
+    const PauseAudio = async () => {
+      try {
+        const result = await sound.current.getStatusAsync();
+        if (result.isLoaded) {
+          if (result.isPlaying === true) {
+            sound.current.pauseAsync();
+            SetStatus(false);
+          }
+        }
+      } catch (error) {
+        SetStatus(false);
+      }
+    };
 
 
 
@@ -74,49 +85,15 @@ const MediaPlayer = (props) => {
       setLoading(false);
     }, 3000);
   };
+
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.container}>
-        {loading ? (
-          <ActivityIndicator
-            //visibility of Overlay Loading Spinner
-            visible={loading}
-            //Text with the Spinner
-            textContent={'Loading...'}
-            //Text style of the Spinner Text
-            textStyle={styles.spinnerTextStyle}
-          />
-        ) : (
-          <TouchableOpacity
-            style={styles.profilContainer}
-            onPress={() => { playSound(), props.playMusicClick }}>
-            <Text>{isPlaying ? 'Pause' : 'Play'}</Text>
-            <View style={styles.buttonView}>
-              <Text style={styles.textButton}>{props.submitText}</Text>
-
-              <MatetrialCommunityIcons
-                style={styles.iconStyles}
-                name={props.icon}
-              />
-            </View>
-          </TouchableOpacity>
-          
-        )}
-                  <TouchableOpacity
-            style={styles.profilContainer}
-            onPress={() =>  stopPlaying()}>
-            <Text>{isPlaying ? 'Pause' : 'Play'}</Text>
-            <View style={styles.buttonView}>
-              <Text style={styles.textButton}>{props.pauseText}</Text>
-
-              <MatetrialCommunityIcons
-                style={styles.iconStyles}
-                name={props.icon}
-              />
-            </View>
-          </TouchableOpacity>
+    <View style={styles.container}>
+      <Text>{Status === false  ? 'Stopped' : 'Playing now'}</Text>
+      <View style={{ width: '100%' }}>
+        <Button title="Play Sound" onPress={() => PlayAudio()} />
+        <Button title="Pause Sound" onPress={() => PauseAudio()} />
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -134,6 +111,9 @@ export default connect(mapStateToProps, null)(MediaPlayer);
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
+  },
+  stopButton: {
+    marginTop:30,
   },
   container: {
     height: 50,

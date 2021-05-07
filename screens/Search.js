@@ -36,6 +36,8 @@ function Search(props) {
     }
   };
 
+
+
     return (
         <View style={styles.viewContainer}>
             
