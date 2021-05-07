@@ -21,15 +21,6 @@ import thunk from 'redux-thunk'
 const store = createStore(rootReducer, applyMiddleware(thunk)) 
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDF9wM0EFGyj--5Sh4jOesDcJY8EpVu5jM",
-  authDomain: "musicfriendsapp.firebaseapp.com",
-  projectId: "musicfriendsapp",
-  storageBucket: "musicfriendsapp.appspot.com",
-  messagingSenderId: "504353875002",
-  appId: "1:504353875002:web:ea2aa92250c51f41dec103",
-  measurementId: "G-N3BCDZ54QK"
-};
 
 if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
