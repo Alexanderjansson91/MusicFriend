@@ -10,6 +10,9 @@ import CachedImage from 'react-native-expo-cached-image';
 
 //Style components imports
 import HeaderView from '../components/views/Header';
+import UserInfoFrame from '../components/cards/UserFrameCard'
+import MusicInfoCard from '../components/cards/MusicInfoCard'
+
 import MainView from '../components/views/CurvedView';
 import PlaySongButton from '../components/MediaPlayer';
 import * as FileSystem from 'expo-file-system'
@@ -104,46 +107,22 @@ function Profile(props) {
                 icon="cog-outline"
                 click={() => props.navigation.navigate('Settings')}
             />
-            <MainView></MainView>
-            <Text>Profile</Text>
-            <Button onPress={() => Linking.openURL('mailto:' + user.email)}
-                title="Meddelande" />
-            {user.image == 'default' ?
-                (
-                    <Icon name="search-outline" size={16} color={color} size={26} />
-                )
-                :
-                (
-                    <CachedImage
-                        style={styles.ImageStyle}
-                        source={{
-                            uri: user.image,
-                        }}
-                    />
-                )
-            }
-            <Text>{user.name}</Text>
-            {props.route.params.uid !== firebase.auth().currentUser.uid ? (
-                <View>
-                    {following ? (
-                        <Button
-                            title="Following"
-                            onPress={() => onUnfollow()}
-                        />
-                    ) :
-                        (
-                            <Button
-                                title="Follow"
-                                onPress={() => onFollow()}
-                            />
-                        )}
-                </View>
-            ) : <Button
-                style={{ marginTop: 30 }}
-                title="Log out"
-                onPress={() => onLogout()}
-            />}
-            <Button title="Ny låt nästa" onPress={() => props.navigation.navigate('NewSong')} />
+            <UserInfoFrame
+            userName={user.name} 
+            icon ="person-outline" 
+            imageUri={{uri: user.image}}
+            info={user.description}
+            textButton="Meddelande"
+            click={() => Linking.openURL('mailto:' + user.email)}
+            iconMessage="mail-outline" 
+            >
+            </UserInfoFrame>
+            <View style={styles.frameBottom}>
+            <MusicInfoCard
+            musicText="Min Musik"
+            iconAddMusik="add-circle-outline" 
+            click={() => props.navigation.navigate('NewSong')}
+            />
             <FlatList
                 numColumns={1}
                 horizontal={false}
@@ -151,14 +130,17 @@ function Profile(props) {
                 renderItem={({ item }) => (
                     <View>
                         <PlaySongButton
-                            playText={"Spela" + item.caption}
+                            songTitle={item.caption}
                             songURL={item.downloadURL}
-                            pauseText="Stanna"
+                            playMusic="play-circle-outline"
+                            pauseMusic="pause-circle-outline"
                         />
                     </View>
                 )}
             />
+            </View> 
         </View>
+        
     )
 }
 //Access the store states from redux
@@ -183,5 +165,14 @@ const styles = StyleSheet.create({
         height: '20%',
         width: '20%',
     },
+    frameBottom:{
+        borderBottomRightRadius: 40,
+        borderBottomLeftRadius: 40,
+        color:'#000000',
+        borderStyle:'solid',
+        width: '90%',
+        borderWidth:1,
+        alignSelf: 'center',
+    }
 });
 

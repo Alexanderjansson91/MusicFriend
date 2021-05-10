@@ -97,21 +97,6 @@ function Settings(props) {
               props.navigation.goBack()
           })
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
    
     const onLogout = () => {
         firebase.auth().signOut();
@@ -135,12 +120,6 @@ function Settings(props) {
     return (
         <View style={styles.container}>
 
-        <HeaderView 
-        headerText="Music Buddy"
-        icon="cog-outline"
-        click={() => props.navigation.navigate('Settings')}
-        />
-        <MainView></MainView>
         <TouchableOpacity  onPress={() => pickImage()} >
                 {image == 'default' ?
                     (

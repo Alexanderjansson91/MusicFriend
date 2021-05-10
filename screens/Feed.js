@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, Text, Image, FlatList, TouchableOpacity, TextInput, RefreshControl } from 'react-native'
+import React, { useEffect, useState, useReducer } from 'react'
+import { StyleSheet, View, Text, Image, FlatList, TouchableOpacity, TextInput, RefreshControl, Button } from 'react-native'
 import MainView from '../components/views/CurvedView';
-import HeaderView from '../components/views/Header';
+import HeaderView from '../components/views/HeaderFeed';
 import { reload } from '../redux/actions/index'
 import { bindActionCreators } from 'redux'
-
+import moment from "moment";
 
 import { SearchBar } from 'react-native-elements';
 import firebase from 'firebase'
@@ -20,17 +20,25 @@ function Feed(props) {
     const [posts, setPosts] = useState([]);
     const [search, setSearch] = useState('');
     const [filteredDataSource, setFilteredDataSource] = useState([]);
+    const [reloadDataSource, setReloadDataSource] = useState([]);
+
     const [masterDataSource, setMasterDataSource] = useState([]);
 
     const [refreshing, setRefreshing] = React.useState(false);
     const [expanded, setExpanded] = React.useState(false);
 
 
+    const wait = (timeout) => {
+        return new Promise(resolve => setTimeout(resolve, timeout));
+    }
+
+
+
     const searchFilterFunction = (text) => {
         if (text) {
             const newData = masterDataSource.filter(function (item) {
-                const itemData = item.caption
-                    ? item.caption.toUpperCase()
+                const itemData = item.city
+                    ? item.city.toUpperCase()
                     : ''.toUpperCase();
                 const textData = text.toUpperCase();
                 return itemData.indexOf(textData) > -1;
@@ -63,39 +71,30 @@ function Feed(props) {
             setPosts(posts);
             setFilteredDataSource(posts);
             setMasterDataSource(posts);
-
+            setReloadDataSource(posts)
         }
     }, [props.usersPostLoaded]);
 
-
-    const wait = (timeout) => {
-        return new Promise(resolve => setTimeout(resolve, timeout));
-    }
-
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
-        props.reload()
-        wait(2000).then(() => setRefreshing(false));
-    }, []);
+
+        wait(4000).then(() => setRefreshing(false));
+      }, []);
+
 
     return (
         <View style={styles.container}>
             <View style={styles.containerGallery}>
                 <HeaderView
                     headerText="Music Buddy"
-                    icon="search-outline"
-                    click={() => props.navigation.navigate('Settings')}
-                />
-                <MainView></MainView>
-                <SearchBar
-                    style={styles.containerInfo}
-                    round
-                    searchIcon={{ size: 24 }}
-                    onChangeText={(text) => searchFilterFunction(text)}
-                    onClear={(text) => searchFilterFunction('')}
-                    placeholder="Sök stad"
-                    value={search}
-                />
+                    icon={"search-outline"}
+                    search={search}
+                    searchFunction={(text) => searchFilterFunction(text)}
+                    clear={(text) => searchFilterFunction('')}
+                    
+                    >
+                    </HeaderView>
+                
                 <FlatList
                     refreshControl={
                         <RefreshControl
@@ -104,16 +103,16 @@ function Feed(props) {
                         />
                     }
                     numColumns={1}
-                    extraData={filteredDataSource}
                     horizontal={false}
                     data={filteredDataSource}
+                    extraData={reloadDataSource}
                     renderItem={({ item }) => (
                         <View
                             style={styles.containerImage}>
                             <Text style={styles.container}>{item.caption}</Text>
                             <Text style={styles.container}>{item.city}</Text>
-
-                            <TouchableOpacity
+                            <Text style={styles.container}>{moment(item.timestamp).format("ll")}</Text>
+                                                           <TouchableOpacity
                                 onPress={() => props.navigation.navigate("Profile", { uid: item.user.uid })}
                             >
                                 <Text>{item.user.name}</Text>
@@ -122,7 +121,6 @@ function Feed(props) {
                                 onPress={() => props.navigation.navigate('Comment',
                                     { postId: item.id, uid: item.user.uid })
                                 }>Viewcomments</Text>
-
                         </View>
                     )}
                 />
@@ -134,9 +132,11 @@ function Feed(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor:'#ffffff'
     },
     containerInfo: {
-        margin: 10
+        margin: 200,
+
     },
     containerGallery: {
         flex: 1

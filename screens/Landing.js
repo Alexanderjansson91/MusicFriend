@@ -57,7 +57,6 @@ export class Landing extends Component {
         return (
             <View style={styles.viewContainer}>
                 <HeaderView headerText="Music Friends"/>
-                <MainView />
                 <LoginTextField
                     placeHolder="email"
                     onChange={(email) => this.setState({ email })}

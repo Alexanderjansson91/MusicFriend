@@ -1,6 +1,10 @@
 import firebase, { firestore } from 'firebase'
+import moment from "moment";
+
 import { USER_POSTS_STATE_CHANGE, USER_STATE_CHANGE, CLEAR_DATA, USERS_FOLLOWING_STATE_CHANGE, USERS_DATA_STATE_CHANGE, USERS_POSTS_STATE_CHANGE, USERS_SONGS_STATE_CHANGE, USER_ALLPOSTS_STATE_CHANGE, USER_ALLUSERS_STATE_CHANGE } from '../constants/index'
 require('firebase/firestore')
+
+
 //Delete all user redux data
 export function clearData() {
     return ((dispatch) => {
@@ -98,7 +102,18 @@ export function fetchFollowingUsersPosts(uid) {
 
                 const uid = snapshot.query.EP.path.segments[1];
                 const user = getState().usersState.users.find(el => el.uid === uid);
-                
+
+                const times = snapshot.docs.map((doc) => {
+                    const { timestamp: firebaseTimestamp, ...rest } = doc.data()
+                    const id = doc.id;
+                    const timestamp = firebaseTimestamp ? moment(firebaseTimestamp.toDate()) : null
+                  
+                    return {
+                      ...rest,
+                      id,
+                      timestamp
+                    }
+                  })
 
                 let posts = snapshot.docs.map(doc => {
                     const data = doc.data();
@@ -107,7 +122,7 @@ export function fetchFollowingUsersPosts(uid) {
                     
                 })
                 //console.log(posts);
-                dispatch({ type: USERS_POSTS_STATE_CHANGE, posts, uid })
+                dispatch({ type: USERS_POSTS_STATE_CHANGE, posts, uid, times })
             })
     })
 }

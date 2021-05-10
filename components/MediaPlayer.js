@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import MatetrialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Audio } from 'expo-av';
 import { connect } from 'react-redux';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 //import all the components we are going to use
 import {
@@ -88,10 +89,31 @@ const MediaPlayer = (props) => {
 
   return (
     <View style={styles.container}>
-      <Text>{Status === false  ? 'Stopped' : 'Playing now'}</Text>
-      <View style={{ width: '100%' }}>
-        <Button title="Play Sound" onPress={() => PlayAudio()} />
-        <Button title="Pause Sound" onPress={() => PauseAudio()} />
+      
+      <View style={styles.parent}>
+      <Text>{props.songTitle}</Text>
+    
+      <TouchableOpacity onPress={() => PlayAudio()}>
+      
+            <View>
+              <Icon
+                name={props.playMusic}
+                style={styles.iconStyle}
+                size={16} color="#10DDE5" size={26} 
+              />
+            </View>
+        </TouchableOpacity>
+       
+        <TouchableOpacity onPress={() => PauseAudio()}>
+            <View>
+              <Icon
+                name={props.pauseMusic}
+                style={styles.iconStyle}
+                size={16} color="#10DDE5" size={26} 
+              />
+            </View>
+        </TouchableOpacity>
+        
       </View>
     </View>
   );
@@ -113,20 +135,25 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   stopButton: {
-    marginTop:30,
+    marginTop:10,
+  },
+  musicButton:{
+
+  },
+  parent: {
+    flexDirection: 'row',
   },
   container: {
-    height: 50,
+    height: 30,
     width: 200,
     flexDirection: 'row',
     borderStyle: 'solid',
     borderRadius: 30,
     borderColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    backgroundColor: '#875195',
-    marginTop: '10%',
+    marginLeft:20,
+    margin:20,
+    
+ 
   },
   spinnerTextStyle: {
     color: '#ffffff',
@@ -140,11 +167,13 @@ const styles = StyleSheet.create({
   },
   iconStyles: {
     fontSize: 25,
-    marginLeft: 12,
+    
     color: '#EFA600',
+
   },
   textButton: {
     color: 'white',
+    alignSelf: 'flex-end',
     fontWeight: '500',
     fontSize: 18,
   },

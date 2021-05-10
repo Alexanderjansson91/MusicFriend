@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     width: 390,
     textAlign: 'center',
     alignSelf: 'center',
-    marginTop: 50,
+    marginTop: 80,
     marginBottom: 10,
   },
   textInput: {

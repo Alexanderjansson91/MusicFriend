@@ -2,10 +2,21 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import MatetrialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
+import AppLoading from 'expo-app-loading';
 
 //Header View
 const Header = (props) => {
   const { logoContainer, viewContainer } = styles;
+
+  let [fontsLoaded] = useFonts({
+    Inter_900Black,
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }  
+
   return (
     <View style={viewContainer}>
       <View style={styles.parent}>
@@ -13,8 +24,9 @@ const Header = (props) => {
         <TouchableOpacity style={styles.profilContainer} onPress={props.click}>
           <View>
             <Icon
+            style={styles.iconStyles}
               name={props.icon}
-              size={16} color="#ffffff" size={26} 
+               
             />
           </View>
         </TouchableOpacity>
@@ -26,23 +38,28 @@ const Header = (props) => {
 //Style for header
 const styles = StyleSheet.create({
   viewContainer: {
-    backgroundColor: '#000000',
-    height: 150,
+    backgroundColor: '#ffffff',
+    height: 120,
+    borderStyle:'solid',
+    borderColor:'#000000',
+    borderBottomWidth:1
   },
   iconStyles: {
-    marginRight: 10,
-    right: 0,
-    position: 'absolute',
-    color: 'white',
-    fontSize: 25,
-    marginTop: '1%',
+   
+    fontSize: 28,
+    marginTop: 10, 
+ 
+    color:"#000000",
+    zIndex:999,
+    
   },
   logoContainer: {
-    fontSize: 20,
-    marginTop: 50,
+    fontSize: 30,
+    marginTop: 55,
     marginLeft: 20,
     color: '#10DDE5',
     flexDirection: 'row',
+    fontFamily: 'Inter_900Black'
   },
   profilContainer: {
     fontSize: 20,
