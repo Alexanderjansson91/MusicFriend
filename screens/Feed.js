@@ -10,6 +10,8 @@ import { SearchBar } from 'react-native-elements';
 import firebase from 'firebase'
 require('firebase/firestore')
 import { connect } from 'react-redux'
+import PostsCards from '../components/cards/PostsCard'
+
 
 import Cities from '../components/data/LocationsData'
 
@@ -32,12 +34,10 @@ function Feed(props) {
         return new Promise(resolve => setTimeout(resolve, timeout));
     }
 
-
-
     const searchFilterFunction = (text) => {
         if (text) {
             const newData = masterDataSource.filter(function (item) {
-                const itemData = item.city
+                const itemData = (item.city) 
                     ? item.city.toUpperCase()
                     : ''.toUpperCase();
                 const textData = text.toUpperCase();
@@ -107,20 +107,19 @@ function Feed(props) {
                     data={filteredDataSource}
                     extraData={reloadDataSource}
                     renderItem={({ item }) => (
-                        <View
-                            style={styles.containerImage}>
-                            <Text style={styles.container}>{item.caption}</Text>
-                            <Text style={styles.container}>{item.city}</Text>
-                            <Text style={styles.container}>{moment(item.timestamp).format("ll")}</Text>
-                                                           <TouchableOpacity
-                                onPress={() => props.navigation.navigate("Profile", { uid: item.user.uid })}
-                            >
-                                <Text>{item.user.name}</Text>
-                            </TouchableOpacity>
-                            <Text
-                                onPress={() => props.navigation.navigate('Comment',
-                                    { postId: item.id, uid: item.user.uid })
-                                }>Viewcomments</Text>
+                        <View style={styles.containerImage}>
+                            <PostsCards 
+                            textButtonProfile={item.user.name}
+                            clickProfile={() => props.navigation.navigate("Profile", { uid: item.user.uid })}
+                            iconProfile="person-outline"
+                            region={item.city}
+                            infoAboutPost={item.caption}
+                            clickMessage={() => props.navigation.navigate('Comment',
+                            { postId: item.id, uid: item.user.uid })}
+                            iconComment="chatbox-outline"
+                            textButtonMessage="Kommentar"
+                            postDate={moment(item.timestamp).format("ll")}
+                            />
                         </View>
                     )}
                 />

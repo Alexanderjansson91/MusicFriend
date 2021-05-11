@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {View, Text, FlatList,TextInput,Button, ShadowPropTypesIOS } from 'react-native'
+import {View, Text, FlatList,TextInput,Button, TouchableOpacity } from 'react-native'
 
 import firebase from 'firebase';
 import { connect } from 'react-redux';
@@ -82,9 +82,11 @@ function Comment(props) {
                 renderItem={({ item }) => (
                     <View>
                         {item.user !== undefined ?
-                            <Text>
-                                {item.user.name}
-                            </Text>
+                           <TouchableOpacity
+                           onPress={() => props.navigation.navigate("Profile", { uid: item.user.uid })}
+                       >
+                           <Text>{item.user.name}</Text>
+                       </TouchableOpacity>
                             : null}
                         <Text>{item.text}</Text>
                     </View>
