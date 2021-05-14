@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Button, TextInput, Text } from 'react-native';
+import { StyleSheet, View, Button, TextInput, Text, Alert } from 'react-native';
 import HeaderView from '../components/views/Header';
 import MainView from '../components/views/CurvedView';
 import LoginButton from '../components/buttons/LoginButton';
@@ -25,8 +25,6 @@ export class Landing extends Component {
         this.onSignUp = this.onSignUp.bind(this)
     }
 
-    
-
     onSignUp() {
         
         const { email, password } = this.state;
@@ -36,6 +34,7 @@ export class Landing extends Component {
             })
             .catch((error) => {
                 console.log(error)
+                Alert.alert(error.message)
             })
     }
 
@@ -45,7 +44,6 @@ export class Landing extends Component {
             .then((result) => {
                 console.log(result)
                 Alert.alert('Please check your email.')
-
             })
             .catch((error) => {
                 console.log(error)
@@ -66,12 +64,10 @@ export class Landing extends Component {
                     secureTextEntry={true}
                     onChange={(password) => this.setState({ password })}
                 />
-
                 <LoginButton
                     click={() => this.onSignUp()}
                     textButton="Logga in"
                 />
-    
                 <View >
                     <Collapse >
                         <CollapseHeader >

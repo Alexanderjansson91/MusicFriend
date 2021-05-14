@@ -1,7 +1,8 @@
 
 import React, { useState } from 'react'
-import { View,Text, TextInput, Image, Button } from 'react-native'
+import { View,StyleSheet, TextInput, Image, Button } from 'react-native'
 
+import AddNewSongCard from '../components/cards/AddNewSongCard'
 import firebase from 'firebase'
 import { NavigationContainer } from '@react-navigation/native'
 require("firebase/firestore")
@@ -69,15 +70,27 @@ export default function AddSong(props) {
     }
 
     return (
-        <View style={{ flex: 1, justifyContent: 'center' }}>
-              <TextInput
-                placeholder="Write a Caption . . ."
-                onChangeText={(caption) => setCaption(caption)}
+        <View style={styles.pickSongButtonr}>
+            <AddNewSongCard 
+            placeHolder="låt titel"
+            onChange={(caption) => setCaption(caption)}
+            pickNewSongText="Välj fil"
+            iconPickMusic="document-outline"
+            iconsaveMusic="add-circle-outline"
+            saveNewSongText="Ladda upp"
+            pickClick={pickSound}
+            saveClick={() => uploadSound()} 
+          
             />
-            <Button title="Ny låt" onPress={pickSound} />
-            <Button title="Save" onPress={() => uploadSound()} />
-         
         </View>
     )
 
 }
+
+
+const styles = StyleSheet.create({
+    viewContainer: {
+      backgroundColor: '#ffffff',
+      height:'100%'
+    }
+  });

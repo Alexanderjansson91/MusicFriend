@@ -20,8 +20,6 @@ import rootReducer from './redux/reducers'
 import thunk from 'redux-thunk'
 const store = createStore(rootReducer, applyMiddleware(thunk)) 
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-
 
 if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
@@ -69,7 +67,12 @@ export class App extends Component {
             <Stack.Screen name ="Landing" component={LandingScreen}
             options={{headerShown: false}}
             />
-            <Stack.Screen name ="Register" component={RegisterScreen}/>
+            <Stack.Screen name ="Register" component={RegisterScreen}
+            options={{headerShown: false}}
+            />
+            <Stack.Screen name ="Login" component={LandingScreen}
+            options={{headerShown: false}}
+            />
           </Stack.Navigator>
         </NavigationContainer>
         
@@ -82,11 +85,29 @@ export class App extends Component {
             <Stack.Screen name ="Landing" component={MainScreen}
             options={{headerShown: false}}
             />
-            <Stack.Screen name ="Add" component={AddScreen}
+            <Stack.Screen  name ="Add" component={AddScreen}
+             options={{
+              headerTitle: 'Ny annons',
+              headerBackTitle: 'Tillbaka',
+              headerStyle: { backgroundColor: '#ffffff' },
+              headerTintColor: '#10DDE5',
+            }}
             />
             <Stack.Screen name ="Comment" component={CommentScreen}
+              options={{
+              headerTitle: 'Ny annons',
+              headerBackTitle: 'Tillbaka',
+              headerStyle: { backgroundColor: '#ffffff' },
+              headerTintColor: '#10DDE5',
+            }}
             />
             <Stack.Screen name ="NewSong" component={AddNewSongScreen}
+              options={{
+                headerTitle: 'Lägg ny låt',
+                headerBackTitle: 'Profil',
+                headerStyle: { backgroundColor: '#ffffff' },
+                headerTintColor: '#10DDE5',
+              }}
             />
             <Stack.Screen name ="Settings" component={SettingsScreen}
             

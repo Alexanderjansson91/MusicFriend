@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TextInput, FlatList, Image, StyleSheet } from 'react-native'
 import SearchField from '../components/textFields/SearchField'
 import SearchResultButton from '../components/buttons/SearchResultButton'
 import { connect } from 'react-redux'
@@ -54,7 +54,7 @@ function Search(props) {
         data={filteredDataSource}
         renderItem={({ item }) => (
           <View style={styles.containerImage}>
-            <CachedImage
+            <Image
               style={styles.ImageStyle}
               source={{
                 uri: item.image,

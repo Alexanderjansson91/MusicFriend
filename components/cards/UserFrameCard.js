@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import CachedImage from 'react-native-expo-cached-image';
 
 
 //View whit the rounded corner under the Header

@@ -66,15 +66,7 @@ export class Main extends Component {
                     )
                 }}
                 />
-                 <Tab.Screen 
-                name="Message"
-                component={ProfileScreen} navigation={this.props.navigation}
-                options ={{
-                    tabBarIcon:({color, size}) =>(
-                        <Icon name="chatbubble-outline" size={16} color={color} size={26} />
-                    )
-                }}
-                />
+
                 <Tab.Screen 
                 name="Profile" 
                 component={ProfileScreen}

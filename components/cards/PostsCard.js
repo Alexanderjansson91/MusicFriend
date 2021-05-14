@@ -27,6 +27,7 @@ const PostsCard = (props) => {
         </View>
         <Text style={styles.descriptiontext}>{props.infoAboutPost}</Text>
         <View style={parent}>
+          <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.buttonContainer} onPress={props.clickMessage}>
   
           <Icon
@@ -37,7 +38,10 @@ const PostsCard = (props) => {
             <Text style={styles.commentText}>{props.textButtonMessage}</Text>
           </View>
         </TouchableOpacity>
-        <Text>{props.postDate}</Text>
+        <View styles={styles.date}>
+        <Text styles={styles.dateText}>{props.postDate}</Text>
+        </View>
+        </View>
       </View>
 
      
@@ -78,11 +82,13 @@ const styles = StyleSheet.create({
   regionText: {
     color: '#10DDE5', 
     margin:16,
+    position: 'absolute',
+    right: 0
   },
   regionView:{
-
-    flexDirection: 'row',  
-   
+    position: 'absolute',
+    right: 0,
+    flexDirection: 'row',
   },
   userInfoIcon:{
     color: '#10DDE5',  
@@ -104,7 +110,6 @@ const styles = StyleSheet.create({
     marginRight: 20,
     marginBottom: 0,
     textAlignVertical: 'center',
-
     right: 0,
   },
   buttonContainer: {
@@ -121,6 +126,17 @@ const styles = StyleSheet.create({
   descriptiontext: {
     color:'#000000',
     margin:10,
+  },
+  date:{
+    position: 'absolute',
+    right: 0,
+    flexDirection: 'row',
+  },
+  dateText: {
+    color: '#10DDE5', 
+    margin:16,
+    position: 'absolute',
+    right: 0
   },
 });
 

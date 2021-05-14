@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import {View, Text, FlatList,TextInput,Button, TouchableOpacity } from 'react-native'
+import { View, StyleSheet, FlatList, KeyboardAvoidingView, Button, } from 'react-native'
 
 import firebase from 'firebase';
 import { connect } from 'react-redux';
 require('firebase/firestore')
-
-import{bindActionCreators} from 'redux'
-import {fetchUsersData} from '../redux/actions/index'
+import CommentField from '../components/textFields/CommentTextField'
+import CommentsCard from '../components/cards/CommentsCard'
+import { bindActionCreators } from 'redux'
+import { fetchUsersData } from '../redux/actions/index'
 
 function Comment(props) {
 
@@ -18,26 +19,25 @@ function Comment(props) {
     useEffect(() => {
 
         function matchCommentToUser(comments) {
-            for(let i = 0; i<comments.length; i++){
-                
-                if (comments[i].hasOwnProperty('user')){
+            for (let i = 0; i < comments.length; i++) {
+
+                if (comments[i].hasOwnProperty('user')) {
                     continue;
                 }
 
                 const user = props.users.find(x => x.uid === comments[i].creator)
 
-                if(user == undefined) {
+                if (user == undefined) {
                     props.fetchUsersData(comments[i].creator, false)
-                }else {
+                } else {
                     comments[i].user = user
                 }
             }
             setComments(comments)
         }
 
-
-            if (props.route.params.postId !== postId){
-                firebase.firestore()
+        if (props.route.params.postId !== postId) {
+            firebase.firestore()
                 .collection('posts')
                 .doc(props.route.params.uid)
                 .collection('userPosts')
@@ -48,64 +48,60 @@ function Comment(props) {
                     let comments = snapshot.docs.map(doc => {
                         const data = doc.data();
                         const id = doc.id
-                        return {id, ...data}
+                        return { id, ...data }
                     })
                     matchCommentToUser(comments)
                 })
-                setPostId(props.route.params.uid)
-            }else{
-                matchCommentToUser(comments)
-            }
+            setPostId(props.route.params.uid)
+        } else {
+            matchCommentToUser(comments)
+        }
     }, [props.route.params.postId, props.users])
-
 
     const onCommentSend = () => {
         firebase.firestore()
-                .collection('posts')
-                .doc(props.route.params.uid)
-                .collection('userPosts')
-                .doc(props.route.params.postId)
-                .collection('comments')
-                .add({
-                    creator: firebase.auth().currentUser.uid,
-                    text
-                })
-
+            .collection('posts')
+            .doc(props.route.params.uid)
+            .collection('userPosts')
+            .doc(props.route.params.postId)
+            .collection('comments')
+            .add({
+                creator: firebase.auth().currentUser.uid,
+                text
+            })
     }
-    
     return (
-        <View style>
-                  <FlatList
+
+        <View style={styles.viewContainer}>
+            <KeyboardAvoidingView
+        keyboardVerticalOffset={Platform.select({ios: 90, android: 90})}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.keyboard}>
+            <FlatList
                 numColumns={1}
                 horizontal={false}
                 data={comments}
                 renderItem={({ item }) => (
                     <View>
                         {item.user !== undefined ?
-                           <TouchableOpacity
-                           onPress={() => props.navigation.navigate("Profile", { uid: item.user.uid })}
-                       >
-                           <Text>{item.user.name}</Text>
-                       </TouchableOpacity>
+                            <CommentsCard
+                                click={() => props.navigation.navigate("Profile", { uid: item.user.uid })}
+                                textName={item.user.name}
+                                commentText={item.text}
+                            />
                             : null}
-                        <Text>{item.text}</Text>
                     </View>
                 )}
             />
-
-
             <View>
-                <TextInput 
-                placeholder="kommentar"
-                onChangeText={(text) => setText(text)}
-                />
-                <Button
-                onPress= {() => onCommentSend()}
-                title="Skicka"
+                <CommentField
+                    placeHolder="Kommentar"
+                    onChange={(text) => setText(text)}
+                    click={() => onCommentSend()}
+                    iconSendComment="send-outline"
                 />
             </View>
-
-
+            </KeyboardAvoidingView>
         </View>
     )
 }
@@ -117,3 +113,15 @@ const mapStateToProps = (store) => ({
 const mapDispatchProps = (dispatch) => bindActionCreators({ fetchUsersData }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchProps)(Comment);
+
+//Style for card
+const styles = StyleSheet.create({
+    viewContainer: {
+        backgroundColor: '#ffffff',
+        height:"100%"
+    },
+    keyboard: {
+        flex:1,
+    },
+
+});

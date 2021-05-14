@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useReducer } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { StyleSheet, View, Text, Image, FlatList, TouchableOpacity, TextInput, RefreshControl, Button } from 'react-native'
 import MainView from '../components/views/CurvedView';
 import HeaderView from '../components/views/HeaderFeed';
@@ -71,14 +71,13 @@ function Feed(props) {
             setPosts(posts);
             setFilteredDataSource(posts);
             setMasterDataSource(posts);
-            setReloadDataSource(posts)
         }
-    }, [props.usersPostLoaded]);
+    }, [props.usersPostLoaded]); 
 
-    const onRefresh = React.useCallback(() => {
+
+    const onRefresh = useCallback(() => {
         setRefreshing(true);
-
-        wait(4000).then(() => setRefreshing(false));
+        wait(6000).then(() => setRefreshing(false));
       }, []);
 
 
@@ -105,7 +104,7 @@ function Feed(props) {
                     numColumns={1}
                     horizontal={false}
                     data={filteredDataSource}
-                    extraData={reloadDataSource}
+                    extraData={filteredDataSource}
                     renderItem={({ item }) => (
                         <View style={styles.containerImage}>
                             <PostsCards 
@@ -118,7 +117,7 @@ function Feed(props) {
                             { postId: item.id, uid: item.user.uid })}
                             iconComment="chatbox-outline"
                             textButtonMessage="Kommentar"
-                            postDate={moment(item.timestamp).format("ll")}
+                            postDate={moment(item.dateUpload).format("ll")}
                             />
                         </View>
                     )}

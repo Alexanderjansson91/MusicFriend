@@ -1,26 +1,20 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import MatetrialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/Ionicons';
+
 
 //Contact card for companys, used on Login page
-const NewUserCard = (props) => {
+const MusicInfoCard = (props) => {
   const { viewContainer, infoText } = styles;
   return (
     <View style={viewContainer}>
       <View style={styles.space} />
-      <View style={styles.bottomView}>
       <View style={styles.parent}>
-        <Text style={infoText}>{props.readMoreText}</Text>
-          <TouchableOpacity onPress={props.click}>
-            <View>
-              <Text style={styles.textButton}>{props.textInfo}</Text>
-              <MatetrialCommunityIcons
-                name={props.icon}
-                style={styles.iconStyle}
-              />
-            </View>
-          </TouchableOpacity>
-      </View>
+        <Text style={infoText}>Område:</Text>
+        <View style={styles.parent}>
+        <Text style={infoText}>{props.cityText}</Text>
+        </View>
       </View>
     </View>
   );
@@ -30,18 +24,13 @@ const NewUserCard = (props) => {
 const styles = StyleSheet.create({
   viewContainer: {
     backgroundColor: '#ffffff',
-    height: '60%',
+    height: 40,
+    bottom: 0,
     marginBottom: 40,
+    marginLeft:10,
     justifyContent: 'center',
-    alignItems: 'center',
-  },
-  bottomView: {
+    alignSelf: 'center',
     
-  
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute', //Here is the trick
-    bottom: 0, //Here is the trick
   },
 
   space: {
@@ -50,13 +39,15 @@ const styles = StyleSheet.create({
   iconStyle: {
     color: '#000000',
     fontSize: 25,
-    marginLeft: 20,
+    marginLeft: 10,
+    marginTop:-2
+    
   },
   textButton: {
     color: '#10DDE5',
     fontSize: 20,
     marginLeft: 10,
-    marginTop:-2
+    marginTop: -2,
   },
   infoText: {
     color: '#000000',
@@ -71,8 +62,7 @@ const styles = StyleSheet.create({
   },
   parent: {
     flexDirection: 'row',
-  
   },
 });
 
-export default NewUserCard;
+export default MusicInfoCard;

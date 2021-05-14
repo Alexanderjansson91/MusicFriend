@@ -103,26 +103,21 @@ export function fetchFollowingUsersPosts(uid) {
                 const uid = snapshot.query.EP.path.segments[1];
                 const user = getState().usersState.users.find(el => el.uid === uid);
 
-                const times = snapshot.docs.map((doc) => {
-                    const { timestamp: firebaseTimestamp, ...rest } = doc.data()
+                const posts = snapshot.docs.map((doc) => {
+                    const { data: firebaseTimestamp, ...rest } = doc.data()
                     const id = doc.id;
-                    const timestamp = firebaseTimestamp ? moment(firebaseTimestamp.toDate()) : null
+                    const data = firebaseTimestamp ? moment(firebaseTimestamp.toDate()) : null
                   
                     return {
                       ...rest,
                       id,
-                      timestamp
+                      user,
+                      ...data
                     }
                   })
 
-                let posts = snapshot.docs.map(doc => {
-                    const data = doc.data();
-                    const id = doc.id;
-                    return { id, ...data, user }
-                    
-                })
                 //console.log(posts);
-                dispatch({ type: USERS_POSTS_STATE_CHANGE, posts, uid, times })
+                dispatch({ type: USERS_POSTS_STATE_CHANGE, posts, uid,  })
             })
     })
 }

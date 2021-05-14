@@ -123,12 +123,11 @@ function Settings(props) {
         <TouchableOpacity  onPress={() => pickImage()} >
                 {image == 'default' ?
                     (
-                      <Icon name="search-outline" size={16} color={color} size={26} />
+                      <Icon name="search-outline" size={16} size={26} />
                     )
                     :
                     (
                         <Image
-                
                             source={{
                                 uri: image
                             }}
@@ -170,6 +169,10 @@ const styles = StyleSheet.create({
         height: '100%',
         width: '100%',
     },
+    image: {
+        width:'100%'
+    }
+
   });
 
 

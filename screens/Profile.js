@@ -30,9 +30,6 @@ function Profile(props) {
     const { currentUser, songs } = props;
     const [modalOpen, setModalOpen] = useState(false);
 
-
-
-
     useEffect(() => {
 
         if (props.route.params.uid === firebase.auth().currentUser.uid) {
@@ -102,6 +99,7 @@ function Profile(props) {
     }
     return (
         <View style={styles.container}>
+            
             <HeaderView
                 headerText="Music Buddy"
                 icon="cog-outline"
@@ -109,8 +107,8 @@ function Profile(props) {
             />
             <UserInfoFrame
             userName={user.name} 
-            icon ="person-outline" 
-            imageUri={{uri: user.image}}
+            icon ="person-outline"  
+            imageUri={{uri: user.image }}
             info={user.description}
             textButton="Meddelande"
             click={() => Linking.openURL('mailto:' + user.email)}
