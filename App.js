@@ -1,6 +1,9 @@
 
-import { Text, View, Button } from 'react-native';
+import { Text, View, Alert } from 'react-native';
 import React, { Component } from 'react';
+import Icon from 'react-native-vector-icons/Ionicons';
+import NetInfo from "@react-native-community/netinfo";
+
 
 import * as firebase from 'firebase';
 import { NavigationContainer } from '@react-navigation/native';
@@ -8,17 +11,21 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LandingScreen from './screens/Landing'
 import CommentScreen from './screens/Comment'
 
+import SignOutButton from './components/buttons/SignOutButton'
 import AddNewSongScreen from './screens/AddSong'
 import RegisterScreen from './screens/Register'
 import MainScreen, { Main } from './components/auth/Navigation/Main'
 import AddScreen from './screens/Add'
 import SettingsScreen from  './screens/Settings'
+import ProfileScreen from './screens/Profile'
 
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import rootReducer from './redux/reducers'
 import thunk from 'redux-thunk'
 const store = createStore(rootReducer, applyMiddleware(thunk)) 
+
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
 
 if (firebase.apps.length === 0) {
@@ -32,11 +39,16 @@ export class App extends Component {
     super(props);
     this.state = {
        loaded: false, 
+       type: null,
     }
   }
 
   
   componentDidMount() {
+    NetInfo.fetch().then(state => {
+      console.log("Connection type", state.type);
+      console.log("Is connected?", state.isConnected);
+    });
     firebase.auth().onAuthStateChanged((user) => {
       if (!user){
         this.setState({
@@ -51,7 +63,20 @@ export class App extends Component {
       }
     })
   }
+
+     
+  signOutUser = async () => {
+    try {
+        await firebase.auth().signOut();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+
+
   render() {
+    
     const {loggedIn, loaded } = this.state; 
     if(!loaded){
       return(
@@ -60,6 +85,7 @@ export class App extends Component {
         </View>
       )
     }
+    
     if (!loggedIn){
       return (
         <NavigationContainer>
@@ -82,7 +108,10 @@ export class App extends Component {
      <Provider store={store}>
        <NavigationContainer>
        <Stack.Navigator initialRouteName="Main">
-            <Stack.Screen name ="Landing" component={MainScreen}
+            <Stack.Screen name ="Feed" component={MainScreen}
+            options={{headerShown: false}}
+            />
+             <Stack.Screen name ="Profile" component={ProfileScreen}
             options={{headerShown: false}}
             />
             <Stack.Screen  name ="Add" component={AddScreen}
@@ -110,7 +139,19 @@ export class App extends Component {
               }}
             />
             <Stack.Screen name ="Settings" component={SettingsScreen}
-            
+              options={{
+                headerRight: () => (
+                  <SignOutButton 
+                  click={() => this.signOutUser()}
+                  signOutIcon="log-out-outline"
+                  />
+                ),
+                headerTitle: 'Inställningar',
+                headerBackTitle: 'Profil',
+                headerStyle: { backgroundColor: '#ffffff' },
+                headerTintColor: '#10DDE5',
+          
+              }}
             />
 
           </Stack.Navigator>

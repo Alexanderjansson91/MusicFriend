@@ -12,6 +12,9 @@ export function clearData() {
     })
 }
 
+
+
+
 export function fetchUser() {
     return ((dispatch) => {
         firebase.firestore()
@@ -186,6 +189,8 @@ export function reload() {
         dispatch(clearData())
         dispatch(fetchUsersData())
         dispatch(fetchUser())
+        dispatch(fetchUsers())
+        dispatch(fetchAllUsers())
         dispatch(fetchUserPosts())
         dispatch(fetchFollowingUsersPosts())
     })

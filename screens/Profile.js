@@ -99,7 +99,8 @@ function Profile(props) {
     }
     return (
         <View style={styles.container}>
-            
+    
+                
             <HeaderView
                 headerText="Music Buddy"
                 icon="cog-outline"
@@ -108,7 +109,7 @@ function Profile(props) {
             <UserInfoFrame
             userName={user.name} 
             icon ="person-outline"  
-            imageUri={{uri: user.image }}
+            profileImage={{uri: user.image }}
             info={user.description}
             textButton="Meddelande"
             click={() => Linking.openURL('mailto:' + user.email)}
@@ -116,6 +117,7 @@ function Profile(props) {
             >
             </UserInfoFrame>
             <View style={styles.frameBottom}>
+    
             <MusicInfoCard
             musicText="Min Musik"
             iconAddMusik="add-circle-outline" 
@@ -136,6 +138,8 @@ function Profile(props) {
                     </View>
                 )}
             />
+                        <View style={styles.space}></View>
+
             </View> 
         </View>
         
@@ -163,6 +167,9 @@ const styles = StyleSheet.create({
         height: '20%',
         width: '20%',
     },
+    space: {
+        height: 50,
+      },
     frameBottom:{
         borderBottomRightRadius: 40,
         borderBottomLeftRadius: 40,

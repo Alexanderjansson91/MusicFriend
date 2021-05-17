@@ -5,18 +5,17 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 
 //Contact card for companys, used on Login page
-const MusicInfoCard = (props) => {
+const SignOutButton = (props) => {
   const { viewContainer, infoText } = styles;
   return (
     <View style={viewContainer}>
       <View style={styles.space} />
       <View style={styles.parent}>
-        <Text style={infoText}>{props.musicText}</Text>
         <View style={styles.parent}>
           <TouchableOpacity onPress={props.click}>
             <View>
               <Icon
-                name={props.iconAddMusik}
+                name={props.signOutIcon}
                 style={styles.iconStyle}
               />
             </View>
@@ -24,7 +23,6 @@ const MusicInfoCard = (props) => {
         </View>
       </View>
     </View>
-    
   );
 };
 
@@ -34,8 +32,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     height: 40,
     bottom: 0,
-    marginBottom: 40,
-    marginLeft:10
+    marginBottom: 20,
+    marginRight:10
+  },
+
+  space: {
+    marginTop: 20,
   },
   iconStyle: {
     color: '#000000',
@@ -43,9 +45,6 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginTop:-2
     
-  },
-  space: {
-    height: 20,
   },
   textButton: {
     color: '#10DDE5',
@@ -69,4 +68,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MusicInfoCard;
+export default SignOutButton;

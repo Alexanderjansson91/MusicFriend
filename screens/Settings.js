@@ -1,12 +1,10 @@
 import React, { useState }  from 'react'
 import { StyleSheet, View, Text, Button, alert, TouchableOpacity, Image, TextInput } from 'react-native';
-import HeaderView from '../components/views/Header';
-import MainView from '../components/views/CurvedView';
-import LoginButton from '../components/buttons/LoginButton';
-import CreateUserButton from '../components/buttons/NewUserButton';
+import SettingsCard from '../components/cards/SettingsCard'
 import firebase from 'firebase'
 import { connect } from 'react-redux';
 import * as ImagePicker from 'expo-image-picker';
+
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -109,7 +107,7 @@ function Settings(props) {
         .auth()
         .sendPasswordResetEmail(user)
         .then(function () {
-          alert('En återställninslänk har skickats till din Email.')
+           Alert.alert('En återställninslänk har skickats till din Email.')
         })
         .catch(function (e) {
           console.log(e);
@@ -120,45 +118,26 @@ function Settings(props) {
     return (
         <View style={styles.container}>
 
-        <TouchableOpacity  onPress={() => pickImage()} >
-                {image == 'default' ?
-                    (
-                      <Icon name="search-outline" size={16} size={26} />
-                    )
-                    :
-                    (
-                        <Image
-                            source={{
-                                uri: image
-                            }}
-                        />
-                    )
-                }
-                <Text>Change Profile Photo</Text>
-            </TouchableOpacity>
+        <SettingsCard 
+        profileImage={currentUser.image}
+        iconImage="image-outline"
+        iconProilImage="image-outline"
+        pickImageClick={() => pickImage()}
+        pickImageText="Ändra profilbild "
+        iconPickImage="image-outline"
 
+        placeDescriptionHolder="Skriv en beskrivning om dig själv"
+        onChange={(description) => { setDescription(description); console.log(description) }}
+        inputValue={description}
 
-        <Text>Profile</Text>
-            <Button
-            style={{marginTop:30}}
-            title="Log out"
-            onPress={() => onLogout()}
+        resetPasswordText="Återställ lösenord"
+        resetPasswordClick={() => forgotPassword()}
+        iconResetPassword="lock-closed-outline"
+
+        saveClick={() => Save()}
+        saveProfileText="Spara"
+        iconSaveProfile="bookmark-outline"
         />
-             <Button
-            style={{marginTop:30}}
-            title="Återställ lösenord"
-            onPress={() => forgotPassword()}
-        />
-              <TextInput
-                value={description}
-              
-                placeholderTextColor={"#e8e8e8"}
-                placeholder="Description"
-                onChangeText={(description) => { setDescription(description); console.log(description) }}
-            />
-    <Button
-            title="Spara"
-            onPress={() => Save()} />
     </View>
     )
 }
@@ -169,8 +148,9 @@ const styles = StyleSheet.create({
         height: '100%',
         width: '100%',
     },
-    image: {
-        width:'100%'
+    ImageStyle: {
+        width:'20%',
+        height:'10%'
     }
 
   });

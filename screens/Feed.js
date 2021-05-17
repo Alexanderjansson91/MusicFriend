@@ -6,6 +6,7 @@ import { reload } from '../redux/actions/index'
 import { bindActionCreators } from 'redux'
 import moment from "moment";
 
+
 import { SearchBar } from 'react-native-elements';
 import firebase from 'firebase'
 require('firebase/firestore')
@@ -17,7 +18,7 @@ import Cities from '../components/data/LocationsData'
 
 
 
-function Feed(props) {
+function Feed(props, {navigation}) {
 
     const [posts, setPosts] = useState([]);
     const [search, setSearch] = useState('');
@@ -53,11 +54,13 @@ function Feed(props) {
         }
     };
 
+
+    
     //const { usersPosts, songs } = props;
     //Hook for clean up
     useEffect(() => {
         let posts = [];
-        if (props.usersPostLoaded == props.allPosts.length) {
+            if (props.usersPostLoaded == props.allPosts.length) {
             for (let i = 0; i < props.allPosts.length; i++) {
                 const user = props.users.find(el => el.uid === props.allPosts[i]);
                 if (user != undefined) {
@@ -71,14 +74,17 @@ function Feed(props) {
             setPosts(posts);
             setFilteredDataSource(posts);
             setMasterDataSource(posts);
-        }
+            }
+       
     }, [props.usersPostLoaded]); 
-
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
-        wait(6000).then(() => setRefreshing(false));
-      }, []);
+
+        wait(3000).then(() => {
+            setRefreshing(false)
+        })
+      }, [refreshing])
 
 
     return (
@@ -90,7 +96,6 @@ function Feed(props) {
                     search={search}
                     searchFunction={(text) => searchFilterFunction(text)}
                     clear={(text) => searchFilterFunction('')}
-                    
                     >
                     </HeaderView>
                 

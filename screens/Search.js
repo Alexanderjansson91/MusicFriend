@@ -54,7 +54,7 @@ function Search(props) {
         data={filteredDataSource}
         renderItem={({ item }) => (
           <View style={styles.containerImage}>
-            <Image
+            <CachedImage
               style={styles.ImageStyle}
               source={{
                 uri: item.image,

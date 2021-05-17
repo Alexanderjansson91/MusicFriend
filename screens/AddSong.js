@@ -66,7 +66,9 @@ export default function AddSong(props) {
                 caption,
                 likesCount: 0,
                 creation: firebase.firestore.FieldValue.serverTimestamp()
-            })
+            }).then((function () {
+                props.navigation.push("Profile")
+              }))
     }
 
     return (

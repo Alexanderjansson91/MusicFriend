@@ -84,7 +84,7 @@ export default function Add(props) {
         formatDate,
         creation: firebase.firestore.FieldValue.serverTimestamp()
       }).then((function () {
-        props.navigation.popToTop()
+        props.navigation.push("Feed")
       }))
   }
   return (

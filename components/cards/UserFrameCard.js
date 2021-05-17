@@ -19,7 +19,10 @@ const UserFrameCard = (props) => {
         </View>
         <View style={parent}>
         <View style={styles.ImageView}>
-        <Image style={styles.image} source={props.imageUri} />
+        <CachedImage
+            style={styles.image}
+            source={props.profileImage}
+        />
       </View>
       <TouchableOpacity style={styles.buttonContainer} onPress={props.click}>
   
@@ -74,9 +77,9 @@ const styles = StyleSheet.create({
     margin:10,
   },
   image: {
-    flex: 1,
-    aspectRatio: 1 / 1,
-    resizeMode: 'contain',
+
+    height:100,
+    width:100,
     borderRadius: 80,
     borderWidth: 1,
  
