@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 
-//Email Textfield for sign in
+//Login Textfield for sign in
 const LoginTextField = (props) => {
   const { viewContainer, textInput } = styles;
   return (
@@ -15,7 +15,7 @@ const LoginTextField = (props) => {
   );
 };
 
-//Style for Email Textfield
+//Style for Login Textfield
 const styles = StyleSheet.create({
   viewContainer: {
     backgroundColor: '#ffffff',

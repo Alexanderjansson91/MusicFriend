@@ -8,55 +8,43 @@ import AppLoading from 'expo-app-loading';
 import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
 
 
-
-//Header View
+//Header View for the feed with an collpase include searchbar
 const HeaderFeed = (props) => {
-
-    const { logoContainer, viewContainer } = styles;
-
-    let [fontsLoaded] = useFonts({
-      Inter_900Black,
-    });
-  
-    if (!fontsLoaded) {
-      return <AppLoading />;
-    }  
-  
-
+  const { logoContainer, viewContainer } = styles;
+  let [fontsLoaded] = useFonts({
+    Inter_900Black,
+  });
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
   return (
     <View style={viewContainer}>
       <View style={styles.parent}>
         <Text style={logoContainer}>{props.headerText}</Text>
         <TouchableOpacity style={styles.profilContainer} onPress={props.click}>
-
-          <Collapse >
-                   <CollapseHeader>
-                            <View style={styles.collapseContainer}>
-
-                            <Icon
-                            style={styles.iconStyles}
-              name={props.icon}
-             
-            />
-                </View>
-                        </CollapseHeader>
-                        <CollapseBody >
-                            <Collapse >
-                        <CollapseHeader>
-                        <TextInput
-                        style={styles.searchBar}
-                        round
-                        placeholderTextColor="#000000"
-                        searchIcon={{ size: 24 }}
-                        placeholder="Sök län"
-                        value={props.search}
-                        onChangeText={props.searchFunction}
-                        onClear={props.clear}
-                        />
-                                </CollapseHeader>
-                            </Collapse>
-                        </CollapseBody>
-                    </Collapse>
+          <Collapse>
+            <CollapseHeader>
+              <View style={styles.collapseContainer}>
+                <Icon style={styles.iconStyles} name={props.icon} />
+              </View>
+            </CollapseHeader>
+            <CollapseBody>
+              <Collapse>
+                <CollapseHeader>
+                  <TextInput
+                    style={styles.searchBar}
+                    round
+                    placeholderTextColor="#000000"
+                    searchIcon={{ size: 24 }}
+                    placeholder="Sök län"
+                    value={props.search}
+                    onChangeText={props.searchFunction}
+                    onClear={props.clear}
+                  />
+                </CollapseHeader>
+              </Collapse>
+            </CollapseBody>
+          </Collapse>
         </TouchableOpacity>
       </View>
     </View>
@@ -68,34 +56,32 @@ const styles = StyleSheet.create({
   viewContainer: {
     backgroundColor: '#ffffff',
     height: 120,
-    borderStyle:'solid',
-    borderColor:'#000000',
-    borderBottomWidth:1
+    borderStyle: 'solid',
+    borderColor: '#000000',
+    borderBottomWidth: 1,
   },
-  collapseContainer:{
-      position:'relative',
-      right:0,
-
-},
-collapse:{
-    width:300,
-},
-searchBar:{
-width:150,
-backgroundColor:'#ffffff',
-borderColor:'#10DDE5',
-borderStyle:'solid',
-borderBottomWidth:2,
-marginTop:1,
-color:'#000000',
-height:20,
-},
+  collapseContainer: {
+    position: 'relative',
+    right: 0,
+  },
+  collapse: {
+    width: 300,
+  },
+  searchBar: {
+    width: 150,
+    backgroundColor:'#ffffff',
+    borderColor:'#10DDE5',
+    borderStyle:'solid',
+    borderBottomWidth: 2,
+    marginTop: 1,
+    color:'#000000',
+    height: 20,
+  },
   iconStyles: {
     fontSize: 26,
-    marginTop: 10, 
- 
+    marginTop: 10,
     color:"#000000",
-    zIndex:999,
+    zIndex: 999,
   },
   logoContainer: {
     fontSize: 30,
@@ -119,8 +105,8 @@ height:20,
     flex: 1,
     flexDirection: 'row',
   },
-  collapseText:{
-      color:"#ffffff",
+  collapseText: {
+    color: "#ffffff",
   },
 });
 

@@ -9,18 +9,17 @@ const CommentsCard = (props) => {
     <View style={viewContainer}>
       <View style={styles.space} />
       <View style={styles.parent}>
-      <TouchableOpacity onPress={props.click} >
-            <View>
-              <Text style={styles.textButton}>{props.textName}</Text>
-              <MatetrialCommunityIcons
-                name={props.icon}
-                style={styles.iconStyle}
-              />
-            </View>
-          </TouchableOpacity>
+        <TouchableOpacity onPress={props.click}>
+          <View>
+            <Text style={styles.textButton}>{props.textName}</Text>
+            <MatetrialCommunityIcons
+              name={props.icon}
+              style={styles.iconStyle}
+            />
+          </View>
+        </TouchableOpacity>
         <Text style={infoText}>{props.commentText}</Text>
-        <View style={styles.parent}>
-        </View>
+        <View style={styles.parent}></View>
       </View>
     </View>
   );

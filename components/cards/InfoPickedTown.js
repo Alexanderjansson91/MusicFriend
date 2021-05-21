@@ -4,8 +4,8 @@ import MatetrialCommunityIcons from 'react-native-vector-icons/MaterialCommunity
 import Icon from 'react-native-vector-icons/Ionicons';
 
 
-//Contact card for companys, used on Login page
-const MusicInfoCard = (props) => {
+//Card display wich town you select from the picker
+const InfoPickedTown = (props) => {
   const { viewContainer, infoText } = styles;
   return (
     <View style={viewContainer}>
@@ -13,7 +13,7 @@ const MusicInfoCard = (props) => {
       <View style={styles.parent}>
         <Text style={infoText}>Område:</Text>
         <View style={styles.parent}>
-        <Text style={infoText}>{props.cityText}</Text>
+          <Text style={infoText}>{props.cityText}</Text>
         </View>
       </View>
     </View>
@@ -26,11 +26,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     height: 40,
     bottom: 0,
-    marginBottom: 40,
-    marginLeft:10,
+    marginBottom: 10,
+    marginLeft: 10,
     justifyContent: 'center',
     alignSelf: 'center',
-    
   },
 
   space: {
@@ -40,8 +39,7 @@ const styles = StyleSheet.create({
     color: '#000000',
     fontSize: 25,
     marginLeft: 10,
-    marginTop:-2
-    
+    marginTop: -2,
   },
   textButton: {
     color: '#10DDE5',
@@ -65,4 +63,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MusicInfoCard;
+export default InfoPickedTown;

@@ -20,13 +20,12 @@ const SendNewPasswordButton = (props) => {
 //Styles for my header
 const styles = StyleSheet.create({
   viewContainer: {
-    marginBottom:40,
-
+    marginBottom: 40,
   },
   buttonContainer: {
     height: 30,
     width: 300,
-    padding:30,
+    padding: 30,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

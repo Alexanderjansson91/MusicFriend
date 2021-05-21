@@ -10,15 +10,15 @@ require('firebase/firestore');
 
 import { SearchBar } from 'react-native-elements';
 
-
+//Function and view thier users can search users
 function Search(props) {
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const { allUsers, setallUsers } = props;
 
   const [filteredDataSource, setFilteredDataSource] = useState(allUsers);
   const [masterDataSource, setMasterDataSource] = useState(allUsers);
 
-  //The function for the playground screen
+  //Search function how filter the flatlist by their name
   const searchFilterFunction = (text) => {
     if (text) {
       const newData = masterDataSource.filter(function (item) {
@@ -36,44 +36,46 @@ function Search(props) {
     }
   };
 
+  //Serach View
   return (
     <View style={styles.viewContainer}>
-
       <SearchField
         placeHolder="Sök personer"
         onChange={(text) => searchFilterFunction(text)}
-        Clear={(text) => searchFilterFunction('')}
+        Clear={(text) => searchFilterFunction("")}
         placeholder="Sök personer"
         searchValue={search}
       />
 
       <FlatList
-        columnWrapperStyle={{ justifyContent: 'space-between' }}
+        columnWrapperStyle={{ justifyContent: "space-between" }}
         numColumns={2}
         horizontal={false}
         data={filteredDataSource}
         renderItem={({ item }) => (
           <View style={styles.containerImage}>
             <CachedImage
-              style={styles.ImageStyle}
+              style={styles.imageStyle}
               source={{
                 uri: item.image,
               }}
             />
             <SearchResultButton
-              click={() => props.navigation.navigate("Profile", { uid: item.id })}
+              click={() =>
+                props.navigation.navigate("Profile", { uid: item.id })
+              }
               textButton={item.name}
             />
           </View>
         )}
       />
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   viewContainer: {
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
     height: "100%",
   },
   containerInfo: {
@@ -86,19 +88,17 @@ const styles = StyleSheet.create({
     margin: 10,
     borderColor: "#000000"
   },
-  ImageStyle: {
-    backgroundColor: '#ffffff',
+  imageStyle: {
+    backgroundColor: "#ffffff",
     height: 50,
     width: 50,
-    borderStyle: "solid",
     borderWidth: 1,
     borderRadius: 50,
-    justifyContent: 'center',
-    alignSelf: 'center',
+    justifyContent: "center",
+    alignSelf: "center",
     marginTop: 20,
   },
 });
-
 
 const mapStateToProps = (store) => ({
   allUsers: store.userState.allUsers,
@@ -107,5 +107,5 @@ const mapStateToProps = (store) => ({
   users: store.usersState.users,
   userFollowingLoaded: store.usersState.userFollowingLoaded,
   allPosts: store.userState.allPosts,
-})
+});
 export default connect(mapStateToProps, null)(Search);

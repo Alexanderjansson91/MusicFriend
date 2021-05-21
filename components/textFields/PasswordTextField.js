@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 
-//Email Textfield for sign in
+//Password Textfield for sign in
 const PasswordTextField = (props) => {
   const { viewContainer, textInput } = styles;
   return (

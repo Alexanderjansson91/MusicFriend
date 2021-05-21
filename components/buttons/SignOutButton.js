@@ -14,10 +14,7 @@ const SignOutButton = (props) => {
         <View style={styles.parent}>
           <TouchableOpacity onPress={props.click}>
             <View>
-              <Icon
-                name={props.signOutIcon}
-                style={styles.iconStyle}
-              />
+              <Icon name={props.signOutIcon} style={styles.iconStyle} />
             </View>
           </TouchableOpacity>
         </View>
@@ -33,9 +30,8 @@ const styles = StyleSheet.create({
     height: 40,
     bottom: 0,
     marginBottom: 20,
-    marginRight:10
+    marginRight: 10,
   },
-
   space: {
     marginTop: 20,
   },
@@ -43,8 +39,7 @@ const styles = StyleSheet.create({
     color: '#000000',
     fontSize: 25,
     marginLeft: 10,
-    marginTop:-2
-    
+    marginTop: -2,
   },
   textButton: {
     color: '#10DDE5',

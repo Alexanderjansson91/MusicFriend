@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 
-//Email Textfield for sign in
+//Searchfield Textfield for sign in
 const SearchField = (props) => {
   const { viewContainer, textInput } = styles;
   return (
@@ -12,13 +12,12 @@ const SearchField = (props) => {
         onClear={props.Clear}
         style={textInput}
         value={props.searchValue}
-
       />
     </View>
   );
 };
 
-//Style for Email Textfield
+//Style for Searchfield Textfield
 const styles = StyleSheet.create({
   viewContainer: {
     backgroundColor: '#ffffff',

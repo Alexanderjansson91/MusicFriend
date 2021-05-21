@@ -7,7 +7,11 @@ const LoginButton = (props) => {
   return (
     <View style={viewContainer}>
       <View style={parent}>
-        <TouchableOpacity style={styles.buttonContainer} onPress={props.click}>
+        <TouchableOpacity
+          testID="myButton"
+          style={styles.buttonContainer}
+          onPress={props.click}
+        >
           <View style={styles.buttonView}>
             <Text style={styles.textButton}>{props.textButton}</Text>
           </View>
@@ -20,15 +24,15 @@ const LoginButton = (props) => {
 //Styles for my header
 const styles = StyleSheet.create({
   viewContainer: {
-    marginTop:50,
-    marginBottom:40,
+    marginTop: 50,
+    marginBottom: 40,
   },
   buttonContainer: {
     height: 30,
     width: 300,
-    padding:30,
-    borderWidth:1,
-    borderRadius:20,
+    padding: 30,
+    borderWidth: 1,
+    borderRadius: 20,
     backgroundColor:'#000000',
     borderColor:'#000000',
     flexDirection: 'row',

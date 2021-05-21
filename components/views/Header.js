@@ -15,7 +15,7 @@ const Header = (props) => {
 
   if (!fontsLoaded) {
     return <AppLoading />;
-  }  
+  }
 
   return (
     <View style={viewContainer}>
@@ -23,11 +23,7 @@ const Header = (props) => {
         <Text style={logoContainer}>{props.headerText}</Text>
         <TouchableOpacity style={styles.profilContainer} onPress={props.click}>
           <View>
-            <Icon
-            style={styles.iconStyles}
-              name={props.icon}
-               
-            />
+            <Icon style={styles.iconStyles} name={props.icon} />
           </View>
         </TouchableOpacity>
       </View>
@@ -45,13 +41,10 @@ const styles = StyleSheet.create({
     borderBottomWidth:1
   },
   iconStyles: {
-   
     fontSize: 28,
-    marginTop: 10, 
- 
+    marginTop: 10,
     color:"#000000",
-    zIndex:999,
-    
+    zIndex: 999,
   },
   logoContainer: {
     fontSize: 30,

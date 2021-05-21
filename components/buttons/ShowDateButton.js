@@ -6,15 +6,12 @@ import Icon from 'react-native-vector-icons/Ionicons';
 const ShowDateButton = (props) => {
   const { viewContainer, parent } = styles;
   return (
-    <View style={viewContainer}>
+    <View>
       <View style={parent}>
         <TouchableOpacity style={styles.buttonContainer} onPress={props.click}>
           <View style={styles.buttonView}>
             <Text style={styles.textButton}>{props.textButton}</Text>
-            <Icon
-              name={props.iconDate}
-              size={16} color="#10DDE5" size={26} 
-            />
+            <Icon name={props.iconDate} color="#10DDE5" size={26} />
           </View>
         </TouchableOpacity>
       </View>
@@ -24,33 +21,29 @@ const ShowDateButton = (props) => {
 
 //Styles for my header
 const styles = StyleSheet.create({
-  viewContainer: {
-
-  },
   buttonContainer: {
-    padding:20,
-    width:'95%',  
+    padding: 20,
+    width: '95%',
     borderWidth:1,
-    borderStyle:'solid',
+    borderStyle: 'solid',
     justifyContent: 'center',
     alignSelf: 'center',
     flexDirection: 'row',
-    backgroundColor:"#000000",
-    marginTop:40,
+    backgroundColor: "#000000",
+    marginTop: 40,
   },
-  buttonView: { 
+  buttonView: {
     alignItems: 'center',
     alignSelf: 'center',
     justifyContent: 'center',
- 
     margin: -10,
-    flexDirection:'row'
+    flexDirection: 'row'
   },
   textButton: {
     color: '#10DDE5',
     fontWeight: '500',
     fontSize: 18,
-    marginRight:10,
+    marginRight: 10,
   },
 });
 

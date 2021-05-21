@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 
-//Email Textfield for sign in
+//Lostpassword Textfield for sign in
 const LostPasswordTextField = (props) => {
   const { viewContainer, textInput } = styles;
   return (
@@ -16,7 +16,7 @@ const LostPasswordTextField = (props) => {
   );
 };
 
-//Style for Email Textfield
+//Style for Lostpassword Textfield
 const styles = StyleSheet.create({
   viewContainer: {
     backgroundColor: '#ffffff',

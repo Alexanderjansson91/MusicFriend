@@ -16,6 +16,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+//Function how handle media player
 const MediaPlayer = (props) => {
 
   const [loading, setLoading] = useState(false);
@@ -26,12 +27,12 @@ const MediaPlayer = (props) => {
 
   const sound = React.useRef(new Audio.Sound());
   const [Status, SetStatus] = React.useState(false);
-  
+
   React.useEffect(() => {
-    
     return () => sound.current.unloadAsync();
   }, []);
-  
+
+  //Load the audio by props.
   const LoadAudio = async () => {
     const checkLoading = await sound.current.getStatusAsync();
     try {
@@ -46,79 +47,76 @@ const MediaPlayer = (props) => {
       console.log('Error in Loading Audio');
     }
   };
-  
-  
-    const PlayAudio = async () => {
-      try {
-        const result = await sound.current.getStatusAsync();
-        if (result.isLoaded) {
-          if (result.isPlaying === false) {
-            sound.current.playAsync();
-            SetStatus(true);
-          }
-        } else {
-          LoadAudio();
+
+  //Play the Music..
+  const PlayAudio = async () => {
+    try {
+      const result = await sound.current.getStatusAsync();
+      if (result.isLoaded) {
+        if (result.isPlaying === false) {
+          sound.current.playAsync();
+          SetStatus(true);
         }
-      } catch (error) {
-        SetStatus(false);
+      } else {
+        LoadAudio();
       }
-    };
-  
-    const PauseAudio = async () => {
-      try {
-        const result = await sound.current.getStatusAsync();
-        if (result.isLoaded) {
-          if (result.isPlaying === true) {
-            sound.current.pauseAsync();
-            SetStatus(false);
-          }
-        }
-      } catch (error) {
-        SetStatus(false);
-      }
-    };
-
-
-
-  const startLoading = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
+    } catch (error) {
+      SetStatus(false);
+    }
   };
 
+  //Pause the Music..
+  const PauseAudio = async () => {
+    try {
+      const result = await sound.current.getStatusAsync();
+      if (result.isLoaded) {
+        if (result.isPlaying === true) {
+          sound.current.pauseAsync();
+          SetStatus(false);
+        }
+      }
+    } catch (error) {
+      SetStatus(false);
+    }
+  };
+
+  //Mediaplayer View
   return (
     <View style={styles.container}>
-      
       <View style={styles.parent}>
-      <Text>{props.songTitle}</Text>
-    
-      <TouchableOpacity onPress={() => PlayAudio()}>
-      
+        <Text style={styles.songTitleText}>{props.songTitle}</Text>
+        <View style={styles.rightView}>
+          <TouchableOpacity
+            style={styles.buttonContainer}
+            onPress={() => PlayAudio()}
+          >
             <View>
               <Icon
                 name={props.playMusic}
                 style={styles.iconStyle}
-                size={16} color="#10DDE5" size={26} 
+                size={26}
+                color="#10DDE5"
               />
             </View>
-        </TouchableOpacity>
-       
-        <TouchableOpacity onPress={() => PauseAudio()}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.buttonContainer}
+            onPress={() => PauseAudio()}
+          >
             <View>
               <Icon
                 name={props.pauseMusic}
                 style={styles.iconStyle}
-                size={16} color="#10DDE5" size={26} 
+                size={26}
+                color="#10DDE5"
               />
             </View>
-        </TouchableOpacity>
-        
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
 };
-
 
 //Access the store states from redux
 const mapStateToProps = (store) => ({
@@ -128,32 +126,31 @@ const mapStateToProps = (store) => ({
 
 export default connect(mapStateToProps, null)(MediaPlayer);
 
-
-
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
   },
   stopButton: {
-    marginTop:10,
-  },
-  musicButton:{
-
+    marginTop: 10,
   },
   parent: {
     flexDirection: 'row',
   },
+  songTitleText: {
+    marginTop: 5,
+  },
+  rightView: {
+    position: 'absolute',
+    right: 0,
+    flexDirection: 'row',
+  },
   container: {
     height: 30,
-    width: 200,
-    flexDirection: 'row',
     borderStyle: 'solid',
     borderRadius: 30,
     borderColor: 'white',
-    marginLeft:20,
-    margin:13,
-    
- 
+    marginLeft: 20,
+    margin: 13,
   },
   spinnerTextStyle: {
     color: '#ffffff',
@@ -167,9 +164,7 @@ const styles = StyleSheet.create({
   },
   iconStyles: {
     fontSize: 25,
-    
     color: '#EFA600',
-
   },
   textButton: {
     color: 'white',
@@ -178,4 +173,3 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 });
-

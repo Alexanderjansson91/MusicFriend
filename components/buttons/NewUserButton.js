@@ -25,10 +25,10 @@ const styles = StyleSheet.create({
   buttonContainer: {
     height: 70,
     width: 300,
-    padding:30,
-    borderBottomEndRadius:10,
-    borderTopStartRadius:10,
-    marginBottom:40,
+    padding: 30,
+    borderBottomEndRadius: 10,
+    borderTopStartRadius: 10,
+    marginBottom: 40,
     backgroundColor:'#000000',
     flexDirection: 'row',
     justifyContent: 'center',
@@ -40,13 +40,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 180,
     margin: -10,
-    
   },
   textButton: {
     color: '#10DDE5',
     fontWeight: '500',
     fontSize: 18,
-      
   },
 });
 

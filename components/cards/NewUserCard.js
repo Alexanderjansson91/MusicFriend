@@ -2,15 +2,15 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import MatetrialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-//Contact card for companys, used on Login page
+//Card for the new user
 const NewUserCard = (props) => {
   const { viewContainer, infoText } = styles;
   return (
     <View style={viewContainer}>
       <View style={styles.space} />
       <View style={styles.bottomView}>
-      <View style={styles.parent}>
-        <Text style={infoText}>{props.readMoreText}</Text>
+        <View style={styles.parent}>
+          <Text style={infoText}>{props.readMoreText}</Text>
           <TouchableOpacity onPress={props.click}>
             <View>
               <Text style={styles.textButton}>{props.textInfo}</Text>
@@ -20,7 +20,7 @@ const NewUserCard = (props) => {
               />
             </View>
           </TouchableOpacity>
-      </View>
+        </View>
       </View>
     </View>
   );
@@ -36,8 +36,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   bottomView: {
-    
-  
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute', //Here is the trick
@@ -71,7 +69,6 @@ const styles = StyleSheet.create({
   },
   parent: {
     flexDirection: 'row',
-  
   },
 });
 

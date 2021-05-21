@@ -7,46 +7,41 @@ import Icon from 'react-native-vector-icons/Ionicons';
 const AddNewSongCard = (props) => {
   const { viewContainer, textInput } = styles;
 
-  
   return (
     <View style={viewContainer}>
       <View>
-      <TextInput
-        placeholder={props.placeHolder}
-        onChangeText={props.onChange}
-        onClear={props.Clear}
-        style={textInput}
-        value={props.searchValue}
-      />
+        <TextInput
+          placeholder={props.placeHolder}
+          onChangeText={props.onChange}
+          onClear={props.Clear}
+          style={textInput}
+          value={props.searchValue}
+        />
       </View>
-      <View >
-      <TouchableOpacity style={styles.pickSongButton} onPress={props.pickClick}>
-            <View style={styles.pickSongView}>
+      <View>
+        <TouchableOpacity
+          style={styles.pickSongButton}
+          onPress={props.pickClick}
+        >
+          <View style={styles.pickSongView}>
             <Text style={styles.pickNewSong}>{props.pickNewSongText}</Text>
-              <Icon
-                name={props.iconPickMusic}
-                style={styles.iconStyle}
-              />
-            </View>
-            
-          </TouchableOpacity>
+            <Icon name={props.iconPickMusic} style={styles.iconStyle} />
           </View>
-          <Text>{props.songUrl}</Text>
-         
-          <View style={styles.saveSong}>
-        <TouchableOpacity style={styles.saveSongButton} onPress={props.saveClick}>
-        <View style={styles.saveSongView}>
+        </TouchableOpacity>
+      </View>
+      <Text>{props.songUrl}</Text>
+      <View style={styles.saveSong}>
+        <TouchableOpacity
+          style={styles.saveSongButton}
+          onPress={props.saveClick}
+        >
+          <View style={styles.saveSongView}>
             <Text style={styles.saveNewSong}>{props.saveNewSongText}</Text>
-              <Icon
-                name={props.iconsaveMusic}
-                style={styles.iconStyle}
-              />
-            </View>
-            
-          </TouchableOpacity>
+            <Icon name={props.iconsaveMusic} style={styles.iconStyle} />
           </View>
+        </TouchableOpacity>
+      </View>
     </View>
-    
   );
 };
 
@@ -54,56 +49,54 @@ const AddNewSongCard = (props) => {
 const styles = StyleSheet.create({
   viewContainer: {
     backgroundColor: '#ffffff',
-    height:'100%',   
+    height: '100%',
     width: '100%',
   },
-  pickSongButton:{
+  pickSongButton: {
     flexDirection:'row',
     alignSelf: 'center',
-    textAlign:'center',
-    marginTop:50,
-    bottom:0,
-    position:'relative'
+    textAlign: 'center',
+    marginTop: 50,
+    bottom: 0,
+    position: 'relative',
   },
-  pickSongView:{
+  pickSongView: {
     flexDirection:'row',
-
   },
-  saveSongView:{
-    flexDirection:'row',
-    
-    textAlign:'center',
-    borderStyle:'solid',
-    borderWidth:1,
-    borderRadius:20,
-    backgroundColor:'#000000',
-    padding:13,
-    paddingLeft:100,
-    paddingRight:100,
+  saveSongView: {
+    flexDirection: 'row',
+    textAlign: 'center',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderRadius: 20,
+    backgroundColor: '#000000',
+    padding: 13,
+    paddingLeft: 100,
+    paddingRight: 100,
   },
-  saveSong:{
-    bottom:0,
-    position:'absolute',
+  saveSong: {
+    bottom: 0,
+    position: 'absolute',
     alignSelf: 'center',
-    textAlign:'center',
-    marginBottom:30
+    textAlign: 'center',
+    marginBottom: 30,
   },
-  pickNewSong:{
-    fontSize:25
+  pickNewSong: {
+    fontSize: 25,
   },
-  iconStyle:{
-    fontSize:25,
-    color:'#10DDE5',
+  iconStyle: {
+    fontSize: 25,
+    color: '#10DDE5',
   },
   saveSongButton:{
     alignSelf: 'center',
-    textAlign:'center',
-      flexDirection:'row',
+    textAlign: 'center',
+    flexDirection: 'row',
   },
   saveNewSong:{
-    color:'#10DDE5',
-    fontSize:20,
-    marginRight:10,
+    color: '#10DDE5',
+    fontSize: 20,
+    marginRight: 10,
   },
   textInput: {
     paddingTop: 6,
@@ -116,8 +109,8 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderBottomWidth: 1,
     borderColor: '#10DDE5',
-    width:'80%',
-    marginTop:50,
+    width: '80%',
+    marginTop: 50,
     alignSelf: 'center',
   },
 });

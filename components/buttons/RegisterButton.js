@@ -20,22 +20,21 @@ const RegisterButton = (props) => {
 //Styles for my header
 const styles = StyleSheet.create({
   viewContainer: {
-    marginTop:50,
-    marginBottom:30,
+    marginTop: 50,
+    marginBottom: 30,
   },
   buttonContainer: {
     height: 30,
     width: 300,
-    padding:30,
-    borderWidth:1,
-    borderRadius:20,
+    padding: 30,
+    borderWidth: 1,
+    borderRadius: 20,
     backgroundColor:'#000000',
     borderColor:'#000000',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    
   },
   buttonView: {
     alignItems: 'center',
