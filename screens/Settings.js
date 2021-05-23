@@ -1,10 +1,10 @@
 import React, { useState } from "react"
-import { StyleSheet, View, Alert } from "react-native";
+import { StyleSheet, View, Alert, TouchableWithoutFeedback } from "react-native";
 import SettingsCard from '../components/cards/SettingsCard'
 import firebase from "firebase"
 import { connect } from "react-redux";
 import * as ImagePicker from "expo-image-picker";
-
+import { Keyboard } from "react-native";
 require("firebase/firestore");
 
 function Settings(props) {
@@ -13,6 +13,7 @@ function Settings(props) {
   const [image, setImage] = useState(props.currentUser.image);
   const [imageChanged, setImageChanged] = useState(false);
 
+  //Pick image function and set picked image result (URI)
   const pickImage = async () => {
     if (true) {
       let result = await ImagePicker.launchImageLibraryAsync({
@@ -28,6 +29,7 @@ function Settings(props) {
     }
   };
 
+  //Save current user settings
   const Save = async () => {
     if (imageChanged) {
       const uri = image;
@@ -51,7 +53,7 @@ function Settings(props) {
               image: snapshot,
             })
             .then(() => {
-              props.navigation.push("BackToProfile", { uid: firebase.auth().currentUser.uid })
+              Alert.alert("Profil ändrad");
             });
         });
       };
@@ -60,7 +62,7 @@ function Settings(props) {
         console.log(snapshot);
       };
       task.on("state_changed", taskProgress, taskError, taskCompleted);
-      //Save the data if you just save description
+      //Save the description data
     } else {
       saveData({
         description,
@@ -68,7 +70,7 @@ function Settings(props) {
     }
   };
 
-  //Save data navigate back to the profile.
+  //Save data and display an alert with an message
   const saveData = (data) => {
     firebase
       .firestore()
@@ -76,11 +78,11 @@ function Settings(props) {
       .doc(firebase.auth().currentUser.uid)
       .update(data)
       .then(function () {
-        props.navigation.push("BackToProfile", { uid: firebase.auth().currentUser.uid })
+        Alert.alert("profil ändrad");
       });
   };
 
-  //Reset password for currentUser adn display an alert
+  //Reset password for currentUser and display an alert
   const forgotPassword = () => {
     var user = firebase.auth().currentUser.email;
     firebase
@@ -94,28 +96,31 @@ function Settings(props) {
       });
   };
 
+  //View for the Settingsscreen
   return (
-    <View style={styles.container}>
-      <SettingsCard
-        profileImage={currentUser.image}
-        iconImage="image-outline"
-        iconProilImage="image-outline"
-        pickImageClick={() => pickImage()}
-        pickImageText="Ändra profilbild "
-        iconPickImage="image-outline"
-        placeDescriptionHolder="Skriv en beskrivning om dig själv"
-        onChange={(description) => {
-          setDescription(description);
-          console.log(description)}}
-        inputValue={description}
-        resetPasswordText="Återställ lösenord"
-        resetPasswordClick={() => forgotPassword()}
-        iconResetPassword="lock-closed-outline"
-        saveClick={() => Save()}
-        saveProfileText="Spara"
-        iconSaveProfile="bookmark-outline"
-      />
-    </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <View style={styles.container}>
+        <SettingsCard
+          profileImage={currentUser.image}
+          iconImage="image-outline"
+          iconProilImage="image-outline"
+          pickImageClick={() => pickImage()}
+          pickImageText="Ändra profilbild "
+          iconPickImage="image-outline"
+          placeDescriptionHolder="Skriv en beskrivning om dig själv"
+          onChange={(description) => {
+            setDescription(description);
+            console.log(description)}}
+          inputValue={description}
+          resetPasswordText="Återställ lösenord"
+          resetPasswordClick={() => forgotPassword()}
+          iconResetPassword="lock-closed-outline"
+          saveClick={() => Save()}
+          saveProfileText="Spara"
+          iconSaveProfile="bookmark-outline"
+        />
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 //Style for the view

@@ -4,7 +4,7 @@ import MatetrialCommunityIcons from 'react-native-vector-icons/MaterialCommunity
 import Icon from 'react-native-vector-icons/Ionicons';
 
 
-//Contact card for companys, used on Login page
+//Music info with add button
 const MusicInfoCard = (props) => {
   const { viewContainer, infoText } = styles;
   return (

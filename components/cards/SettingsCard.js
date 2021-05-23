@@ -4,7 +4,7 @@ import { patchWebProps } from 'react-native-elements/dist/helpers';
 import CachedImage from 'react-native-expo-cached-image';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-//Style for the Settingscard
+//View for the Settingscard
 const AddNewSongCard = (props) => {
   const { viewContainer, textInput, imageView } = styles;
   let numOfLinesCompany = 0;
@@ -16,23 +16,23 @@ const AddNewSongCard = (props) => {
           source={{uri: props.profileImage}}
         />
       </View>
-      <View>
+      <View style={styles.styleInputView}>
         <TouchableOpacity
-          style={styles.pickSongButton}
+          style={styles.styleButton}
           onPress={props.pickImageClick}
         >
-          <View style={styles.pickSongView}>
-            <Text style={styles.pickNewSong}>{props.pickImageText}</Text>
+          <View style={styles.styleView}>
             <Icon name={props.iconPickImage} style={styles.iconStyle} />
+            <Text style={styles.textStyle}>{props.pickImageText}</Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.pickSongButton}
+          style={styles.styleButton}
           onPress={props.resetPasswordClick}
         >
-          <View style={styles.pickSongView}>
-            <Text style={styles.pickNewSong}>{props.resetPasswordText}</Text>
+          <View style={styles.styleView}>
             <Icon name={props.iconResetPassword} style={styles.iconStyle} />
+            <Text style={styles.textStyle}>{props.resetPasswordText}</Text>
           </View>
         </TouchableOpacity>
         <TextInput
@@ -41,19 +41,18 @@ const AddNewSongCard = (props) => {
           onClear={props.Clear}
           style={textInput}
           value={props.inputValue}
-          numberOfLines={numOfLinesCompany}
-          onContentSizeChange={(e) => {
-            numOfLinesCompany = e.nativeEvent.contentSize.height / 18;
-          }}
+          numberOfLines={5}
+          multiline={true}
+          maxLength={200}
         />
       </View>
-      <View style={styles.saveSong}>
+      <View style={styles.saveSettings}>
         <TouchableOpacity
-          style={styles.saveSongButton}
+          style={styles.saveSettingsButton}
           onPress={props.saveClick}
         >
-          <View style={styles.saveSongView}>
-            <Text style={styles.saveNewSong}>{props.saveProfileText}</Text>
+          <View style={styles.saveSettingsView}>
+            <Text style={styles.saveText}>{props.saveProfileText}</Text>
             <Icon name={props.iconSaveProfile} style={styles.iconStyle} />
           </View>
         </TouchableOpacity>
@@ -69,15 +68,20 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
   },
-  pickSongButton: {
+  styleInputView:{
+    width:"100%"
+  },
+  styleButton: {
     flexDirection: 'row',
-    alignSelf: 'center',
-    textAlign: 'center',
+    marginLeft: 10,
+    marginRight: 10,
+    borderBottomWidth:1,
+    borderColor:"lightgrey",
     marginTop: 50,
     bottom: 0,
     position: 'relative',
   },
-  pickSongView: {
+  styleView: {
     flexDirection: 'row',
   },
   ImageStyle: {
@@ -92,7 +96,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 50,
   },
-  saveSongView: {
+  saveSettingsView: {
     flexDirection: 'row',
     textAlign: 'center',
     borderStyle: 'solid',
@@ -103,26 +107,28 @@ const styles = StyleSheet.create({
     paddingLeft: 100,
     paddingRight: 100,
   },
-  saveSong: {
+  saveSettings: {
     bottom: 0,
     position: 'absolute',
     alignSelf: 'center',
     textAlign: 'center',
     marginBottom: 30,
   },
-  pickNewSong: {
-    fontSize: 25,
+  textStyle: {
+    fontSize: 20,
+    marginLeft: 10,
+    marginBottom: 5,
   },
   iconStyle: {
-    fontSize: 25,
+    fontSize: 20,
     color: '#10DDE5',
   },
-  saveSongButton: {
+  saveSettingsButton: {
     alignSelf: 'center',
     textAlign: 'center',
     flexDirection: 'row',
   },
-  saveNewSong: {
+  saveText: {
     color: '#10DDE5',
     fontSize: 20,
     marginRight: 10,
@@ -136,9 +142,10 @@ const styles = StyleSheet.create({
     fontSize: 17,
     borderStyle: 'solid',
     borderWidth: 1,
-    height: 100,
-    borderColor: '#10DDE5',
-    width: '80%',
+    borderRadius:20,
+    height: 120,
+    borderColor: 'lightgrey',
+    width: '95%',
     marginTop: 50,
     alignSelf: 'center',
   },

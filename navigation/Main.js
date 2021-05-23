@@ -10,7 +10,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { fetchUser, fetchUserPosts, fetchUserFollowing, clearData, fetchUserSongs,fetchAllUsers, fetchUsers  } from '../redux/actions/index'
+import { fetchUser, fetchUserPosts, clearData, fetchUserSongs,fetchAllUsers, fetchUsers  } from '../redux/actions/index'
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -18,11 +18,11 @@ const EmptyScreen = () => {
   return null;
 };
 
+//Tab navigation component
 export class Main extends Component {
   componentDidMount() {
     this.props.fetchUser();
     this.props.fetchUserPosts();
-    this.props.fetchUserFollowing();
     this.props.clearData();
     this.props.fetchUserSongs();
     this.props.fetchAllUsers();
@@ -89,10 +89,22 @@ export class Main extends Component {
     );
   }
 }
+
+//Access the store states from redux
 const mapStateToProps = (store) => ({
   currentUser: store.userState.currentUser,
 });
 
-const mapDispatchProps = (dispatch) => bindActionCreators({ fetchUser, fetchUserPosts, fetchUserFollowing, clearData, fetchUserSongs, fetchAllUsers, fetchUsers }, dispatch);
+//Bind the components to redux
+const mapDispatchProps = (dispatch) =>
+  bindActionCreators(
+    {
+      fetchUser,
+      fetchUserPosts,
+      clearData,
+      fetchUserSongs,
+      fetchAllUsers,
+      fetchUsers,
+    }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchProps)(Main);

@@ -3,9 +3,17 @@ import { StyleSheet, TextInput, View, TouchableOpacity, Text, ActivityIndicator 
 import { patchWebProps } from 'react-native-elements/dist/helpers';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-//Email Textfield for sign in
+//Card for add new song
 const AddNewSongCard = (props) => {
   const { viewContainer, textInput } = styles;
+  const [loading, setLoading] = useState(false);
+
+  const startLoading = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 6000);
+  };
 
   return (
     <View style={viewContainer}>
@@ -29,17 +37,30 @@ const AddNewSongCard = (props) => {
           </View>
         </TouchableOpacity>
       </View>
-      <Text>{props.songUrl}</Text>
+      <View style={styles.songUrlViewStatus}>
+        <Text style={styles.songUrlStatus}>{props.songUrl}</Text>
+      </View>
       <View style={styles.saveSong}>
-        <TouchableOpacity
-          style={styles.saveSongButton}
-          onPress={props.saveClick}
-        >
-          <View style={styles.saveSongView}>
-            <Text style={styles.saveNewSong}>{props.saveNewSongText}</Text>
-            <Icon name={props.iconsaveMusic} style={styles.iconStyle} />
-          </View>
-        </TouchableOpacity>
+        {loading ? (
+          <ActivityIndicator
+            //visibility of Overlay Loading Spinner
+            visible={loading}
+            //Text with the Spinner
+            textContent={'Laddar upp...'}
+            //Text style of the Spinner Text
+            textStyle={styles.spinnerTextStyle}
+          />
+        ) : (
+          <TouchableOpacity
+            style={styles.saveSongButton}
+            onPress= {() =>{startLoading(); props.saveClick(); }}
+          >
+            <View style={styles.saveSongView}>
+              <Text style={styles.saveNewSong}>{props.saveNewSongText}</Text>
+              <Icon name={props.iconsaveMusic} style={styles.iconStyle} />
+            </View>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
@@ -51,6 +72,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     height: '100%',
     width: '100%',
+  },
+  spinnerTextStyle:{
+    color: '#10DDE5',
   },
   pickSongButton: {
     flexDirection:'row',
@@ -83,6 +107,13 @@ const styles = StyleSheet.create({
   },
   pickNewSong: {
     fontSize: 25,
+  },
+  songUrlStatus: {
+    fontSize: 25,
+  },
+  songUrlViewStatus: {
+    marginTop: 50,
+    alignSelf: 'center'
   },
   iconStyle: {
     fontSize: 25,

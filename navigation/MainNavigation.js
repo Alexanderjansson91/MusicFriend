@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Text, View, ActivityIndicator } from "react-native";
 import React, { Component } from "react";
 import NetInfo from "@react-native-community/netinfo";
 
@@ -31,6 +31,7 @@ export class MainNavigation extends Component {
   }
 
   componentDidMount() {
+    //Check internet
     NetInfo.fetch().then((state) => {
       console.log("Connection type", state.type);
       console.log("Is connected?", state.isConnected);
@@ -50,6 +51,7 @@ export class MainNavigation extends Component {
     });
   }
 
+  //Function how signed out user
   signOutUser = async () => {
     try {
       await firebase.auth().signOut();
@@ -59,14 +61,16 @@ export class MainNavigation extends Component {
   };
 
   render() {
+    //Loading page with an ActivityIndicator
     const { loggedIn, loaded } = this.state;
     if (!loaded) {
       return (
       <View style={{ flex:1 , justifyContent: 'center' }}>
-          <Text>Loaded</Text>
+          <ActivityIndicator size="large" color="#10DDE5" />
         </View>
       );
     }
+    //Navigation stack app if user not is logged in
     if (!loggedIn) {
       return (
         <NavigationContainer>
@@ -90,6 +94,7 @@ export class MainNavigation extends Component {
         </NavigationContainer>
       );
     }
+    // the main Navigation stack för the app
     return (
       <Provider store={reduxStore}>
         <NavigationContainer>

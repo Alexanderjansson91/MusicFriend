@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
-//My read more button
+//New user button
 const NewUserButton = (props) => {
   const { viewContainer, parent } = styles;
   return (
@@ -17,7 +17,7 @@ const NewUserButton = (props) => {
   );
 };
 
-//Styles for my header
+//Styles for the button
 const styles = StyleSheet.create({
   viewContainer: {
     flex: 1,

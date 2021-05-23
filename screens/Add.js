@@ -24,7 +24,7 @@ export default function Add(props) {
 
   const createdAt = firebase.firestore.Timestamp.fromDate(new Date());
 
-  //fomrat date by using moment
+  //format date by using moment
   const formatDate = moment(createdAt.seconds).format("ll");
 
   //bubble sort the cities by the largest area
@@ -58,17 +58,16 @@ export default function Add(props) {
     setDatePickerVisibility(false);
   };
 
-  //handle the comfired picked date
+  //handle the confirmed picked date
   const handleConfirm = (date) => {
     const createdAt = firebase.firestore.Timestamp.fromDate(new Date());
     const formatDate = moment(date).format("ll");
-    console.warn("A date has been picked: ", formatDate);
 
-    setDateUpload(formatDate)
+    setDateUpload(formatDate);
     hideDatePicker();
   };
 
-  //Save the post with using firebase
+  //Save the post with to current user using firebase
   const savePostData = () => {
     firebase
       .firestore()
@@ -87,7 +86,7 @@ export default function Add(props) {
       });
   };
 
-  //UI View
+  //Add View
   return (
     <View style={styles.container}>
       <ShowDate

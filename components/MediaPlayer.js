@@ -5,26 +5,10 @@ import { Audio } from 'expo-av';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-//import all the components we are going to use
-import {
-  SafeAreaView,
-  Text,
-  View,
-  StyleSheet,
-  Button,
-  ActivityIndicator,
-  TouchableOpacity,
-} from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 
 //Function how handle media player
 const MediaPlayer = (props) => {
-
-  const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState(null);
-  const [userSongPosts, setSongs] = useState([]);
-  const { currentUser, songs } = props;
-  const [isPlaying, setIsPlaying] = useState(false);
-
   const sound = React.useRef(new Audio.Sound());
   const [Status, SetStatus] = React.useState(false);
 
@@ -37,7 +21,6 @@ const MediaPlayer = (props) => {
     const checkLoading = await sound.current.getStatusAsync();
     try {
       const result = await sound.current.loadAsync({ uri: props.songURL }, {}, true);
-      // Here Song is the uri of the Audio file
       if (result.isLoaded === false) {
         console.log('Error in Loading Audio');
       } else {
@@ -48,7 +31,7 @@ const MediaPlayer = (props) => {
     }
   };
 
-  //Play the Music..
+  //Play music function
   const PlayAudio = async () => {
     try {
       const result = await sound.current.getStatusAsync();
@@ -65,7 +48,7 @@ const MediaPlayer = (props) => {
     }
   };
 
-  //Pause the Music..
+  //Pause the Music if the sound isPlaying
   const PauseAudio = async () => {
     try {
       const result = await sound.current.getStatusAsync();
@@ -118,7 +101,7 @@ const MediaPlayer = (props) => {
   );
 };
 
-//Access the store states from redux
+//Access the states from the redux store
 const mapStateToProps = (store) => ({
   currentUser: store.userState.currentUser,
   songs: store.userState.songs,
@@ -126,6 +109,7 @@ const mapStateToProps = (store) => ({
 
 export default connect(mapStateToProps, null)(MediaPlayer);
 
+//Style for the view
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,

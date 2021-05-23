@@ -8,18 +8,19 @@ import { connect } from 'react-redux'
 import PostsCards from '../components/cards/PostsCard'
 
 
-function Feed(props, { navigation }) {
+function Feed(props) {
   const [posts, setPosts] = useState([]);
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [masterDataSource, setMasterDataSource] = useState([]);
   const [refreshing, setRefreshing] = React.useState(false);
 
+  //Wait function for the "onRefresh" function
   const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
 
-  //Serach filter how search through Citys
+  //Search filters that search through cities
   const searchFilterFunction = (text) => {
     if (text) {
       const newData = masterDataSource.filter(function (item) {
@@ -35,7 +36,7 @@ function Feed(props, { navigation }) {
     }
   };
 
-  //Connect users with the posts by the uid
+  //Connects the post to users and sets the result
   useEffect(() => {
     let posts = [];
     if (props.usersPostLoaded == props.allPosts.length) {
@@ -62,6 +63,7 @@ function Feed(props, { navigation }) {
     });
   }, [refreshing]);
 
+  //Fede view
   return (
     <View style={styles.container}>
       <View style={styles.containerGallery}>
@@ -71,6 +73,7 @@ function Feed(props, { navigation }) {
           search={search}
           searchFunction={(text) => searchFilterFunction(text)}
           clear={(text) => searchFilterFunction('')} />
+        {/* Flatlist how displays all the posts */}
         <FlatList
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -81,7 +84,7 @@ function Feed(props, { navigation }) {
           extraData={filteredDataSource}
           renderItem={({ item }) => (
             <View style={styles.containerImage}>
-              <PostsCards 
+              <PostsCards
                 textButtonProfile={item.user.name}
                 clickProfile={() => props.navigation.navigate("Profile", { uid: item.user.uid })}
                 iconProfile="person-outline"
@@ -120,9 +123,9 @@ const styles = StyleSheet.create({
   },
 });
 
+//Access the states from the store
 const mapStateToProps = (store) => ({
   currentUser: store.userState.currentUser,
-  following: store.userState.following,
   users: store.usersState.users,
   usersPostLoaded: store.usersState.usersPostLoaded,
   allPosts: store.userState.allPosts,

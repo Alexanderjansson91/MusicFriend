@@ -1,11 +1,11 @@
 import firebase, { firestore } from 'firebase';
 import moment from "moment";
 
-import { USER_POSTS_STATE_CHANGE, USER_STATE_CHANGE, CLEAR_DATA, USERS_FOLLOWING_STATE_CHANGE, USERS_DATA_STATE_CHANGE, USERS_POSTS_STATE_CHANGE, USERS_SONGS_STATE_CHANGE, USER_ALLPOSTS_STATE_CHANGE, USER_ALLUSERS_STATE_CHANGE } from '../constants/index'
+import { USER_POSTS_STATE_CHANGE, USER_STATE_CHANGE, CLEAR_DATA, USERS_DATA_STATE_CHANGE, USERS_POSTS_STATE_CHANGE, USERS_SONGS_STATE_CHANGE, USER_ALLPOSTS_STATE_CHANGE, USER_ALLUSERS_STATE_CHANGE } from '../constants/index'
 require('firebase/firestore')
 
 
-//Delete all user redux data
+//Delete all redux data
 export function clearData() {
   return (dispatch) => {
     dispatch({ type: CLEAR_DATA });
@@ -30,7 +30,7 @@ export function fetchUser() {
   };
 }
 
-//Fetch users posts from firebase
+//Fetch currentUser posts from firebase
 export function fetchUserPosts() {
   return (dispatch) => {
     firebase
@@ -51,24 +51,7 @@ export function fetchUserPosts() {
   };
 }
 
-export function fetchUserFollowing() {
-  return (dispatch) => {
-    firebase
-      .firestore()
-      .collection("following")
-      .doc(firebase.auth().currentUser.uid)
-      .collection("userFollowing")
-      .onSnapshot((snapshot) => {
-        let following = snapshot.docs.map((doc) => {
-          const id = doc.id;
-          return id;
-        });
-        dispatch({ type: USERS_FOLLOWING_STATE_CHANGE, following });
-      });
-  };
-}
-
-//Fetch users UID from firebase and bind and dispatch it with the posts.
+//Get the uid of the users data and disptach it with fetchUsersPosts
 export function fetchUsersData(uid, getPosts) {
   return (dispatch, getState) => {
     const found = getState().usersState.users.some((el) => el.uid === uid);
@@ -119,13 +102,12 @@ export function fetchUsersPosts(uid) {
             ...data,
           };
         });
-        //console.log(posts);
         dispatch({ type: USERS_POSTS_STATE_CHANGE, posts, uid });
       });
   };
 }
 
-//Ftech Users songs
+//fetch currentUser songs
 export function fetchUserSongs() {
   return (dispatch) => {
     firebase
@@ -146,7 +128,7 @@ export function fetchUserSongs() {
   };
 }
 
-//Fetch users data to bind it the posts and dispatch all posts
+//Fetch users data and bind it with the posts and dispatch all the posts
 export function fetchAllUsers() {
   return (dispatch) => {
     firebase

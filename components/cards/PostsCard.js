@@ -3,9 +3,9 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 
-//posts card
+//posts card View
 const PostsCard = (props) => {
-  const { container, topContainer, userInfoName, regionText, parent } = styles;
+  const { container, topContainer, regionText, parent } = styles;
   return (
     <View style={container}>
       <View style={topContainer}>

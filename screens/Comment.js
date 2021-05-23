@@ -15,7 +15,7 @@ function Comment(props) {
   const [postId, setPostId] = useState("");
   const [text, setText] = useState("");
 
-  //Match commnent with user
+  //Match comments with the creator of the comment
   useEffect(() => {
     function matchCommentToUser(comments) {
       for (let i = 0; i < comments.length; i++) {
@@ -32,7 +32,7 @@ function Comment(props) {
       setComments(comments);
     }
 
-    //Get all the commments from firestore
+    //Gets all the commments from firestore
     if (props.route.params.postId !== postId) {
       firebase
         .firestore()
@@ -56,7 +56,7 @@ function Comment(props) {
     }
   }, [props.route.params.postId, props.users]);
 
-  //Adding new comment to firestore
+  //Adding new comment to firestore with currentUser.uid
   const onCommentSend = () => {
     firebase
       .firestore()
@@ -80,7 +80,9 @@ function Comment(props) {
       <KeyboardAvoidingView
         keyboardVerticalOffset={Platform.select({ios: 90, android: 90})}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.keyboard}>
+        style={styles.keyboard}
+      >
+        {/* Flatlist how displays all the commments */}
         <FlatList
           numColumns={1}
           horizontal={false}
@@ -110,6 +112,7 @@ function Comment(props) {
   );
 }
 
+//Access the states from the store
 const mapStateToProps = (store) => ({
     users: store.usersState.users
 });
@@ -118,7 +121,7 @@ const mapDispatchProps = (dispatch) => bindActionCreators({ fetchUsersData }, di
 
 export default connect(mapStateToProps, mapDispatchProps)(Comment);
 
-//Style for card
+//Style for the view
 const styles = StyleSheet.create({
   viewContainer: {
     backgroundColor: '#ffffff',

@@ -39,7 +39,7 @@ export class Landing extends Component {
       });
   }
 
-  //Forgot password
+  //Forgot password function
   forgotPassword() {
     const { email } = this.state;
     firebase
@@ -53,7 +53,8 @@ export class Landing extends Component {
         console.log(error);
       });
   }
-  // View for Landring
+
+  // View for the Landing
   render() {
     const { navigate } = this.props.navigation;
     return (
@@ -103,9 +104,9 @@ export class Landing extends Component {
   }
 }
 
-export default Landing
+export default Landing;
 
-//Styles for my header
+//Styles for the view
 const styles = StyleSheet.create({
   viewContainer: {
     backgroundColor: '#ffffff',

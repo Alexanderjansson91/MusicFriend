@@ -11,6 +11,8 @@ import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
 //Header View for the feed with an collpase include searchbar
 const HeaderFeed = (props) => {
   const { logoContainer, viewContainer } = styles;
+
+  //google fonts
   let [fontsLoaded] = useFonts({
     Inter_900Black,
   });
@@ -51,7 +53,7 @@ const HeaderFeed = (props) => {
   );
 };
 
-//Style for header
+//Style for the header
 const styles = StyleSheet.create({
   viewContainer: {
     backgroundColor: '#ffffff',

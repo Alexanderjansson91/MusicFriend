@@ -10,7 +10,7 @@ require('firebase/firestore');
 
 import { SearchBar } from 'react-native-elements';
 
-//Function and view thier users can search users
+//Search function screen
 function Search(props) {
   const [search, setSearch] = useState("");
   const { allUsers, setallUsers } = props;
@@ -46,7 +46,7 @@ function Search(props) {
         placeholder="Sök personer"
         searchValue={search}
       />
-
+      {/* Flatlist how displays all the results and with navigtion to the user */}
       <FlatList
         columnWrapperStyle={{ justifyContent: "space-between" }}
         numColumns={2}
@@ -100,10 +100,10 @@ const styles = StyleSheet.create({
   },
 });
 
+//Access the states from the store
 const mapStateToProps = (store) => ({
   allUsers: store.userState.allUsers,
   currentUser: store.userState.currentUser,
-  following: store.userState.following,
   users: store.usersState.users,
   userFollowingLoaded: store.usersState.userFollowingLoaded,
   allPosts: store.userState.allPosts,

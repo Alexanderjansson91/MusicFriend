@@ -7,17 +7,17 @@ import {
   USER_ALLPOSTS_STATE_CHANGE,
   USER_ALLUSERS_STATE_CHANGE,
 } from '../constants';
-//Constructor
+
+//Constructor for my user reducer
 const initialState = {
   currentUser: null,
   posts: [],
-  following: [],
   allPosts: [],
   allUsers: [],
   songs: [],
 };
 
-//Updates the states that gets from the action
+//Updates the previous state
 export const user = (state = initialState, action) => {
   switch (action.type) {
     case USER_STATE_CHANGE:
@@ -39,11 +39,6 @@ export const user = (state = initialState, action) => {
       return {
         ...state,
         songs: action.userSongPosts,
-      };
-    case USERS_FOLLOWING_STATE_CHANGE:
-      return {
-        ...state,
-        following: action.following,
       };
     case USER_ALLUSERS_STATE_CHANGE:
       return {

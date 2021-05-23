@@ -1,4 +1,5 @@
-//Array of all the playgrounds in the app
+//Array of all the Cities in the picker when
+//a user add a new post
 export default [
   {
     title: 'Blekinge län',

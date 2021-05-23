@@ -9,10 +9,10 @@ import * as DocumentPicker from 'expo-document-picker';
 import { Audio } from 'expo-av';
 
 export default function AddSong(props) {
-  const [caption, setCaption] = useState("")
+  const [caption, setCaption] = useState("");
   const [sound, setSound] = React.useState();
 
-  //async handling for pick an Image from the gallery
+  //async handling for pick an song from the gallery
   const pickSound = async () => {
     let result = await DocumentPicker.getDocumentAsync(Audio);
     if (!result.cancelled) {
@@ -21,6 +21,7 @@ export default function AddSong(props) {
     }
   };
 
+  //Function how handling the uploading of the song and save it the firebase storage
   const uploadSound = async () => {
     const uri = sound;
     const childPath = `audio/${firebase.auth().currentUser.uid}/${Math.random().toString(36)}`;
@@ -30,13 +31,13 @@ export default function AddSong(props) {
     const blob = await response.blob();
 
     const task = firebase.storage().ref().child(childPath).put(blob);
-    const taskProgress = snapshot => {
+    const taskProgress = (snapshot) => {
       console.log(`transferred: ${snapshot.bytesTransferred}`);
     };
 
     const taskCompleted = () => {
       task.snapshot.ref.getDownloadURL().then((snapshot) => {
-        savePostData(snapshot);
+        saveSongData(snapshot);
         console.log(snapshot);
       });
     };
@@ -46,7 +47,8 @@ export default function AddSong(props) {
     task.on("state_changed", taskProgress, taskError, taskCompleted);
   };
 
-  const savePostData = (downloadURL) => {
+  //Save the song data to firestore
+  const saveSongData = (downloadURL) => {
     firebase
       .firestore()
       .collection('users')
@@ -62,6 +64,8 @@ export default function AddSong(props) {
         props.navigation.push("Feed");
       });
   };
+
+  //Addsong View
   return (
     <View style={styles.pickSongButtonr}>
       <AddNewSongCard
@@ -69,6 +73,7 @@ export default function AddSong(props) {
         onChange={(caption) => setCaption(caption)}
         pickNewSongText="Välj fil"
         iconPickMusic="document-outline"
+        songUrl={sound ? "Låten du valt är godkänd ✔" : "ingen fil vald"}
         iconsaveMusic="add-circle-outline"
         saveNewSongText="Ladda upp"
         pickClick={pickSound}
@@ -78,6 +83,7 @@ export default function AddSong(props) {
   );
 }
 
+//Style for the view
 const styles = StyleSheet.create({
   viewContainer: {
     backgroundColor: '#ffffff',

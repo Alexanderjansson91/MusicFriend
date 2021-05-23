@@ -12,16 +12,18 @@ import {Restart} from 'fiction-expo-restart';
 
 import PlaySongButton from '../components/MediaPlayer';
 
-function Profile(props) {
+function Profile(props, { navigation }) {
   const [userSongs, setUserSongs] = useState([]);
   const [user, setUser] = useState(null);
   const { currentUser, songs } = props;
 
-  //Set the users from route.params.uid
+  //Getting user
   useEffect(() => {
+    //Set the signed in users info and songs
     if (props.route.params.uid === firebase.auth().currentUser.uid) {
       setUser(currentUser);
       setUserSongs(songs);
+      //Set the User from search result
     } else {
       firebase
         .firestore()
@@ -36,7 +38,7 @@ function Profile(props) {
           }
         });
 
-      //Set users song from the route.params.uid
+      //Set Users song from search result
       firebase
         .firestore()
         .collection("users")
@@ -59,6 +61,7 @@ function Profile(props) {
     return <View />;
   }
 
+  //Separtor in the flatlist
   const renderSeparator = () => (
     <View
       style={{
@@ -66,9 +69,8 @@ function Profile(props) {
         height: 0.5,
       }}
     />
-)
+  );
 
-  
   //Profile View
   return (
     <View style={styles.container}>
@@ -117,7 +119,8 @@ function Profile(props) {
     </View>
   );
 }
-//Access the store states from redux
+
+//Access the states from the store
 const mapStateToProps = (store) => ({
   currentUser: store.userState.currentUser,
   following: store.userState.following,
@@ -139,7 +142,7 @@ const styles = StyleSheet.create({
     width: "20%",
   },
   space: {
-    height: 50,
+    height: 35,
   },
   frameBottom: {
     borderBottomRightRadius: 40,

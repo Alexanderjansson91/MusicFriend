@@ -4,7 +4,7 @@ import MatetrialCommunityIcons from 'react-native-vector-icons/MaterialCommunity
 import Icon from 'react-native-vector-icons/Ionicons';
 
 
-//Card display wich town you select from the picker
+//Card display wich date you select
 const InfoPickedDate= (props) => {
   const { viewContainer, infoText } = styles;
   return (

@@ -10,7 +10,7 @@ import CreateNewUserCard from '../components/cards/NewUserCard';
 import firebase from 'firebase'
 import { StyleSheet } from 'react-native';
 
-//Register user
+//Register user screen
 export class Register extends Component {
   constructor(props) {
     super(props);
@@ -22,7 +22,7 @@ export class Register extends Component {
     this.onSignUp = this.onSignUp.bind(this);
   }
 
-  //Sign up function with firebase
+  //Sign up function with firebase and Alert if something goes wrong
   onSignUp() {
     const { email, password, name } = this.state;
     firebase

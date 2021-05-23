@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
-//My read more button
-const NewUserButton = (props) => {
+//Search result Button
+const SerachResultButton = (props) => {
   const { viewContainer, parent } = styles;
   return (
     <View style={viewContainer}>
@@ -17,7 +17,7 @@ const NewUserButton = (props) => {
   );
 };
 
-//Styles for my header
+//Styles fot the button
 const styles = StyleSheet.create({
   viewContainer: {
     flex: 1,
@@ -49,4 +49,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewUserButton;
+export default SerachResultButton;

@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-//My read more button
+//Show date button
 const ShowDateButton = (props) => {
   const { viewContainer, parent } = styles;
   return (
@@ -19,7 +19,7 @@ const ShowDateButton = (props) => {
   );
 };
 
-//Styles for my header
+//Styles for the button
 const styles = StyleSheet.create({
   buttonContainer: {
     padding: 20,

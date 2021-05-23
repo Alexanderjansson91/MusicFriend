@@ -4,13 +4,13 @@ import {
   CLEAR_DATA,
 } from '../constants';
 
-//Constructor
+//Constructor for my user reducer
 const initialState = {
   users: [],
   usersPostLoaded: 0,
 };
 
-//Updates the states that gets from the action
+//Updates the previous state
 export const users = (state = initialState, action) => {
   switch (action.type) {
     case USERS_DATA_STATE_CHANGE:

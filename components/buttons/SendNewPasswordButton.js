@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
-//My read more button
+//Send new password button
 const SendNewPasswordButton = (props) => {
   const { viewContainer, parent } = styles;
   return (
@@ -17,7 +17,7 @@ const SendNewPasswordButton = (props) => {
   );
 };
 
-//Styles for my header
+//Styles for the button
 const styles = StyleSheet.create({
   viewContainer: {
     marginBottom: 40,

@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import CachedImage from 'react-native-expo-cached-image';
 
 
-//View whit the rounded corner under the Header
+//user frame card
 const UserFrameCard = (props) => {
   const { container, topContainer, userInfoName, userInfoIcon, parent } = styles;
   return (

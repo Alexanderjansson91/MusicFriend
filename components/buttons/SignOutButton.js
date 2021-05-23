@@ -4,7 +4,7 @@ import MatetrialCommunityIcons from 'react-native-vector-icons/MaterialCommunity
 import Icon from 'react-native-vector-icons/Ionicons';
 
 
-//Contact card for companys, used on Login page
+//Signout button
 const SignOutButton = (props) => {
   const { viewContainer, infoText } = styles;
   return (
@@ -23,7 +23,7 @@ const SignOutButton = (props) => {
   );
 };
 
-//Style for card
+//Style for button
 const styles = StyleSheet.create({
   viewContainer: {
     backgroundColor: '#ffffff',

@@ -9,6 +9,7 @@ import AppLoading from 'expo-app-loading';
 const Header = (props) => {
   const { logoContainer, viewContainer } = styles;
 
+  //google fonts
   let [fontsLoaded] = useFonts({
     Inter_900Black,
   });

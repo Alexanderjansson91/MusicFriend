@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
-//My read more button
+//Login button
 const LoginButton = (props) => {
   const { viewContainer, parent } = styles;
   return (
@@ -21,7 +21,7 @@ const LoginButton = (props) => {
   );
 };
 
-//Styles for my header
+//Styles for the button
 const styles = StyleSheet.create({
   viewContainer: {
     marginTop: 50,

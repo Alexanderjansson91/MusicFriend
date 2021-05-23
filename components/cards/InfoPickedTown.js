@@ -4,7 +4,7 @@ import MatetrialCommunityIcons from 'react-native-vector-icons/MaterialCommunity
 import Icon from 'react-native-vector-icons/Ionicons';
 
 
-//Card display wich town you select from the picker
+//Card how displayed picked town
 const InfoPickedTown = (props) => {
   const { viewContainer, infoText } = styles;
   return (

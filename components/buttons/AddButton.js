@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-//My read more button
+//Add new post button
 const AddButton = (props) => {
   const { parent } = styles;
   return (
@@ -19,7 +19,7 @@ const AddButton = (props) => {
   );
 };
 
-//Styles for my header
+//Styles for the button
 const styles = StyleSheet.create({
   buttonContainer: {
     padding: 20,
