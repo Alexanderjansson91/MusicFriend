@@ -1,6 +1,6 @@
 # MusicFriend
 
-
+Music buddy is an app how helps musician to find others musician. The app is written in React native and usings firebase as backend, enjoy it! 👨🏼‍💻
 Here is the whole map structure:
 https://github.com/Alexanderjansson91/MusicFriend/tree/master
 
